@@ -1,6 +1,7 @@
 ---
 import raw from '../assets/chile.svg?raw';
 import { getLangFromUrl, useTranslations } from '../i18n';
+import { regionPhotos } from '../data/regionPhotos';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -83,17 +84,21 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
   </div>
 
   <!-- Tourist places panel: hidden until a region is selected -->
-  <div id="places-panel" class="hidden rounded-3xl bg-white/5 p-6" aria-live="polite" aria-atomic="true">
-    <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
-    <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
-    <ul id="places-list" class="mt-4 flex list-none flex-wrap gap-2 p-0 m-0"></ul>
+  <div id="places-panel" class="hidden overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
+    <img id="places-photo" class="h-52 w-full object-cover md:h-64" src="" alt="" loading="lazy" />
+    <div class="p-6">
+      <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
+      <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
+      <ul id="places-list" class="mt-4 flex list-none flex-wrap gap-2 p-0 m-0"></ul>
+    </div>
   </div>
 
   <p id="places-hint" class="text-center text-sm text-white/40">{t('coverage.placesHint')}</p>
 </div>
 
-<!-- Data for client-side JS -->
-<template id="places-data">{JSON.stringify(regionPlaces)}</template>
+<!-- Data containers: <div hidden> + set:text guarantees textContent works in all browsers -->
+<div id="places-data" hidden set:text={JSON.stringify(regionPlaces)}></div>
+<div id="photos-data" hidden set:text={JSON.stringify(regionPhotos)}></div>
 
 <style>
   figure svg path {
@@ -120,9 +125,6 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
     background: var(--color-sun);
     color: var(--color-ink);
   }
-  #places-panel {
-    transition: opacity 0.2s ease;
-  }
 </style>
 
 <script>
@@ -135,10 +137,16 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
     const panel = document.getElementById('places-panel') as HTMLElement | null;
     const placesTitle = document.getElementById('places-title') as HTMLElement | null;
     const placesList = document.getElementById('places-list') as HTMLElement | null;
+    const placesPhoto = document.getElementById('places-photo') as HTMLImageElement | null;
     const hint = document.getElementById('places-hint') as HTMLElement | null;
+
     const placesData = JSON.parse(
-      (document.getElementById('places-data') as HTMLElement | null)?.textContent ?? '[]'
+      document.getElementById('places-data')?.textContent?.trim() ?? '[]'
     ) as string[][];
+
+    const photosData = JSON.parse(
+      document.getElementById('photos-data')?.textContent?.trim() ?? '[]'
+    ) as string[];
 
     const paint = (index: number, lit: boolean) => {
       paths[index]?.classList.toggle('is-lit', lit || index === selected);
@@ -149,8 +157,22 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
       if (!panel || !placesTitle || !placesList) return;
       panel.classList.remove('hidden');
       hint?.classList.add('hidden');
-      placesTitle.textContent =
+
+      const regionName =
         buttons[index]?.querySelector<HTMLElement>('.region-name')?.textContent ?? '';
+      placesTitle.textContent = regionName;
+
+      if (placesPhoto) {
+        const photoUrl = photosData[index];
+        if (photoUrl) {
+          placesPhoto.src = photoUrl;
+          placesPhoto.alt = regionName;
+          placesPhoto.classList.remove('hidden');
+        } else {
+          placesPhoto.classList.add('hidden');
+        }
+      }
+
       placesList.innerHTML = (placesData[index] ?? [])
         .map(
           (place) =>
