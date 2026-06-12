@@ -85,7 +85,7 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
 
   <!-- Tourist places panel: hidden until a region is selected -->
   <div id="places-panel" class="hidden overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
-    <img id="places-photo" class="h-52 w-full object-cover md:h-64" src="" alt="" loading="lazy" />
+    <img id="places-photo" class="hidden h-52 w-full object-cover md:h-64" alt="" />
     <div class="p-6">
       <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
       <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
