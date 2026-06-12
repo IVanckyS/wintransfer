@@ -93,7 +93,7 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
 </div>
 
 <!-- Data for client-side JS -->
-<script type="application/json" id="places-data" is:inline set:text={JSON.stringify(regionPlaces)} />
+<template id="places-data">{JSON.stringify(regionPlaces)}</template>
 
 <style>
   figure svg path {
