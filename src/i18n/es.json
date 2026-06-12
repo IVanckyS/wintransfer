@@ -1,0 +1,312 @@
+{
+  "site": {
+    "name": "WinTransfer",
+    "slogan": "Llegar a tiempo también es ganar",
+    "description": "WinTransfer — transporte de pasajeros para empresas e instituciones. Transfer de aeropuerto, traslado de personal y servicios corporativos en todo Chile, 24/7."
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Quiénes somos",
+    "services": "Servicios",
+    "agreement": "Únete a convenio",
+    "fleet": "Flota",
+    "contact": "Contacto",
+    "terms": "Términos y condiciones",
+    "book": "Reservar"
+  },
+  "common": {
+    "bookNow": "Reserva tu traslado",
+    "whatsappCta": "Escríbenos por WhatsApp",
+    "learnMore": "Ver más",
+    "contactUs": "Contáctanos",
+    "pending": "[PENDIENTE]"
+  },
+  "home": {
+    "heroEyebrow": "Transporte de pasajeros · 20 años de experiencia",
+    "heroRotating": [
+      "Transfer al aeropuerto",
+      "Traslado de personal",
+      "Traslado ejecutivo",
+      "Servicios para eventos",
+      "Giras institucionales"
+    ],
+    "heroSub": "Servicio para empresas, instituciones y organizaciones en todo Chile. Disponibles 24/7, registrados en Sernatur.",
+    "heroCtaPrimary": "Reserva tu traslado",
+    "heroCtaSecondary": "Conoce nuestros servicios",
+    "heroMediaLabel": "[Video hero: vehículo en ruta / ciudad]",
+    "servicesTitle": "Soluciones de transporte para tu organización",
+    "servicesIntro": "Seis líneas de servicio pensadas para empresas, instituciones y establecimientos educacionales.",
+    "servicesCta": "Ver todos los servicios",
+    "trustTitle": "Por qué elegir WinTransfer",
+    "trust": [
+      {
+        "title": "20 años de experiencia",
+        "text": "Dos décadas trasladando pasajeros con seguridad y puntualidad."
+      },
+      {
+        "title": "Cobertura nacional",
+        "text": "Operamos en las 16 regiones de Chile, de Arica a Magallanes."
+      },
+      {
+        "title": "Disponibles 24/7",
+        "text": "Lunes a domingo, a toda hora. Tu traslado no espera."
+      },
+      {
+        "title": "Registrados en Sernatur",
+        "text": "Transporte turístico registrado: cumplimiento normativo garantizado."
+      }
+    ],
+    "partnersTitle": "Empresas que confían en nosotros",
+    "partnersNote": "[PENDIENTE: logos de convenios — uso autorizado por el cliente, a la espera del material]",
+    "finalCtaTitle": "¿Listo para llegar a tiempo?",
+    "finalCtaText": "Cuéntanos qué necesitas y coordinamos tu traslado por WhatsApp.",
+    "finalCtaButton": "Reservar por WhatsApp"
+  },
+  "about": {
+    "title": "Quiénes somos",
+    "intro": "Somos WinTransfer, una empresa chilena con 20 años de experiencia en el traslado de pasajeros. Trabajamos con empresas, instituciones, establecimientos educacionales y organizaciones que necesitan transporte seguro, puntual y flexible.",
+    "historyTitle": "Nuestra historia",
+    "historyText": "[PENDIENTE: texto de historia entregado por el cliente]",
+    "missionTitle": "Nuestra misión",
+    "missionText": "[PENDIENTE: texto de misión entregado por el cliente]",
+    "attributesTitle": "Lo que nos define",
+    "attributes": [
+      {
+        "title": "Seguridad y cumplimiento",
+        "text": "Operación registrada en Sernatur y apegada a la normativa vigente."
+      },
+      {
+        "title": "Conductores profesionales",
+        "text": "Equipo con experiencia y trato cordial en cada traslado."
+      },
+      {
+        "title": "Puntualidad",
+        "text": "Llegar a tiempo también es ganar: es nuestro compromiso central."
+      },
+      {
+        "title": "Atención personalizada",
+        "text": "Coordinación directa y soluciones a la medida de cada cliente."
+      },
+      {
+        "title": "Flexibilidad operativa",
+        "text": "Nos adaptamos a horarios, rutas y requerimientos especiales."
+      },
+      {
+        "title": "Cobertura regional",
+        "text": "Presencia operativa a lo largo de todo Chile."
+      }
+    ],
+    "coverageTitle": "Cobertura en todo Chile",
+    "coverageText": "Llegamos a las 16 regiones del país, de Arica y Parinacota a Magallanes. Toca una región para destacarla en el mapa.",
+    "coverageBadge": "Atención 24/7 · lunes a domingo",
+    "coverageMapLabel": "Mapa de Chile con las regiones donde operamos",
+    "mediaLabel": "[Imagen: equipo / operación WinTransfer]"
+  },
+  "services": {
+    "title": "Nuestros servicios",
+    "intro": "Transporte de pasajeros para el mundo corporativo e institucional. Todos nuestros servicios se coordinan de forma directa y se adaptan a tu operación.",
+    "ctaCard": "Consultar / Reservar",
+    "items": [
+      {
+        "id": "personal",
+        "title": "Traslado de personal",
+        "text": "Transporte diario o por turnos para los equipos de tu empresa, con rutas y horarios a la medida.",
+        "mediaLabel": "[Imagen: traslado de personal]"
+      },
+      {
+        "id": "ejecutivo",
+        "title": "Traslado ejecutivo",
+        "text": "Servicio premium para ejecutivos y visitas: puntualidad, discreción y confort.",
+        "mediaLabel": "[Imagen: traslado ejecutivo]"
+      },
+      {
+        "id": "eventos",
+        "title": "Servicios para eventos",
+        "text": "Logística de transporte para seminarios, celebraciones y eventos corporativos.",
+        "mediaLabel": "[Imagen: servicios para eventos]"
+      },
+      {
+        "id": "aeropuerto",
+        "title": "Traslados hacia aeropuerto",
+        "text": "Transfer puntual hacia y desde el aeropuerto Carriel Sur, coordinado con tu vuelo.",
+        "mediaLabel": "[Imagen: transfer aeropuerto]"
+      },
+      {
+        "id": "giras",
+        "title": "Giras y actividades institucionales",
+        "text": "Traslados para colegios, universidades e instituciones en giras y actividades.",
+        "mediaLabel": "[Imagen: giras institucionales]"
+      },
+      {
+        "id": "especiales",
+        "title": "Servicios especiales",
+        "text": "¿Un requerimiento distinto? Diseñamos el servicio según tu necesidad.",
+        "mediaLabel": "[Imagen: servicios especiales]"
+      }
+    ],
+    "bottomCtaTitle": "¿No encuentras lo que buscas?",
+    "bottomCtaText": "Cuéntanos tu requerimiento y armamos un servicio especial para ti."
+  },
+  "agreement": {
+    "title": "Únete a convenio",
+    "intro": "El convenio corporativo WinTransfer entrega a tu empresa transporte confiable con condiciones preferentes y coordinación directa, sin intermediarios.",
+    "whatTitle": "¿Qué es el convenio?",
+    "whatText": "Es un acuerdo de servicio permanente entre tu organización y WinTransfer: tu equipo solicita traslados cuando los necesita y nosotros respondemos con prioridad, tarifas preferenciales y facturación formal.",
+    "benefitsTitle": "Beneficios del convenio",
+    "benefits": [
+      "Tarifas preferenciales",
+      "Prioridad de atención",
+      "Coordinación directa",
+      "Facturación formal",
+      "Soluciones de transporte confiables",
+      "Servicio adaptable a distintas necesidades"
+    ],
+    "processTitle": "¿Cómo funciona?",
+    "process": [
+      {
+        "title": "Firma de convenio",
+        "text": "Formalizamos el acuerdo con tu organización."
+      },
+      {
+        "title": "Solicitud del servicio",
+        "text": "Pides el traslado por el canal acordado, cuando lo necesites."
+      },
+      {
+        "title": "Confirmación de disponibilidad",
+        "text": "Te confirmamos vehículo, horario y condiciones."
+      },
+      {
+        "title": "Ejecución del traslado",
+        "text": "Realizamos el servicio con puntualidad y seguridad."
+      }
+    ],
+    "paymentTitle": "Formas de pago",
+    "paymentText": "El pago se coordina directamente con nuestro equipo una vez confirmado el servicio. No se realizan cobros en línea a través de este sitio.",
+    "paymentMethods": [
+      "Transferencia bancaria",
+      "Webpay",
+      "Facturación para empresas con convenio"
+    ],
+    "paymentNote": "[PENDIENTE: confirmar medios de pago definitivos con el cliente]",
+    "ctaTitle": "¿Tu empresa necesita transporte permanente?",
+    "ctaText": "Escríbenos y conversemos sobre un convenio a la medida.",
+    "ctaButton": "Solicitar convenio"
+  },
+  "fleet": {
+    "title": "Nuestra flota",
+    "intro": "Vehículos cómodos y seguros para cada tipo de servicio. Haz clic en una imagen para ampliarla.",
+    "note": "[PENDIENTE: sesión fotográfica oficial de la flota — fotos próximamente]",
+    "vehicles": [
+      "[Imagen: vehículo 1]",
+      "[Imagen: vehículo 2]",
+      "[Imagen: vehículo 3]",
+      "[Imagen: vehículo 4]",
+      "[Imagen: vehículo 5]",
+      "[Imagen: vehículo 6]"
+    ]
+  },
+  "contact": {
+    "title": "Contacto",
+    "intro": "Completa el formulario y te responderemos por WhatsApp, o escríbenos directamente.",
+    "dataTitle": "Datos de contacto",
+    "phoneLabel": "Teléfono / WhatsApp",
+    "emailLabel": "Correo",
+    "hoursLabel": "Horario",
+    "hoursValue": "24/7 · lunes a domingo",
+    "coverageLabel": "Cobertura",
+    "coverageValue": "Las 16 regiones de Chile",
+    "mapLabel": "[Mapa: ubicación / zona de operación]"
+  },
+  "form": {
+    "title": "¿Qué necesitas?",
+    "typeBooking": "Reserva",
+    "typeAgreement": "Convenio",
+    "typeJobs": "Trabaja con nosotros",
+    "origin": "Origen",
+    "originPlaceholder": "Ej: Concepción centro",
+    "destination": "Destino",
+    "destinationPlaceholder": "Ej: Aeropuerto Carriel Sur",
+    "date": "Fecha",
+    "time": "Hora",
+    "passengers": "N.º de pasajeros",
+    "luggage": "Maletas",
+    "tripToAirport": "Hacia aeropuerto",
+    "tripFromAirport": "Desde aeropuerto",
+    "tripOther": "Otro traslado",
+    "oneWay": "Solo ida",
+    "roundTrip": "Ida y vuelta",
+    "returnDate": "Fecha de regreso",
+    "returnTime": "Hora de regreso",
+    "outbound": "Ida",
+    "return": "Regreso",
+    "summaryTitle": "Resumen de tu viaje",
+    "summaryEmpty": "Completa los datos y aquí verás el resumen de tu viaje.",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "passengerName": "Nombre del pasajero",
+    "contactPhone": "Teléfono de contacto",
+    "payment": "Forma de pago",
+    "paymentPlaceholder": "Selecciona una opción",
+    "paymentOptions": ["Transferencia bancaria", "Webpay", "Facturación empresa (convenio)"],
+    "companyName": "Nombre de la empresa",
+    "companyPlaceholder": "Razón social o nombre de fantasía",
+    "contactPerson": "Persona de contacto",
+    "contactPlaceholder": "Nombre y cargo",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntanos qué necesita tu organización",
+    "phone": "Teléfono",
+    "phonePlaceholder": "+56 9 ...",
+    "experience": "Experiencia",
+    "experiencePlaceholder": "Resume tu experiencia como conductor/a",
+    "jobsNote": "No se adjuntan archivos: el CV se solicita por correo si avanzas en el proceso.",
+    "submit": "Enviar por WhatsApp",
+    "miniSubmit": "Continuar reserva",
+    "miniHint": "Completarás y enviarás tu reserva en la página de contacto.",
+    "disclaimer": "Al enviar se abrirá WhatsApp con tu mensaje listo para nuestro equipo.",
+    "waIntroBooking": "Hola, quiero reservar un traslado",
+    "waIntroAgreement": "Hola, quiero información sobre el convenio corporativo",
+    "waIntroJobs": "Hola, quiero trabajar con ustedes"
+  },
+  "terms": {
+    "title": "Términos y condiciones",
+    "updated": "Última actualización: [PENDIENTE]",
+    "body": "[PENDIENTE: texto legal en revisión por el abogado de la empresa. Se publicará una vez aprobado.]"
+  },
+  "footer": {
+    "contactTitle": "Contacto",
+    "coverageTitle": "Cobertura",
+    "coverageText": "Las 16 regiones de Chile, de Arica y Parinacota a Magallanes. Atención 24/7.",
+    "socialTitle": "Redes",
+    "paymentTitle": "Formas de pago",
+    "paymentText": "Transferencia · Webpay · Facturación empresas. Sin cobros en línea.",
+    "termsLink": "Términos y condiciones",
+    "rights": "Todos los derechos reservados.",
+    "sernatur": "Registrados en Sernatur como transporte turístico"
+  },
+  "regions": [
+    "Arica y Parinacota",
+    "Tarapacá",
+    "Antofagasta",
+    "Atacama",
+    "Coquimbo",
+    "Valparaíso",
+    "Metropolitana de Santiago",
+    "O'Higgins",
+    "Maule",
+    "Ñuble",
+    "Biobío",
+    "La Araucanía",
+    "Los Ríos",
+    "Los Lagos",
+    "Aysén del General Carlos Ibáñez del Campo",
+    "Magallanes y de la Antártica Chilena"
+  ],
+  "partners": [
+    "Oxiquim",
+    "Turismo Esquerré",
+    "Lycée Charles de Gaulle",
+    "Russell Mineral Equipment",
+    "SGS Chile",
+    "Grupo Eulen"
+  ]
+}

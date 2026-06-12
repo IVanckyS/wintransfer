@@ -1,0 +1,158 @@
+---
+/**
+ * Mapa de cobertura interactivo (sección "Cobertura" de Quiénes somos).
+ * Usa el mapa real de Chile por regiones (src/assets/chile.svg, ids ISO
+ * CL-XX): los trazados se extraen en build y se inyectan inline para
+ * poder iluminar cada región. Pasar el cursor o tocar una región de la
+ * lista la ilumina en el mapa, y viceversa.
+ * Pensado para fondo oscuro (bg-ink).
+ */
+import raw from '../assets/chile.svg?raw';
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const regions = t<string[]>('regions');
+
+// Ids ISO del SVG, en el mismo orden norte → sur que la lista `regions`
+const REGION_IDS = [
+  'CL-AP', // Arica y Parinacota
+  'CL-TA', // Tarapacá
+  'CL-AN', // Antofagasta
+  'CL-AT', // Atacama
+  'CL-CO', // Coquimbo
+  'CL-VS', // Valparaíso
+  'CL-RM', // Metropolitana de Santiago
+  'CL-LI', // O'Higgins
+  'CL-ML', // Maule
+  'CL-NU', // Ñuble
+  'CL-BI', // Biobío
+  'CL-AR', // La Araucanía
+  'CL-LR', // Los Ríos
+  'CL-LL', // Los Lagos
+  'CL-AI', // Aysén
+  'CL-MA', // Magallanes
+];
+
+const pathsById = new Map<string, string>();
+for (const tag of raw.match(/<path\b[^>]*>/g) ?? []) {
+  const id = tag.match(/\bid="(CL-[A-Z]{2})"/)?.[1];
+  const d = tag.match(/\bd="([^"]+)"/)?.[1];
+  if (id && d) pathsById.set(id, d);
+}
+
+const segments = REGION_IDS.map((id, i) => ({ name: regions[i], d: pathsById.get(id) ?? '' }));
+
+// El SVG original incluye las islas del Pacífico (Isla de Pascua, Juan
+// Fernández), por eso el continente ocupa solo la franja derecha del
+// lienzo (612.5 × 708.7): recortamos el viewBox al territorio continental
+// (bbox calculado de los trazados: x 479.9–612.3, y 0.5–708).
+const VIEWBOX = '476 -3 140 715';
+
+// Puntos decorativos (guiño a la lámina corporativa)
+const dots = Array.from({ length: 24 }, (_, i) => ({
+  cx: 8 + (i % 6) * 13,
+  cy: 6 + Math.floor(i / 6) * 13,
+  r: 2.4 - Math.floor(i / 6) * 0.4,
+}));
+---
+
+<div id="coverage-map" class="grid items-center gap-10 lg:grid-cols-[minmax(0,300px)_1fr]">
+  <figure class="relative mx-auto w-fit">
+    <svg viewBox="0 0 80 48" class="absolute -top-4 -right-12 h-12 w-20 fill-sun/70" aria-hidden="true">
+      {dots.map((dot) => <circle cx={dot.cx} cy={dot.cy} r={dot.r} />)}
+    </svg>
+    <svg viewBox={VIEWBOX} class="h-[420px] w-auto md:h-[500px]" role="img" aria-label={t('about.coverageMapLabel')}>
+      {
+        segments.map((segment, i) => (
+          <path d={segment.d} data-region={i} tabindex="-1">
+            <title>{segment.name}</title>
+          </path>
+        ))
+      }
+    </svg>
+  </figure>
+
+  <ol class="grid gap-2.5 sm:grid-cols-2">
+    {
+      regions.map((region, i) => (
+        <li class="reveal">
+          <button
+            type="button"
+            data-region={i}
+            class="flex w-full items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
+          >
+            <span class="num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/20 font-display text-xs font-bold text-accent transition-colors">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="text-sm font-semibold text-white/90">{region}</span>
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  figure svg path {
+    stroke: var(--color-ink);
+    stroke-width: 0.6;
+  }
+  path[data-region] {
+    fill: rgb(59 182 245 / 0.3);
+    cursor: pointer;
+    transition: fill 0.2s ease;
+    outline: none;
+  }
+  path[data-region]:nth-of-type(even) {
+    fill: rgb(30 132 229 / 0.55);
+  }
+  path[data-region]:hover,
+  path[data-region].is-lit {
+    fill: var(--color-sun);
+  }
+  button[data-region].is-lit {
+    background: rgb(255 255 255 / 0.14);
+  }
+  button[data-region].is-lit .num {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  // Empareja cada región de la lista con su segmento del mapa:
+  // hover/foco ilumina de forma transitoria; clic fija la selección.
+  const root = document.getElementById('coverage-map');
+  if (root) {
+    const paths = [...root.querySelectorAll<SVGPathElement>('path[data-region]')];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[data-region]')];
+    let selected = -1;
+
+    const paint = (index: number, lit: boolean) => {
+      paths[index]?.classList.toggle('is-lit', lit || index === selected);
+      buttons[index]?.classList.toggle('is-lit', lit || index === selected);
+    };
+
+    const select = (index: number) => {
+      const previous = selected;
+      selected = selected === index ? -1 : index;
+      if (previous >= 0) paint(previous, false);
+      if (selected >= 0) paint(selected, true);
+    };
+
+    buttons.forEach((button, i) => {
+      button.addEventListener('mouseenter', () => paint(i, true));
+      button.addEventListener('mouseleave', () => paint(i, false));
+      button.addEventListener('focus', () => paint(i, true));
+      button.addEventListener('blur', () => paint(i, false));
+      button.addEventListener('click', () => select(i));
+    });
+
+    paths.forEach((path, i) => {
+      path.addEventListener('mouseenter', () => paint(i, true));
+      path.addEventListener('mouseleave', () => paint(i, false));
+      path.addEventListener('click', () => select(i));
+    });
+  }
+</script>

@@ -1,0 +1,19 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n';
+import { waLink } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<a
+  href={waLink()}
+  target="_blank"
+  rel="noopener"
+  aria-label={t('common.whatsappCta')}
+  class="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-wa text-white shadow-lg shadow-wa/40 transition-transform hover:scale-110 md:right-6 md:bottom-6"
+>
+  <svg viewBox="0 0 24 24" class="h-7 w-7 fill-current" aria-hidden="true">
+    <path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z" />
+  </svg>
+</a>

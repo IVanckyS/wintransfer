@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
+import MiniBookingForm from '../../components/MiniBookingForm.astro';
+import { useTranslations, localePath, type Lang } from '../../i18n';
+import { waLink } from '../../config';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+interface ServiceItem {
+  id: string;
+  title: string;
+  text: string;
+  mediaLabel: string;
+}
+interface TrustItem {
+  title: string;
+  text: string;
+}
+
+const services = t<ServiceItem[]>('services.items');
+const trust = t<TrustItem[]>('home.trust');
+const partners = t<string[]>('partners');
+const rotating = t<string[]>('home.heroRotating');
+
+const trustIcons = [
+  'M12 8v4l2.5 2.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', // reloj
+  'M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', // globo
+  'M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z', // 24/7
+  'M9 12l2 2 4-4m5.6 2a8.6 8.6 0 1 1-17.2 0 8.6 8.6 0 0 1 17.2 0Z', // check sello
+];
+---
+
+<BaseLayout title={t('nav.home')}>
+  <!-- ====== HERO ====== -->
+  <section class="relative isolate overflow-hidden bg-ink">
+    <PlaceholderMedia label={t('home.heroMediaLabel')} dark class="absolute inset-0 h-full w-full border-0" />
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-ink/90" aria-hidden="true"></div>
+
+    <div
+      class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+    >
+      <div>
+        <p class="font-display text-xs font-bold tracking-[0.2em] text-sun uppercase">{t('home.heroEyebrow')}</p>
+        <h1 class="mt-4 max-w-3xl font-display text-4xl leading-tight font-extrabold text-white md:text-6xl">
+          {t('site.slogan')}
+        </h1>
+        <p class="rotator mt-5 font-display text-xl font-bold text-accent md:text-2xl" data-rotator>
+          {rotating.map((phrase, i) => <span class:list={[i === 0 && 'is-active']}>{phrase}</span>)}
+        </p>
+        <p class="mt-5 max-w-xl text-base text-white/85 md:text-lg">{t('home.heroSub')}</p>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a
+            href="#reserva"
+            class="rounded-full bg-action-bright px-7 py-3.5 text-center font-display font-bold text-white shadow-lg shadow-ink/30 transition-all hover:bg-accent hover:text-ink lg:hidden"
+          >
+            {t('home.heroCtaPrimary')}
+          </a>
+          <a
+            href={localePath(lang, 'services')}
+            class="rounded-full border-2 border-white/40 px-7 py-3.5 text-center font-display font-bold text-white transition-colors hover:border-accent hover:text-accent"
+          >
+            {t('home.heroCtaSecondary')}
+          </a>
+        </div>
+      </div>
+
+      <!-- Mini reserva (estilo Transvip): continúa en la página de contacto -->
+      <div id="reserva" class="scroll-mt-24">
+        <MiniBookingForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== RESUMEN DE SERVICIOS ====== -->
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h2 class="reveal max-w-2xl font-display text-3xl font-extrabold text-primary md:text-4xl">
+        {t('home.servicesTitle')}
+      </h2>
+      <p class="reveal mt-3 max-w-xl text-ink/70">{t('home.servicesIntro')}</p>
+
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          services.map((service) => (
+            <a
+              href={`${localePath(lang, 'services')}#${service.id}`}
+              class="reveal group rounded-3xl border border-primary/10 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+            >
+              <PlaceholderMedia label={service.mediaLabel} class="aspect-[16/9] rounded-2xl" />
+              <h3 class="mt-4 font-display text-lg font-bold text-primary group-hover:text-action-bright">
+                {service.title}
+              </h3>
+              <p class="mt-2 text-sm text-ink/70">{service.text}</p>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="reveal mt-10 text-center">
+        <a href={localePath(lang, 'services')} class="font-display font-bold text-action-bright hover:text-primary">
+          {t('home.servicesCta')} →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FRANJA DE CONFIANZA ====== -->
+  <section class="bg-primary py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h2 class="reveal font-display text-3xl font-extrabold text-white md:text-4xl">{t('home.trustTitle')}</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          trust.map((item, i) => (
+            <div class="reveal rounded-3xl bg-white/5 p-6 backdrop-blur transition-colors hover:bg-white/10">
+              <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sun/15">
+                <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-sun" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={trustIcons[i % trustIcons.length]} />
+                </svg>
+              </span>
+              <h3 class="mt-4 font-display text-lg font-bold text-white">{item.title}</h3>
+              <p class="mt-2 text-sm text-white/75">{item.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== LOGOS DE CONVENIOS (placeholders) ====== -->
+  <section class="bg-white py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 text-center md:px-6">
+      <h2 class="reveal font-display text-2xl font-extrabold text-primary md:text-3xl">{t('home.partnersTitle')}</h2>
+      <p class="reveal mt-2 text-xs text-ink/40">{t('home.partnersNote')}</p>
+      <ul class="reveal mt-8 flex flex-wrap items-center justify-center gap-3">
+        {
+          partners.map((partner) => (
+            <li class="flex h-16 min-w-40 items-center justify-center rounded-2xl border-2 border-dashed border-primary/20 bg-mist px-5 font-display text-sm font-semibold text-primary/60">
+              {partner}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== CTA FINAL → WHATSAPP ====== -->
+  <section class="bg-gradient-to-br from-ink to-primary py-16 md:py-24">
+    <div class="mx-auto max-w-3xl px-4 text-center md:px-6">
+      <h2 class="reveal font-display text-3xl font-extrabold text-white md:text-4xl">{t('home.finalCtaTitle')}</h2>
+      <p class="reveal mt-4 text-white/80">{t('home.finalCtaText')}</p>
+      <a
+        href={waLink(t('form.waIntroBooking'))}
+        target="_blank"
+        rel="noopener"
+        class="reveal mt-8 inline-flex items-center gap-3 rounded-full bg-wa px-8 py-4 font-display text-lg font-bold text-white shadow-xl shadow-wa/30 transition-transform hover:scale-105"
+      >
+        <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current" aria-hidden="true"><path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z"/></svg>
+        {t('home.finalCtaButton')}
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Titular rotativo del hero
+  const rotator = document.querySelector('[data-rotator]');
+  if (rotator) {
+    const phrases = rotator.querySelectorAll('span');
+    let index = 0;
+    setInterval(() => {
+      phrases[index]?.classList.remove('is-active');
+      index = (index + 1) % phrases.length;
+      phrases[index]?.classList.add('is-active');
+    }, 2800);
+  }
+</script>

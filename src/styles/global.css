@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+/*
+  Tokens de diseño WinTransfer.
+  Colores oficiales de marca confirmados por el cliente:
+  azul corporativo #0039AE y amarillo corporativo #F3BF19.
+  Regla de uso: el azul primario domina, el cyan ilumina,
+  amarillo y verde WhatsApp son puntuales.
+*/
+@theme {
+  --color-primary: #0039ae; /* azul corporativo oficial: header, titulares, secciones */
+  --color-ink: #0a2540; /* azul tinta: textos largos y fondos oscuros */
+  --color-action: #0b5cad; /* azul medio: botones */
+  --color-action-bright: #1e84e5; /* azul medio claro: botones / interactivo */
+  --color-accent: #3bb6f5; /* cyan acento: hover, detalles brillantes */
+  --color-sun: #f3bf19; /* amarillo corporativo oficial: uso mínimo */
+  --color-wa: #22b765; /* verde exclusivo del botón WhatsApp */
+  --color-mist: #f2f8fd; /* niebla: fondos claros */
+
+  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
+
+/* ---- Animación de entrada al hacer scroll (IntersectionObserver) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---- Titular rotativo del hero ---- */
+.rotator {
+  display: grid;
+}
+
+.rotator > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+.rotator > span.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}

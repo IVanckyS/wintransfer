@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
+import { useTranslations, type Lang } from '../../i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+// Por definición del cliente no se muestra información técnica
+// (marcas, modelos, capacidades): solo la galería fotográfica.
+const vehicles = t<string[]>('fleet.vehicles');
+---
+
+<BaseLayout title={t('fleet.title')}>
+  <section class="bg-primary py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('fleet.title')}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">{t('fleet.intro')}</p>
+      <p class="mt-2 text-xs text-white/50">{t('fleet.note')}</p>
+    </div>
+  </section>
+
+  <!-- Galería con visor ampliado (lightbox) -->
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl gap-6 px-4 sm:grid-cols-2 md:px-6 lg:grid-cols-3">
+      {
+        vehicles.map((mediaLabel, i) => (
+          <button
+            type="button"
+            class="reveal group cursor-zoom-in rounded-3xl border border-primary/10 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+            data-lightbox-trigger={i}
+            aria-haspopup="dialog"
+          >
+            <PlaceholderMedia label={mediaLabel} class="aspect-[4/3] rounded-2xl" />
+          </button>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <dialog
+    id="fleet-lightbox"
+    class="m-auto w-[min(92vw,56rem)] rounded-3xl bg-ink p-4 backdrop:bg-ink/85 backdrop:backdrop-blur-sm md:p-6"
+  >
+    <div class="flex items-center justify-between gap-4">
+      <h2 id="lightbox-title" class="font-display text-lg font-bold text-white">{t('fleet.title')}</h2>
+      <button
+        type="button"
+        id="lightbox-close"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+        aria-label="Cerrar / Close"
+      >
+        <svg viewBox="0 0 24 24" class="h-5 w-5 stroke-current" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+    <div id="lightbox-media" class="mt-4"></div>
+  </dialog>
+
+  <template id="lightbox-data">
+    {JSON.stringify(vehicles)}
+  </template>
+</BaseLayout>
+
+<script>
+  // Visor ampliado: al recibir las fotos reales, el bloque placeholder
+  // se reemplaza por la <img> en tamaño completo.
+  const dialog = document.getElementById('fleet-lightbox') as HTMLDialogElement;
+  const data = JSON.parse(document.getElementById('lightbox-data')?.textContent?.trim() ?? '[]') as string[];
+
+  document.querySelectorAll<HTMLButtonElement>('[data-lightbox-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const mediaLabel = data[Number(trigger.dataset.lightboxTrigger)];
+      if (!mediaLabel) return;
+      const media = document.getElementById('lightbox-media') as HTMLElement;
+      media.innerHTML = '';
+      const placeholder = document.createElement('div');
+      placeholder.className =
+        'flex aspect-[16/9] items-center justify-center rounded-2xl border-2 border-dashed border-accent/40 text-accent font-semibold';
+      placeholder.textContent = mediaLabel;
+      media.appendChild(placeholder);
+      dialog.showModal();
+    });
+  });
+
+  document.getElementById('lightbox-close')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+</script>

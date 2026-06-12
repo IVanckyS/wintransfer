@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations, localePath, type Lang } from '../../i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+interface ProcessStep {
+  title: string;
+  text: string;
+}
+const benefits = t<string[]>('agreement.benefits');
+const process = t<ProcessStep[]>('agreement.process');
+const paymentMethods = t<string[]>('agreement.paymentMethods');
+---
+
+<BaseLayout title={t('agreement.title')}>
+  <section class="bg-primary py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('agreement.title')}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">{t('agreement.intro')}</p>
+    </div>
+  </section>
+
+  <!-- Qué es + beneficios -->
+  <section class="bg-white py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 md:px-6 lg:grid-cols-2">
+      <div class="reveal">
+        <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('agreement.whatTitle')}</h2>
+        <p class="mt-4 text-ink/70">{t('agreement.whatText')}</p>
+      </div>
+      <div class="reveal">
+        <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('agreement.benefitsTitle')}</h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {
+            benefits.map((benefit) => (
+              <li class="flex items-start gap-2.5 rounded-2xl bg-mist px-4 py-3 text-sm font-semibold text-ink">
+                <svg viewBox="0 0 24 24" class="mt-0.5 h-4 w-4 shrink-0 stroke-wa" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                {benefit}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proceso -->
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h2 class="reveal font-display text-3xl font-extrabold text-primary md:text-4xl">{t('agreement.processTitle')}</h2>
+      <ol class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          process.map((step, i) => (
+            <li class="reveal relative rounded-3xl border border-primary/10 bg-white p-6 shadow-sm">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display font-bold text-white">
+                {i + 1}
+              </span>
+              {i < process.length - 1 && (
+                <span class="absolute top-11 left-full hidden w-5 -translate-x-0.5 border-t-2 border-dashed border-primary/30 lg:block" aria-hidden="true" />
+              )}
+              <h3 class="mt-4 font-display font-bold text-primary">{step.title}</h3>
+              <p class="mt-2 text-sm text-ink/70">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Formas de pago (informativo, sin cobro en línea) -->
+  <section class="bg-white py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <div class="reveal rounded-3xl bg-ink p-8 md:p-12">
+        <h2 class="font-display text-2xl font-extrabold text-white md:text-3xl">{t('agreement.paymentTitle')}</h2>
+        <p class="mt-4 max-w-2xl text-white/80">{t('agreement.paymentText')}</p>
+        <ul class="mt-6 flex flex-wrap gap-3">
+          {
+            paymentMethods.map((method) => (
+              <li class="rounded-full border border-accent/40 px-5 py-2 text-sm font-semibold text-accent">{method}</li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-xs text-white/40">{t('agreement.paymentNote')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-gradient-to-br from-primary to-ink py-16 md:py-20">
+    <div class="mx-auto max-w-3xl px-4 text-center md:px-6">
+      <h2 class="reveal font-display text-3xl font-extrabold text-white">{t('agreement.ctaTitle')}</h2>
+      <p class="reveal mt-3 text-white/80">{t('agreement.ctaText')}</p>
+      <a
+        href={localePath(lang, 'contact')}
+        class="reveal mt-7 inline-block rounded-full bg-action-bright px-8 py-4 font-display font-bold text-white transition-all hover:bg-accent hover:text-ink"
+      >
+        {t('agreement.ctaButton')}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

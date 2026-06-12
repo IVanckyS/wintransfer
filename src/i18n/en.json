@@ -1,0 +1,312 @@
+{
+  "site": {
+    "name": "WinTransfer",
+    "slogan": "Arriving on time is also winning",
+    "description": "WinTransfer — passenger transport for companies and institutions. Airport transfers, staff transport and corporate services across Chile, 24/7."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "services": "Services",
+    "agreement": "Corporate agreements",
+    "fleet": "Fleet",
+    "contact": "Contact",
+    "terms": "Terms & conditions",
+    "book": "Book now"
+  },
+  "common": {
+    "bookNow": "Book your transfer",
+    "whatsappCta": "Message us on WhatsApp",
+    "learnMore": "Learn more",
+    "contactUs": "Contact us",
+    "pending": "[PENDING]"
+  },
+  "home": {
+    "heroEyebrow": "Passenger transport · 20 years of experience",
+    "heroRotating": [
+      "Airport transfers",
+      "Staff transport",
+      "Executive transfers",
+      "Event services",
+      "Institutional tours"
+    ],
+    "heroSub": "Serving companies, institutions and organizations across Chile. Available 24/7, registered with Sernatur.",
+    "heroCtaPrimary": "Book your transfer",
+    "heroCtaSecondary": "Explore our services",
+    "heroMediaLabel": "[Hero video: vehicle on the road / city]",
+    "servicesTitle": "Transport solutions for your organization",
+    "servicesIntro": "Six service lines designed for companies, institutions and schools.",
+    "servicesCta": "See all services",
+    "trustTitle": "Why choose WinTransfer",
+    "trust": [
+      {
+        "title": "20 years of experience",
+        "text": "Two decades moving passengers safely and on time."
+      },
+      {
+        "title": "Nationwide coverage",
+        "text": "We operate in all 16 regions of Chile, from Arica to Magallanes."
+      },
+      {
+        "title": "Available 24/7",
+        "text": "Monday to Sunday, around the clock. Your transfer can't wait."
+      },
+      {
+        "title": "Registered with Sernatur",
+        "text": "Registered tourist transport: guaranteed regulatory compliance."
+      }
+    ],
+    "partnersTitle": "Companies that trust us",
+    "partnersNote": "[PENDING: partner logos — use authorized by the client, awaiting files]",
+    "finalCtaTitle": "Ready to arrive on time?",
+    "finalCtaText": "Tell us what you need and we'll coordinate your transfer on WhatsApp.",
+    "finalCtaButton": "Book via WhatsApp"
+  },
+  "about": {
+    "title": "About us",
+    "intro": "We are WinTransfer, a Chilean company with 20 years of experience in passenger transport. We work with companies, institutions, schools and organizations that need safe, punctual and flexible transport.",
+    "historyTitle": "Our history",
+    "historyText": "[PENDING: history text provided by the client]",
+    "missionTitle": "Our mission",
+    "missionText": "[PENDING: mission text provided by the client]",
+    "attributesTitle": "What defines us",
+    "attributes": [
+      {
+        "title": "Safety & compliance",
+        "text": "Operation registered with Sernatur and fully compliant with regulations."
+      },
+      {
+        "title": "Professional drivers",
+        "text": "An experienced team with a courteous approach on every trip."
+      },
+      {
+        "title": "Punctuality",
+        "text": "Arriving on time is also winning: it's our core commitment."
+      },
+      {
+        "title": "Personalized service",
+        "text": "Direct coordination and tailor-made solutions for each client."
+      },
+      {
+        "title": "Operational flexibility",
+        "text": "We adapt to schedules, routes and special requirements."
+      },
+      {
+        "title": "Regional coverage",
+        "text": "Operational presence throughout Chile."
+      }
+    ],
+    "coverageTitle": "Coverage across Chile",
+    "coverageText": "We reach all 16 regions of the country, from Arica y Parinacota to Magallanes. Tap a region to highlight it on the map.",
+    "coverageMapLabel": "Map of Chile with the regions where we operate",
+    "coverageBadge": "24/7 service · Monday to Sunday",
+    "mediaLabel": "[Image: WinTransfer team / operations]"
+  },
+  "services": {
+    "title": "Our services",
+    "intro": "Passenger transport for the corporate and institutional world. Every service is coordinated directly and adapted to your operation.",
+    "ctaCard": "Enquire / Book",
+    "items": [
+      {
+        "id": "personal",
+        "title": "Staff transport",
+        "text": "Daily or shift-based transport for your company's teams, with tailored routes and schedules.",
+        "mediaLabel": "[Image: staff transport]"
+      },
+      {
+        "id": "ejecutivo",
+        "title": "Executive transfers",
+        "text": "Premium service for executives and visitors: punctuality, discretion and comfort.",
+        "mediaLabel": "[Image: executive transfer]"
+      },
+      {
+        "id": "eventos",
+        "title": "Event services",
+        "text": "Transport logistics for seminars, celebrations and corporate events.",
+        "mediaLabel": "[Image: event services]"
+      },
+      {
+        "id": "aeropuerto",
+        "title": "Airport transfers",
+        "text": "Punctual transfers to and from Carriel Sur airport, coordinated with your flight.",
+        "mediaLabel": "[Image: airport transfer]"
+      },
+      {
+        "id": "giras",
+        "title": "Institutional tours & activities",
+        "text": "Transport for schools, universities and institutions on tours and activities.",
+        "mediaLabel": "[Image: institutional tours]"
+      },
+      {
+        "id": "especiales",
+        "title": "Special services",
+        "text": "Something different? We design the service around your needs.",
+        "mediaLabel": "[Image: special services]"
+      }
+    ],
+    "bottomCtaTitle": "Can't find what you're looking for?",
+    "bottomCtaText": "Tell us your requirement and we'll build a special service for you."
+  },
+  "agreement": {
+    "title": "Corporate agreements",
+    "intro": "The WinTransfer corporate agreement gives your company reliable transport with preferential conditions and direct coordination, no intermediaries.",
+    "whatTitle": "What is the agreement?",
+    "whatText": "It's a standing service agreement between your organization and WinTransfer: your team requests transfers whenever needed and we respond with priority, preferential rates and formal invoicing.",
+    "benefitsTitle": "Agreement benefits",
+    "benefits": [
+      "Preferential rates",
+      "Priority service",
+      "Direct coordination",
+      "Formal invoicing",
+      "Reliable transport solutions",
+      "Service adaptable to different needs"
+    ],
+    "processTitle": "How does it work?",
+    "process": [
+      {
+        "title": "Agreement signing",
+        "text": "We formalize the agreement with your organization."
+      },
+      {
+        "title": "Service request",
+        "text": "You request transfers through the agreed channel, whenever you need."
+      },
+      {
+        "title": "Availability confirmation",
+        "text": "We confirm vehicle, schedule and conditions."
+      },
+      {
+        "title": "Transfer execution",
+        "text": "We deliver the service safely and on time."
+      }
+    ],
+    "paymentTitle": "Payment methods",
+    "paymentText": "Payment is coordinated directly with our team once the service is confirmed. No online payments are processed through this website.",
+    "paymentMethods": [
+      "Bank transfer",
+      "Webpay",
+      "Invoicing for companies with an agreement"
+    ],
+    "paymentNote": "[PENDING: confirm final payment methods with the client]",
+    "ctaTitle": "Does your company need permanent transport?",
+    "ctaText": "Write to us and let's talk about a tailor-made agreement.",
+    "ctaButton": "Request an agreement"
+  },
+  "fleet": {
+    "title": "Our fleet",
+    "intro": "Comfortable, safe vehicles for every type of service. Click an image to enlarge it.",
+    "note": "[PENDING: official fleet photo session — photos coming soon]",
+    "vehicles": [
+      "[Image: vehicle 1]",
+      "[Image: vehicle 2]",
+      "[Image: vehicle 3]",
+      "[Image: vehicle 4]",
+      "[Image: vehicle 5]",
+      "[Image: vehicle 6]"
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "Fill in the form and we'll reply on WhatsApp, or write to us directly.",
+    "dataTitle": "Contact details",
+    "phoneLabel": "Phone / WhatsApp",
+    "emailLabel": "Email",
+    "hoursLabel": "Hours",
+    "hoursValue": "24/7 · Monday to Sunday",
+    "coverageLabel": "Coverage",
+    "coverageValue": "All 16 regions of Chile",
+    "mapLabel": "[Map: location / area of operation]"
+  },
+  "form": {
+    "title": "What do you need?",
+    "typeBooking": "Booking",
+    "typeAgreement": "Agreement",
+    "typeJobs": "Work with us",
+    "origin": "Pick-up",
+    "originPlaceholder": "E.g.: Concepción downtown",
+    "destination": "Drop-off",
+    "destinationPlaceholder": "E.g.: Carriel Sur Airport",
+    "date": "Date",
+    "time": "Time",
+    "passengers": "Passengers",
+    "luggage": "Bags",
+    "tripToAirport": "To airport",
+    "tripFromAirport": "From airport",
+    "tripOther": "Other transfer",
+    "oneWay": "One way",
+    "roundTrip": "Round trip",
+    "returnDate": "Return date",
+    "returnTime": "Return time",
+    "outbound": "Outbound",
+    "return": "Return",
+    "summaryTitle": "Your trip summary",
+    "summaryEmpty": "Fill in the details and your trip summary will appear here.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "passengerName": "Passenger name",
+    "contactPhone": "Contact phone",
+    "payment": "Payment method",
+    "paymentPlaceholder": "Select an option",
+    "paymentOptions": ["Bank transfer", "Webpay", "Corporate invoicing (agreement)"],
+    "companyName": "Company name",
+    "companyPlaceholder": "Legal or trade name",
+    "contactPerson": "Contact person",
+    "contactPlaceholder": "Name and role",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what your organization needs",
+    "phone": "Phone",
+    "phonePlaceholder": "+56 9 ...",
+    "experience": "Experience",
+    "experiencePlaceholder": "Summarize your experience as a driver",
+    "jobsNote": "No file uploads: we'll request your CV by email if you move forward.",
+    "submit": "Send via WhatsApp",
+    "miniSubmit": "Continue booking",
+    "miniHint": "You'll complete and send your booking on the contact page.",
+    "disclaimer": "When you submit, WhatsApp will open with your message ready for our team.",
+    "waIntroBooking": "Hi, I'd like to book a transfer",
+    "waIntroAgreement": "Hi, I'd like information about the corporate agreement",
+    "waIntroJobs": "Hi, I'd like to work with you"
+  },
+  "terms": {
+    "title": "Terms & conditions",
+    "updated": "Last updated: [PENDING]",
+    "body": "[PENDING: legal text under review by the company's lawyer. It will be published once approved.]"
+  },
+  "footer": {
+    "contactTitle": "Contact",
+    "coverageTitle": "Coverage",
+    "coverageText": "All 16 regions of Chile, from Arica y Parinacota to Magallanes. 24/7 service.",
+    "socialTitle": "Social",
+    "paymentTitle": "Payment methods",
+    "paymentText": "Bank transfer · Webpay · Corporate invoicing. No online payments.",
+    "termsLink": "Terms & conditions",
+    "rights": "All rights reserved.",
+    "sernatur": "Registered with Sernatur as tourist transport"
+  },
+  "regions": [
+    "Arica y Parinacota",
+    "Tarapacá",
+    "Antofagasta",
+    "Atacama",
+    "Coquimbo",
+    "Valparaíso",
+    "Metropolitana de Santiago",
+    "O'Higgins",
+    "Maule",
+    "Ñuble",
+    "Biobío",
+    "La Araucanía",
+    "Los Ríos",
+    "Los Lagos",
+    "Aysén del General Carlos Ibáñez del Campo",
+    "Magallanes y de la Antártica Chilena"
+  ],
+  "partners": [
+    "Oxiquim",
+    "Turismo Esquerré",
+    "Lycée Charles de Gaulle",
+    "Russell Mineral Equipment",
+    "SGS Chile",
+    "Grupo Eulen"
+  ]
+}

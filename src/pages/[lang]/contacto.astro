@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
+import SmartForm from '../../components/SmartForm.astro';
+import { useTranslations, type Lang } from '../../i18n';
+import {
+  waLink,
+  CONTACT_EMAIL,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_2_DISPLAY,
+  WHATSAPP_NUMBER_2,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+} from '../../config';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('contact.title')}>
+  <section class="bg-primary py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+      <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('contact.title')}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">{t('contact.intro')}</p>
+    </div>
+  </section>
+
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 md:px-6 lg:grid-cols-[1fr_minmax(0,1.2fr)]">
+      <!-- Datos de contacto + mapa -->
+      <div class="space-y-6">
+        <div class="reveal rounded-3xl border border-primary/10 bg-white p-6 shadow-sm md:p-8">
+          <h2 class="font-display text-xl font-bold text-primary">{t('contact.dataTitle')}</h2>
+          <dl class="mt-5 space-y-4 text-sm">
+            <div>
+              <dt class="font-bold text-ink">{t('contact.phoneLabel')}</dt>
+              <dd class="mt-0.5">
+                <a href={waLink()} target="_blank" rel="noopener" class="text-action-bright hover:underline">
+                  {CONTACT_PHONE_DISPLAY}
+                </a>
+              </dd>
+              <dd class="mt-0.5">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER_2}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-action-bright hover:underline"
+                >
+                  {CONTACT_PHONE_2_DISPLAY}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold text-ink">{t('contact.emailLabel')}</dt>
+              <dd class="mt-0.5">
+                <a href={`mailto:${CONTACT_EMAIL}`} class="text-action-bright hover:underline">{CONTACT_EMAIL}</a>
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold text-ink">Instagram</dt>
+              <dd class="mt-0.5">
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="text-action-bright hover:underline">
+                  {INSTAGRAM_HANDLE}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold text-ink">{t('contact.hoursLabel')}</dt>
+              <dd class="mt-0.5 text-ink/70">{t('contact.hoursValue')}</dd>
+            </div>
+            <div>
+              <dt class="font-bold text-ink">{t('contact.coverageLabel')}</dt>
+              <dd class="mt-0.5 text-ink/70">{t('contact.coverageValue')}</dd>
+            </div>
+          </dl>
+        </div>
+        <PlaceholderMedia label={t('contact.mapLabel')} class="reveal aspect-[4/3] rounded-3xl lg:aspect-auto lg:min-h-56" />
+      </div>
+
+      <!-- Formulario inteligente -->
+      <div class="reveal">
+        <SmartForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,480 @@
+---
+/**
+ * Formulario inteligente: un solo formulario con selector
+ * Reserva / Convenio / Trabaja con nosotros.
+ * Al enviar arma un mensaje con todos los campos y abre WhatsApp
+ * (número en src/config.ts → WHATSAPP_NUMBER).
+ */
+import TripTypeTabs from './TripTypeTabs.astro';
+import { getLangFromUrl, useTranslations } from '../i18n';
+import { WHATSAPP_NUMBER, BOOKING_AIRPORT } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const paymentOptions = t<string[]>('form.paymentOptions');
+
+const inputClass =
+  'w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-action-bright focus:ring-2 focus:ring-accent/40 focus:outline-none';
+const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
+---
+
+<form
+  id="smart-form"
+  class="scroll-mt-28 rounded-3xl border border-primary/10 bg-white p-6 shadow-xl shadow-primary/5 md:p-8"
+  data-wa-number={WHATSAPP_NUMBER}
+  data-airport={BOOKING_AIRPORT}
+  data-intro-booking={t('form.waIntroBooking')}
+  data-intro-agreement={t('form.waIntroAgreement')}
+  data-intro-jobs={t('form.waIntroJobs')}
+  data-label-outbound={t('form.outbound')}
+  data-label-return={t('form.return')}
+  data-label-passengers={t('form.passengers')}
+  data-label-luggage={t('form.luggage')}
+  data-summary-empty={t('form.summaryEmpty')}
+>
+  <fieldset>
+    <legend class="font-display text-lg font-bold text-primary">{t('form.title')}</legend>
+    <div class="mt-4 grid grid-cols-1 gap-2 rounded-2xl bg-mist p-2 sm:grid-cols-3" role="radiogroup">
+      {
+        [
+          { value: 'booking', label: t('form.typeBooking') },
+          { value: 'agreement', label: t('form.typeAgreement') },
+          { value: 'jobs', label: t('form.typeJobs') },
+        ].map((option, i) => (
+          <label class="cursor-pointer">
+            <input type="radio" name="form-type" value={option.value} checked={i === 0} class="peer sr-only" />
+            <span class="block rounded-xl px-4 py-2.5 text-center text-sm font-bold text-primary transition-colors peer-checked:bg-primary peer-checked:text-white hover:bg-white">
+              {option.label}
+            </span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <!-- Reserva (flujo estilo Transvip: tipo de viaje → tramos → pasajeros → resumen) -->
+  <fieldset data-panel="booking" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <!-- Tipo de viaje: prellena el aeropuerto como origen o destino -->
+    <TripTypeTabs class="sm:col-span-2" />
+
+    <!-- Solo ida / ida y vuelta -->
+    <div class="flex flex-wrap gap-2 sm:col-span-2" role="radiogroup">
+      {
+        [
+          { value: 'one-way', label: t('form.oneWay') },
+          { value: 'round-trip', label: t('form.roundTrip') },
+        ].map((option, i) => (
+          <label class="cursor-pointer">
+            <input type="radio" name="trip-mode" value={option.value} data-msg={option.label} checked={i === 0} class="peer sr-only" />
+            <span class="block rounded-full border border-primary/20 px-4 py-1.5 text-xs font-bold text-primary transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+              {option.label}
+            </span>
+          </label>
+        ))
+      }
+    </div>
+    <div class="relative">
+      <label class={labelClass} for="f-origin">{t('form.origin')}</label>
+      <input
+        id="f-origin"
+        name="origin"
+        data-label={t('form.origin')}
+        data-autocomplete
+        autocomplete="off"
+        aria-autocomplete="list"
+        required
+        placeholder={t('form.originPlaceholder')}
+        class={inputClass}
+      />
+    </div>
+    <div class="relative">
+      <label class={labelClass} for="f-destination">{t('form.destination')}</label>
+      <input
+        id="f-destination"
+        name="destination"
+        data-label={t('form.destination')}
+        data-autocomplete
+        autocomplete="off"
+        aria-autocomplete="list"
+        required
+        placeholder={t('form.destinationPlaceholder')}
+        class={inputClass}
+      />
+    </div>
+    <div>
+      <label class={labelClass} for="f-date">{t('form.date')}</label>
+      <input id="f-date" name="date" type="date" data-label={t('form.date')} required class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-time">{t('form.time')}</label>
+      <input id="f-time" name="time" type="time" data-label={t('form.time')} required class={inputClass} />
+    </div>
+
+    <!-- Regreso (solo con "ida y vuelta") -->
+    <div data-return hidden>
+      <label class={labelClass} for="f-return-date">{t('form.returnDate')}</label>
+      <input id="f-return-date" name="return-date" type="date" data-label={t('form.returnDate')} disabled class={inputClass} />
+    </div>
+    <div data-return hidden>
+      <label class={labelClass} for="f-return-time">{t('form.returnTime')}</label>
+      <input id="f-return-time" name="return-time" type="time" data-label={t('form.returnTime')} disabled class={inputClass} />
+    </div>
+
+    <div>
+      <label class={labelClass} for="f-passengers">{t('form.passengers')}</label>
+      <div class="flex items-center gap-2">
+        <button type="button" data-stepper="-1" data-target="f-passengers" aria-label="−" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">−</button>
+        <input id="f-passengers" name="passengers" type="number" min="1" max="200" value="1" data-label={t('form.passengers')} required class={`${inputClass} text-center`} />
+        <button type="button" data-stepper="1" data-target="f-passengers" aria-label="+" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">+</button>
+      </div>
+    </div>
+    <div>
+      <label class={labelClass} for="f-luggage">{t('form.luggage')}</label>
+      <div class="flex items-center gap-2">
+        <button type="button" data-stepper="-1" data-target="f-luggage" aria-label="−" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">−</button>
+        <input id="f-luggage" name="luggage" type="number" min="0" max="100" value="0" data-label={t('form.luggage')} class={`${inputClass} text-center`} />
+        <button type="button" data-stepper="1" data-target="f-luggage" aria-label="+" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">+</button>
+      </div>
+    </div>
+
+    <div>
+      <label class={labelClass} for="f-name">{t('form.passengerName')}</label>
+      <input id="f-name" name="name" data-label={t('form.passengerName')} required placeholder={t('form.namePlaceholder')} class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-phone">{t('form.contactPhone')}</label>
+      <input id="f-phone" name="phone" type="tel" data-label={t('form.contactPhone')} required placeholder={t('form.phonePlaceholder')} class={inputClass} />
+    </div>
+    <div class="sm:col-span-2">
+      <label class={labelClass} for="f-payment">{t('form.payment')}</label>
+      <select id="f-payment" name="payment" data-label={t('form.payment')} required class={inputClass}>
+        <option value="" disabled selected>{t('form.paymentPlaceholder')}</option>
+        {paymentOptions.map((option) => <option value={option}>{option}</option>)}
+      </select>
+    </div>
+
+    <!-- Resumen en vivo del viaje -->
+    <div class="rounded-2xl border border-primary/10 bg-mist p-4 sm:col-span-2">
+      <p class="font-display text-sm font-bold text-primary">{t('form.summaryTitle')}</p>
+      <p id="booking-summary" class="mt-1.5 text-sm whitespace-pre-line text-ink/70">{t('form.summaryEmpty')}</p>
+    </div>
+  </fieldset>
+
+  <!-- Convenio -->
+  <fieldset data-panel="agreement" class="mt-6 hidden grid-cols-1 gap-4" disabled>
+    <div>
+      <label class={labelClass} for="f-company">{t('form.companyName')}</label>
+      <input id="f-company" name="company" data-label={t('form.companyName')} required placeholder={t('form.companyPlaceholder')} class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-contact">{t('form.contactPerson')}</label>
+      <input id="f-contact" name="contact" data-label={t('form.contactPerson')} required placeholder={t('form.contactPlaceholder')} class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-message">{t('form.message')}</label>
+      <textarea id="f-message" name="message" data-label={t('form.message')} required rows="4" placeholder={t('form.messagePlaceholder')} class={inputClass}></textarea>
+    </div>
+  </fieldset>
+
+  <!-- Trabaja con nosotros (sin subida de archivos) -->
+  <fieldset data-panel="jobs" class="mt-6 hidden grid-cols-1 gap-4" disabled>
+    <div>
+      <label class={labelClass} for="f-job-name">{t('form.name')}</label>
+      <input id="f-job-name" name="job-name" data-label={t('form.name')} required placeholder={t('form.namePlaceholder')} class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-job-phone">{t('form.phone')}</label>
+      <input id="f-job-phone" name="job-phone" type="tel" data-label={t('form.phone')} required placeholder={t('form.phonePlaceholder')} class={inputClass} />
+    </div>
+    <div>
+      <label class={labelClass} for="f-experience">{t('form.experience')}</label>
+      <textarea id="f-experience" name="experience" data-label={t('form.experience')} required rows="4" placeholder={t('form.experiencePlaceholder')} class={inputClass}></textarea>
+      <p class="mt-2 text-xs text-ink/60">{t('form.jobsNote')}</p>
+    </div>
+  </fieldset>
+
+  <button
+    type="submit"
+    class="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-wa px-6 py-4 font-display font-bold text-white transition-transform hover:scale-[1.02]"
+  >
+    <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true"><path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z"/></svg>
+    {t('form.submit')}
+  </button>
+  <p class="mt-3 text-center text-xs text-ink/50">{t('form.disclaimer')}</p>
+</form>
+
+<script>
+  const form = document.getElementById('smart-form') as HTMLFormElement;
+  const panels = form.querySelectorAll<HTMLFieldSetElement>('[data-panel]');
+  const radios = form.querySelectorAll<HTMLInputElement>('input[name="form-type"]');
+
+  function activePanelType(): string {
+    return form.querySelector<HTMLInputElement>('input[name="form-type"]:checked')?.value ?? 'booking';
+  }
+
+  function showPanel(type: string) {
+    panels.forEach((panel) => {
+      const active = panel.dataset.panel === type;
+      panel.classList.toggle('hidden', !active);
+      panel.classList.toggle('grid', active);
+      // Deshabilitar paneles ocultos para que sus "required" no bloqueen el envío
+      panel.disabled = !active;
+    });
+  }
+
+  radios.forEach((radio) => radio.addEventListener('change', () => showPanel(radio.value)));
+  showPanel(activePanelType());
+
+  // ---- Reserva estilo Transvip ----
+  const AIRPORT = form.dataset.airport ?? '';
+  const bookingPanel = form.querySelector<HTMLFieldSetElement>('[data-panel="booking"]')!;
+  const origin = form.querySelector<HTMLInputElement>('#f-origin')!;
+  const destination = form.querySelector<HTMLInputElement>('#f-destination')!;
+  const summary = document.getElementById('booking-summary')!;
+
+  const formatDate = (value: string) => value.split('-').reverse().join('/');
+
+  function lockField(field: HTMLInputElement, locked: boolean) {
+    field.readOnly = locked;
+    field.classList.toggle('bg-mist', locked);
+    field.classList.toggle('text-ink/70', locked);
+  }
+
+  // Prellena y bloquea el aeropuerto según la pestaña de tipo de viaje
+  function applyTripType(value: string) {
+    if (value === 'to-airport') {
+      if (origin.value === AIRPORT) origin.value = '';
+      destination.value = AIRPORT;
+      lockField(destination, true);
+      lockField(origin, false);
+    } else if (value === 'from-airport') {
+      if (destination.value === AIRPORT) destination.value = '';
+      origin.value = AIRPORT;
+      lockField(origin, true);
+      lockField(destination, false);
+    } else {
+      if (origin.value === AIRPORT) origin.value = '';
+      if (destination.value === AIRPORT) destination.value = '';
+      lockField(origin, false);
+      lockField(destination, false);
+    }
+    updateSummary();
+  }
+
+  // Muestra/oculta los campos de regreso según solo ida / ida y vuelta
+  function applyTripMode(value: string) {
+    const round = value === 'round-trip';
+    bookingPanel.querySelectorAll<HTMLElement>('[data-return]').forEach((wrapper) => {
+      wrapper.hidden = !round;
+    });
+    ['f-return-date', 'f-return-time'].forEach((id) => {
+      const field = document.getElementById(id) as HTMLInputElement;
+      field.disabled = !round;
+      field.required = round;
+    });
+    updateSummary();
+  }
+
+  form.querySelectorAll<HTMLInputElement>('input[name="trip-type"]').forEach((radio) =>
+    radio.addEventListener('change', () => applyTripType(radio.value)),
+  );
+  form.querySelectorAll<HTMLInputElement>('input[name="trip-mode"]').forEach((radio) =>
+    radio.addEventListener('change', () => applyTripMode(radio.value)),
+  );
+
+  // Steppers de pasajeros y maletas
+  form.querySelectorAll<HTMLButtonElement>('[data-stepper]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const field = document.getElementById(button.dataset.target!) as HTMLInputElement;
+      const next = (Number(field.value) || 0) + Number(button.dataset.stepper);
+      field.value = String(Math.min(Number(field.max), Math.max(Number(field.min), next)));
+      updateSummary();
+    });
+  });
+
+  // No permitir fechas pasadas; el regreso no puede ser antes de la ida
+  const dateField = document.getElementById('f-date') as HTMLInputElement;
+  const returnDateField = document.getElementById('f-return-date') as HTMLInputElement;
+  dateField.min = new Date().toISOString().slice(0, 10);
+  returnDateField.min = dateField.min;
+  dateField.addEventListener('change', () => {
+    returnDateField.min = dateField.value || dateField.min;
+  });
+
+  function updateSummary() {
+    const value = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
+    const round = form.querySelector<HTMLInputElement>('input[name="trip-mode"]:checked')?.value === 'round-trip';
+    const lines: string[] = [];
+
+    if (value('f-origin') && value('f-destination')) lines.push(`${value('f-origin')} → ${value('f-destination')}`);
+    if (value('f-date') || value('f-time'))
+      lines.push(`${form.dataset.labelOutbound}: ${formatDate(value('f-date'))} ${value('f-time')}`.trim());
+    if (round && (value('f-return-date') || value('f-return-time')))
+      lines.push(`${form.dataset.labelReturn}: ${formatDate(value('f-return-date'))} ${value('f-return-time')}`.trim());
+    if (lines.length)
+      lines.push(`${form.dataset.labelPassengers}: ${value('f-passengers')} · ${form.dataset.labelLuggage}: ${value('f-luggage')}`);
+
+    summary.textContent = lines.length ? lines.join('\n') : (form.dataset.summaryEmpty ?? '');
+  }
+
+  // Prellenado desde la mini reserva del inicio (?trip=&origin=&destination=&date=&time=)
+  const params = new URLSearchParams(window.location.search);
+  const tripParam = params.get('trip');
+  if (tripParam) {
+    const tripRadio = form.querySelector<HTMLInputElement>(`input[name="trip-type"][value="${tripParam}"]`);
+    if (tripRadio) tripRadio.checked = true;
+  }
+  (
+    [
+      ['origin', 'f-origin'],
+      ['destination', 'f-destination'],
+      ['date', 'f-date'],
+      ['time', 'f-time'],
+    ] as const
+  ).forEach(([key, id]) => {
+    const value = params.get(key);
+    if (value) (document.getElementById(id) as HTMLInputElement).value = value;
+  });
+  returnDateField.min = dateField.value || dateField.min;
+
+  bookingPanel.addEventListener('input', updateSummary);
+  applyTripType(form.querySelector<HTMLInputElement>('input[name="trip-type"]:checked')?.value ?? 'to-airport');
+  applyTripMode(form.querySelector<HTMLInputElement>('input[name="trip-mode"]:checked')?.value ?? 'one-way');
+
+  // ---- Envío a WhatsApp ----
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const type = activePanelType();
+    const intro =
+      type === 'booking'
+        ? form.dataset.introBooking
+        : type === 'agreement'
+          ? form.dataset.introAgreement
+          : form.dataset.introJobs;
+
+    const lines = [`${intro}:`];
+
+    if (type === 'booking') {
+      form
+        .querySelectorAll<HTMLInputElement>('input[name="trip-type"]:checked, input[name="trip-mode"]:checked')
+        .forEach((radio) => lines.push(`• ${radio.dataset.msg}`));
+    }
+
+    form
+      .querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(`[data-panel="${type}"] [data-label]`)
+      .forEach((field) => {
+        if (field.disabled || !field.value.trim()) return;
+        const fieldValue =
+          field instanceof HTMLInputElement && field.type === 'date' ? formatDate(field.value) : field.value.trim();
+        lines.push(`• ${field.dataset.label}: ${fieldValue}`);
+      });
+
+    const url = `https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(url, '_blank', 'noopener');
+  });
+</script>
+
+<script>
+  // Autocompletado de ubicaciones en origen/destino (estilo Google Places,
+  // pero con dataset local sin costo — ver src/data/locations.ts).
+  import { LOCATIONS } from '../data/locations';
+
+  const ICONS = {
+    airport:
+      '<svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 stroke-action-bright" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>',
+    city: '<svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 stroke-primary/60" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  };
+
+  const COMBINING_MARKS = new RegExp('[\\u0300-\\u036f]', 'g');
+  const normalize = (text: string) =>
+    text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(COMBINING_MARKS, '');
+
+  document.querySelectorAll<HTMLInputElement>('input[data-autocomplete]').forEach((input) => {
+    const wrapper = input.parentElement as HTMLElement;
+    const list = document.createElement('ul');
+    list.className =
+      'absolute left-0 right-0 top-full z-30 mt-1.5 hidden max-h-72 overflow-auto rounded-2xl border border-primary/10 bg-white py-1.5 shadow-xl shadow-primary/15';
+    list.setAttribute('role', 'listbox');
+    wrapper.appendChild(list);
+
+    let matches: typeof LOCATIONS = [];
+    let active = -1;
+
+    const close = () => {
+      list.classList.add('hidden');
+      list.innerHTML = '';
+      matches = [];
+      active = -1;
+    };
+
+    const select = (index: number) => {
+      const location = matches[index];
+      if (!location) return;
+      input.value = location.name;
+      close();
+    };
+
+    const paintActive = () => {
+      list.querySelectorAll('li').forEach((item, i) => {
+        item.classList.toggle('bg-mist', i === active);
+        if (i === active) item.scrollIntoView({ block: 'nearest' });
+      });
+    };
+
+    const render = () => {
+      if (!matches.length) return close();
+      list.innerHTML = '';
+      matches.forEach((location, index) => {
+        const item = document.createElement('li');
+        item.setAttribute('role', 'option');
+        item.className = 'flex cursor-pointer items-center gap-3 px-4 py-2.5 hover:bg-mist';
+        item.innerHTML = `${ICONS[location.type]}<span class="min-w-0"><span class="block truncate text-sm font-semibold text-ink">${location.name}</span><span class="block truncate text-xs text-ink/50">${location.region}</span></span>`;
+        // mousedown (no click) para seleccionar antes de que el blur cierre la lista
+        item.addEventListener('mousedown', (event) => {
+          event.preventDefault();
+          select(index);
+        });
+        list.appendChild(item);
+      });
+      list.classList.remove('hidden');
+    };
+
+    input.addEventListener('input', () => {
+      const query = normalize(input.value.trim());
+      if (query.length < 2) return close();
+      const starts = LOCATIONS.filter((location) => normalize(location.name).startsWith(query));
+      const contains = LOCATIONS.filter(
+        (location) =>
+          !starts.includes(location) &&
+          (normalize(location.name).includes(query) || normalize(location.region).includes(query)),
+      );
+      matches = [...starts, ...contains].slice(0, 8);
+      active = -1;
+      render();
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (!matches.length) return;
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        active = (active + 1) % matches.length;
+        paintActive();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        active = (active - 1 + matches.length) % matches.length;
+        paintActive();
+      } else if (event.key === 'Enter' && active >= 0) {
+        event.preventDefault();
+        select(active);
+      } else if (event.key === 'Escape') {
+        close();
+      }
+    });
+
+    input.addEventListener('blur', () => close());
+  });
+</script>

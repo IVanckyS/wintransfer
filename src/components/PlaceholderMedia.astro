@@ -1,0 +1,28 @@
+---
+/**
+ * Bloque de marcador de posición para imágenes/videos aún no recibidos.
+ * Se reemplaza por <img>/<video> reales cuando llegue el material
+ * (ver ASSETS_PENDIENTES.md).
+ */
+interface Props {
+  label: string;
+  class?: string;
+  dark?: boolean;
+}
+
+const { label, class: className = '', dark = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex items-center justify-center overflow-hidden border-2 border-dashed',
+    dark
+      ? 'border-accent/40 bg-[repeating-linear-gradient(135deg,#0a2540,#0a2540_14px,#0d2d4d_14px,#0d2d4d_28px)] text-accent'
+      : 'border-primary/30 bg-[repeating-linear-gradient(135deg,#f2f8fd,#f2f8fd_14px,#e3f0fb_14px,#e3f0fb_28px)] text-primary/70',
+    className,
+  ]}
+  role="img"
+  aria-label={label}
+>
+  <span class="px-4 text-center font-display text-sm font-semibold tracking-wide">{label}</span>
+</div>

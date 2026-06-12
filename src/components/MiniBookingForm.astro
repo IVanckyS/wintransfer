@@ -1,0 +1,40 @@
+---
+/**
+ * Mini reserva para el hero del inicio (estilo widget de Transvip):
+ * solo el tipo de viaje y un botón para continuar. Al enviar redirige
+ * a la página de contacto con el tipo en la URL, donde SmartForm lo
+ * deja seleccionado para completar la reserva.
+ */
+import TripTypeTabs from './TripTypeTabs.astro';
+import { getLangFromUrl, useTranslations, localePath } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<form
+  id="mini-booking"
+  class="rounded-3xl border border-primary/10 bg-white p-5 shadow-xl shadow-primary/5 md:p-6"
+  data-contact-url={localePath(lang, 'contact')}
+>
+  <TripTypeTabs />
+
+  <button
+    type="submit"
+    class="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-action-bright px-6 py-3 font-display font-bold text-white transition-all hover:bg-accent hover:text-ink"
+  >
+    {t('form.miniSubmit')}
+    <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+  </button>
+  <p class="mt-2.5 text-center text-xs text-ink/50">{t('form.miniHint')}</p>
+</form>
+
+<script>
+  // Redirige a contacto con el tipo de viaje elegido; SmartForm lo prellena allá
+  const form = document.getElementById('mini-booking') as HTMLFormElement;
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const trip = form.querySelector<HTMLInputElement>('input[name="trip-type"]:checked')?.value ?? 'to-airport';
+    window.location.href = `${form.dataset.contactUrl}?trip=${trip}#smart-form`;
+  });
+</script>
