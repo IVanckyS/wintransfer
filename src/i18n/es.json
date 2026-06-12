@@ -9,7 +9,7 @@
     "about": "Quiénes somos",
     "services": "Servicios",
     "agreement": "Únete a convenio",
-    "fleet": "Flota",
+    "coverage": "Cobertura",
     "contact": "Contacto",
     "terms": "Términos y condiciones",
     "book": "Reservar"
@@ -97,7 +97,8 @@
       }
     ],
     "coverageTitle": "Cobertura en todo Chile",
-    "coverageText": "Llegamos a las 16 regiones del país, de Arica y Parinacota a Magallanes. Toca una región para destacarla en el mapa.",
+    "coverageText": "Llegamos a las 16 regiones del país, de Arica y Parinacota a Magallanes.",
+    "coverageCta": "Ver mapa de cobertura →",
     "coverageBadge": "Atención 24/7 · lunes a domingo",
     "coverageMapLabel": "Mapa de Chile con las regiones donde operamos",
     "mediaLabel": "[Imagen: equipo / operación WinTransfer]"
@@ -191,6 +192,12 @@
     "ctaTitle": "¿Tu empresa necesita transporte permanente?",
     "ctaText": "Escríbenos y conversemos sobre un convenio a la medida.",
     "ctaButton": "Solicitar convenio"
+  },
+  "coverage": {
+    "title": "Cobertura",
+    "intro": "Operamos en las 16 regiones de Chile. Selecciona una región para descubrir sus principales destinos turísticos.",
+    "placesTitle": "Destinos destacados",
+    "placesHint": "Selecciona una región en el mapa o en la lista para ver sus destinos turísticos."
   },
   "fleet": {
     "title": "Nuestra flota",
@@ -300,6 +307,24 @@
     "Los Lagos",
     "Aysén del General Carlos Ibáñez del Campo",
     "Magallanes y de la Antártica Chilena"
+  ],
+  "regionPlaces": [
+    ["Lago Chungará", "Parque Nacional Lauca", "Valle de Azapa", "Putre", "Geoglifos de Lluta"],
+    ["Humberstone (UNESCO)", "Playa Cavancha", "Pampa del Tamarugal", "Gigante de Atacama", "Volcán Isluga"],
+    ["Valle de la Luna", "Géiseres del Tatio", "Salar de Atacama", "San Pedro de Atacama", "Toconao"],
+    ["Bahía Inglesa", "Parque Nac. Pan de Azúcar", "Laguna Verde", "Nevado Tres Cruces", "Desierto Florido"],
+    ["Valle del Elqui", "Observatorio Mamalluca", "La Serena", "Isla Damas", "Tongoy"],
+    ["Cerros de Valparaíso (UNESCO)", "Viña del Mar", "Isla de Pascua (UNESCO)", "Valle de Casablanca", "Zapallar"],
+    ["Cajón del Maipo", "Centro histórico de Santiago", "Portillo", "Pomaire", "Reserva Nac. El Yeso"],
+    ["Sewell (UNESCO)", "Valle de Colchagua", "Pichilemu", "Lago Rapel", "Santa Cruz"],
+    ["Constitución", "Valle del Maule", "Lago Colbún", "Reserva Altos de Lircay", "Vichuquén"],
+    ["Nevados de Chillán", "Termas de Chillán", "Salto del Itata", "Chillán Viejo", "Laguna del Dial"],
+    ["Salto del Laja", "Parque Nac. Laguna del Laja", "Concepción", "Isla Santa María", "Lebu"],
+    ["Lago Villarrica", "Volcán Villarrica", "Parque Nac. Huerquehue", "Parque Nac. Conguillío", "Temuco"],
+    ["Valdivia", "Huilo-Huilo", "Lago Panguipulli", "Reserva Nac. Mocho-Choshuenco", "Futrono"],
+    ["Chiloé", "Puerto Varas", "Lago Llanquihue", "Volcán Osorno", "Parque Nac. V. Pérez Rosales"],
+    ["Lago General Carrera", "Carretera Austral", "Parque Patagonia", "Reserva Nac. Cerro Castillo", "Villa O'Higgins"],
+    ["Torres del Paine", "Cabo de Hornos", "Puerto Natales", "Punta Arenas", "Isla Navarino"]
   ],
   "partners": [
     "Oxiquim",

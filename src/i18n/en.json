@@ -9,7 +9,7 @@
     "about": "About us",
     "services": "Services",
     "agreement": "Corporate agreements",
-    "fleet": "Fleet",
+    "coverage": "Coverage",
     "contact": "Contact",
     "terms": "Terms & conditions",
     "book": "Book now"
@@ -97,7 +97,8 @@
       }
     ],
     "coverageTitle": "Coverage across Chile",
-    "coverageText": "We reach all 16 regions of the country, from Arica y Parinacota to Magallanes. Tap a region to highlight it on the map.",
+    "coverageText": "We reach all 16 regions of the country, from Arica y Parinacota to Magallanes.",
+    "coverageCta": "View coverage map →",
     "coverageMapLabel": "Map of Chile with the regions where we operate",
     "coverageBadge": "24/7 service · Monday to Sunday",
     "mediaLabel": "[Image: WinTransfer team / operations]"
@@ -191,6 +192,12 @@
     "ctaTitle": "Does your company need permanent transport?",
     "ctaText": "Write to us and let's talk about a tailor-made agreement.",
     "ctaButton": "Request an agreement"
+  },
+  "coverage": {
+    "title": "Coverage",
+    "intro": "We operate across all 16 regions of Chile. Select a region to explore its top tourist destinations.",
+    "placesTitle": "Top destinations",
+    "placesHint": "Select a region on the map or from the list to explore its tourist highlights."
   },
   "fleet": {
     "title": "Our fleet",
@@ -300,6 +307,24 @@
     "Los Lagos",
     "Aysén del General Carlos Ibáñez del Campo",
     "Magallanes y de la Antártica Chilena"
+  ],
+  "regionPlaces": [
+    ["Lago Chungará", "Parque Nacional Lauca", "Valle de Azapa", "Putre", "Lluta Geoglyphs"],
+    ["Humberstone (UNESCO)", "Playa Cavancha", "Pampa del Tamarugal", "Giant of the Atacama", "Isluga Volcano NP"],
+    ["Valley of the Moon", "Tatio Geysers", "Atacama Salt Flat", "San Pedro de Atacama", "Toconao"],
+    ["Bahía Inglesa", "Pan de Azúcar NP", "Laguna Verde", "Nevado Tres Cruces", "Flowering Desert"],
+    ["Elqui Valley", "Mamalluca Observatory", "La Serena", "Isla Damas", "Tongoy"],
+    ["Valparaíso Hills (UNESCO)", "Viña del Mar", "Easter Island (UNESCO)", "Casablanca Valley", "Zapallar"],
+    ["Maipo Canyon", "Santiago Historic Center", "Portillo", "Pomaire", "El Yeso Reserve"],
+    ["Sewell (UNESCO)", "Colchagua Valley", "Pichilemu", "Lago Rapel", "Santa Cruz"],
+    ["Constitución", "Maule Valley", "Lago Colbún", "Altos de Lircay Reserve", "Vichuquén"],
+    ["Nevados de Chillán", "Chillán Hot Springs", "Salto del Itata", "Chillán Viejo", "Laguna del Dial"],
+    ["Salto del Laja", "Laguna del Laja NP", "Concepción", "Santa María Island", "Lebu"],
+    ["Lago Villarrica", "Villarrica Volcano", "Huerquehue NP", "Conguillío NP", "Temuco"],
+    ["Valdivia", "Huilo-Huilo", "Lago Panguipulli", "Mocho-Choshuenco Reserve", "Futrono"],
+    ["Chiloé", "Puerto Varas", "Lago Llanquihue", "Osorno Volcano", "V. Pérez Rosales NP"],
+    ["Lago General Carrera", "Carretera Austral", "Patagonia Park", "Cerro Castillo Reserve", "Villa O'Higgins"],
+    ["Torres del Paine", "Cape Horn", "Puerto Natales", "Punta Arenas", "Isla Navarino"]
   ],
   "partners": [
     "Oxiquim",

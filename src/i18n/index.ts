@@ -24,7 +24,7 @@ export const routes = {
   about: 'quienes-somos',
   services: 'servicios',
   agreement: 'convenio',
-  fleet: 'flota',
+  coverage: 'cobertura',
   contact: 'contacto',
   terms: 'terminos',
 } as const;

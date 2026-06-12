@@ -1,20 +1,12 @@
 ---
-/**
- * Mapa de cobertura interactivo (sección "Cobertura" de Quiénes somos).
- * Usa el mapa real de Chile por regiones (src/assets/chile.svg, ids ISO
- * CL-XX): los trazados se extraen en build y se inyectan inline para
- * poder iluminar cada región. Pasar el cursor o tocar una región de la
- * lista la ilumina en el mapa, y viceversa.
- * Pensado para fondo oscuro (bg-ink).
- */
 import raw from '../assets/chile.svg?raw';
 import { getLangFromUrl, useTranslations } from '../i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const regions = t<string[]>('regions');
+const regionPlaces = t<string[][]>('regionPlaces');
 
-// Ids ISO del SVG, en el mismo orden norte → sur que la lista `regions`
 const REGION_IDS = [
   'CL-AP', // Arica y Parinacota
   'CL-TA', // Tarapacá
@@ -43,13 +35,9 @@ for (const tag of raw.match(/<path\b[^>]*>/g) ?? []) {
 
 const segments = REGION_IDS.map((id, i) => ({ name: regions[i], d: pathsById.get(id) ?? '' }));
 
-// El SVG original incluye las islas del Pacífico (Isla de Pascua, Juan
-// Fernández), por eso el continente ocupa solo la franja derecha del
-// lienzo (612.5 × 708.7): recortamos el viewBox al territorio continental
-// (bbox calculado de los trazados: x 479.9–612.3, y 0.5–708).
+// Continental Chile only — crop out Pacific islands
 const VIEWBOX = '476 -3 140 715';
 
-// Puntos decorativos (guiño a la lámina corporativa)
 const dots = Array.from({ length: 24 }, (_, i) => ({
   cx: 8 + (i % 6) * 13,
   cy: 6 + Math.floor(i / 6) * 13,
@@ -57,41 +45,55 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
 }));
 ---
 
-<div id="coverage-map" class="grid items-center gap-10 lg:grid-cols-[minmax(0,300px)_1fr]">
-  <figure class="relative mx-auto w-fit">
-    <svg viewBox="0 0 80 48" class="absolute -top-4 -right-12 h-12 w-20 fill-sun/70" aria-hidden="true">
-      {dots.map((dot) => <circle cx={dot.cx} cy={dot.cy} r={dot.r} />)}
-    </svg>
-    <svg viewBox={VIEWBOX} class="h-[420px] w-auto md:h-[500px]" role="img" aria-label={t('about.coverageMapLabel')}>
+<div class="space-y-6">
+  <div id="coverage-map" class="grid items-center gap-10 lg:grid-cols-[minmax(0,300px)_1fr]">
+    <figure class="relative mx-auto w-fit">
+      <svg viewBox="0 0 80 48" class="absolute -top-4 -right-12 h-12 w-20 fill-sun/70" aria-hidden="true">
+        {dots.map((dot) => <circle cx={dot.cx} cy={dot.cy} r={dot.r} />)}
+      </svg>
+      <svg viewBox={VIEWBOX} class="h-[420px] w-auto md:h-[500px]" role="img" aria-label={t('about.coverageMapLabel')}>
+        {
+          segments.map((segment, i) => (
+            <path d={segment.d} data-region={i} tabindex="-1">
+              <title>{segment.name}</title>
+            </path>
+          ))
+        }
+      </svg>
+    </figure>
+
+    <ol class="grid gap-2.5 sm:grid-cols-2">
       {
-        segments.map((segment, i) => (
-          <path d={segment.d} data-region={i} tabindex="-1">
-            <title>{segment.name}</title>
-          </path>
+        regions.map((region, i) => (
+          <li class="reveal">
+            <button
+              type="button"
+              data-region={i}
+              class="flex w-full items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
+            >
+              <span class="num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/20 font-display text-xs font-bold text-accent transition-colors">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="region-name text-sm font-semibold text-white/90">{region}</span>
+            </button>
+          </li>
         ))
       }
-    </svg>
-  </figure>
+    </ol>
+  </div>
 
-  <ol class="grid gap-2.5 sm:grid-cols-2">
-    {
-      regions.map((region, i) => (
-        <li class="reveal">
-          <button
-            type="button"
-            data-region={i}
-            class="flex w-full items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
-          >
-            <span class="num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/20 font-display text-xs font-bold text-accent transition-colors">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span class="text-sm font-semibold text-white/90">{region}</span>
-          </button>
-        </li>
-      ))
-    }
-  </ol>
+  <!-- Tourist places panel: hidden until a region is selected -->
+  <div id="places-panel" class="hidden rounded-3xl bg-white/5 p-6" aria-live="polite" aria-atomic="true">
+    <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
+    <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
+    <ul id="places-list" class="mt-4 flex list-none flex-wrap gap-2 p-0 m-0"></ul>
+  </div>
+
+  <p id="places-hint" class="text-center text-sm text-white/40">{t('coverage.placesHint')}</p>
 </div>
+
+<!-- Data for client-side JS -->
+<script type="application/json" id="places-data" is:inline set:text={JSON.stringify(regionPlaces)} />
 
 <style>
   figure svg path {
@@ -118,27 +120,63 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
     background: var(--color-sun);
     color: var(--color-ink);
   }
+  #places-panel {
+    transition: opacity 0.2s ease;
+  }
 </style>
 
 <script>
-  // Empareja cada región de la lista con su segmento del mapa:
-  // hover/foco ilumina de forma transitoria; clic fija la selección.
   const root = document.getElementById('coverage-map');
   if (root) {
     const paths = [...root.querySelectorAll<SVGPathElement>('path[data-region]')];
     const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[data-region]')];
     let selected = -1;
 
+    const panel = document.getElementById('places-panel') as HTMLElement | null;
+    const placesTitle = document.getElementById('places-title') as HTMLElement | null;
+    const placesList = document.getElementById('places-list') as HTMLElement | null;
+    const hint = document.getElementById('places-hint') as HTMLElement | null;
+    const placesData = JSON.parse(
+      (document.getElementById('places-data') as HTMLElement | null)?.textContent ?? '[]'
+    ) as string[][];
+
     const paint = (index: number, lit: boolean) => {
       paths[index]?.classList.toggle('is-lit', lit || index === selected);
       buttons[index]?.classList.toggle('is-lit', lit || index === selected);
+    };
+
+    const showPlaces = (index: number) => {
+      if (!panel || !placesTitle || !placesList) return;
+      panel.classList.remove('hidden');
+      hint?.classList.add('hidden');
+      placesTitle.textContent =
+        buttons[index]?.querySelector<HTMLElement>('.region-name')?.textContent ?? '';
+      placesList.innerHTML = (placesData[index] ?? [])
+        .map(
+          (place) =>
+            `<li><span class="inline-flex items-center gap-1.5 rounded-full bg-accent/20 px-3 py-1.5 text-sm font-semibold text-accent">` +
+            `<svg viewBox="0 0 24 24" class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+            `<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>` +
+            `${place}</span></li>`
+        )
+        .join('');
+    };
+
+    const hidePlaces = () => {
+      panel?.classList.add('hidden');
+      hint?.classList.remove('hidden');
     };
 
     const select = (index: number) => {
       const previous = selected;
       selected = selected === index ? -1 : index;
       if (previous >= 0) paint(previous, false);
-      if (selected >= 0) paint(selected, true);
+      if (selected >= 0) {
+        paint(selected, true);
+        showPlaces(selected);
+      } else {
+        hidePlaces();
+      }
     };
 
     buttons.forEach((button, i) => {
