@@ -21,7 +21,7 @@ export const INSTAGRAM_URL = 'https://www.instagram.com/wintransfer.chile';
 // formulario de reserva. Debe coincidir con una entrada de src/data/locations.ts
 export const BOOKING_AIRPORT = 'Aeropuerto Carriel Sur (CCP)';
 
-export const SITE_NAME = 'WinTransfer';
+export const SITE_NAME = 'Win Transfer';
 export const SITE_URL = 'https://wintransfer.cl';
 
 export const waLink = (text?: string) =>

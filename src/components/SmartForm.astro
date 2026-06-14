@@ -15,7 +15,7 @@ const t = useTranslations(lang);
 const paymentOptions = t<string[]>('form.paymentOptions');
 
 const inputClass =
-  'w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:border-action-bright focus:ring-2 focus:ring-accent/40 focus:outline-none';
+  'w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm text-ink transition-colors placeholder:text-ink/40 hover:border-primary/40 focus:border-action-bright focus:ring-2 focus:ring-accent/40 focus:outline-none';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 ---
 
@@ -32,6 +32,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   data-label-passengers={t('form.passengers')}
   data-label-luggage={t('form.luggage')}
   data-summary-empty={t('form.summaryEmpty')}
+  data-err-required={t('form.fieldRequired')}
 >
   <fieldset>
     <legend class="font-display text-lg font-bold text-primary">{t('form.title')}</legend>
@@ -204,6 +205,37 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   <p class="mt-3 text-center text-xs text-ink/50">{t('form.disclaimer')}</p>
 </form>
 
+<style>
+  /* Ícono nativo de calendario/reloj: más grande, color de marca y zona clicable clara */
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='time']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 2px;
+    border-radius: 0.4rem;
+    filter: invert(16%) sepia(83%) saturate(3164%) hue-rotate(217deg) brightness(91%) contrast(101%);
+    transition: background-color 0.15s ease;
+  }
+  input[type='date']::-webkit-calendar-picker-indicator:hover,
+  input[type='time']::-webkit-calendar-picker-indicator:hover {
+    background-color: rgb(0 57 174 / 0.12);
+  }
+  /* Texto de fecha/hora en el tono tinta de la marca */
+  input[type='date']::-webkit-datetime-edit,
+  input[type='time']::-webkit-datetime-edit {
+    color: var(--color-ink);
+  }
+
+  /* Campo con error (validación propia, en lugar del globo del navegador) */
+  .is-invalid {
+    border-color: rgb(220 38 38) !important;
+  }
+  .is-invalid:focus {
+    box-shadow: 0 0 0 2px rgb(220 38 38 / 0.25) !important;
+  }
+</style>
+
 <script>
   const form = document.getElementById('smart-form') as HTMLFormElement;
   const panels = form.querySelectorAll<HTMLFieldSetElement>('[data-panel]');
@@ -320,6 +352,16 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 
   // Prellenado desde la mini reserva del inicio (?trip=&origin=&destination=&date=&time=)
   const params = new URLSearchParams(window.location.search);
+  // Preselección del tipo de formulario (booking | agreement | jobs) desde la URL,
+  // p. ej. /contacto/?form=jobs abre directo "Trabaja con nosotros".
+  const formParam = params.get('form');
+  if (formParam) {
+    const typeRadio = form.querySelector<HTMLInputElement>(`input[name="form-type"][value="${formParam}"]`);
+    if (typeRadio) {
+      typeRadio.checked = true;
+      showPanel(formParam);
+    }
+  }
   const tripParam = params.get('trip');
   if (tripParam) {
     const tripRadio = form.querySelector<HTMLInputElement>(`input[name="trip-type"][value="${tripParam}"]`);
@@ -372,6 +414,52 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 
     const url = `https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
     window.open(url, '_blank', 'noopener');
+  });
+
+  // ---- Validación con mensajes propios (reemplaza el globo nativo del navegador) ----
+  const REQUIRED_MSG = form.dataset.errRequired ?? 'Completa este campo';
+
+  type FieldEl = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+  const showFieldError = (field: FieldEl, message: string) => {
+    field.classList.add('is-invalid');
+    field.setAttribute('aria-invalid', 'true');
+    const wrapper = field.parentElement;
+    if (!wrapper) return;
+    let msg = wrapper.querySelector<HTMLElement>('[data-error]');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.setAttribute('data-error', '');
+      msg.className = 'mt-1.5 text-xs font-semibold text-red-600';
+      wrapper.appendChild(msg);
+    }
+    msg.textContent = message;
+  };
+
+  const clearFieldError = (field: FieldEl) => {
+    field.classList.remove('is-invalid');
+    field.removeAttribute('aria-invalid');
+    field.parentElement?.querySelector('[data-error]')?.remove();
+  };
+
+  form.querySelectorAll<FieldEl>('input, textarea, select').forEach((field) => {
+    field.addEventListener('invalid', (event) => {
+      event.preventDefault(); // ocultar el globo nativo del navegador
+      showFieldError(field, field.validity.valueMissing ? REQUIRED_MSG : field.validationMessage);
+    });
+    field.addEventListener('input', () => clearFieldError(field));
+    field.addEventListener('change', () => clearFieldError(field));
+  });
+
+  // ---- Abrir el calendario/reloj al hacer clic en todo el campo ----
+  form.querySelectorAll<HTMLInputElement>('input[type="date"], input[type="time"]').forEach((field) => {
+    field.addEventListener('click', () => {
+      try {
+        (field as HTMLInputElement & { showPicker?: () => void }).showPicker?.();
+      } catch {
+        /* algunos navegadores requieren un gesto del usuario; el clic lo es */
+      }
+    });
   });
 </script>
 

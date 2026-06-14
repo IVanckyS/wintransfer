@@ -1,6 +1,6 @@
-# WinTransfer — Contexto para Claude Code
+# Win Transfer — Contexto para Claude Code
 
-Sitio web estático bilingüe (ES/EN) para WinTransfer, empresa chilena de transporte de pasajeros con 20 años de experiencia.
+Sitio web estático bilingüe (ES/EN) para Win Transfer, empresa chilena de transporte de pasajeros con 20 años de experiencia.
 
 ## Stack
 
@@ -82,7 +82,7 @@ localePath(lang, 'contact')    // → '/es/contacto/'
 - **Textos institucionales** — historia, misión, descripciones finales de servicios. Vienen de presentación corporativa.
 - **Términos y condiciones** — en revisión por abogado. No publicar hasta aprobación.
 - **Logos de partners** — uso autorizado pero sin archivos aún. Los nombres ya están en `partners[]` en los JSON.
-- **Dominio `wintransfer.cl`** — comprar en NIC Chile, luego agregar en Vercel > Domains.
+- **Dominio `wintransfer.cl`** — comprar en NIC Chile, luego agregar en Vercel > Domains. (Ojo: el nombre de marca es **Win Transfer**, dos palabras, pero el dominio es **wintransfer** todo junto.)
 
 ## Cómo hacer deploy
 
