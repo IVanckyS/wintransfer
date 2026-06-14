@@ -1,0 +1,279 @@
+---
+/**
+ * Sección "experiencia" estilo Blacklane — efecto baraja de cartas.
+ *
+ * - Desktop: las imágenes son cartas APILADAS y centradas. Al hacer scroll hacia
+ *   abajo, la carta superior se retira (se desliza hacia arriba) y revela la
+ *   siguiente, que sube desde el fondo de la baraja. Al subir, las cartas vuelven
+ *   a apilarse. La sección queda fija (sticky) mientras se reparten las cartas.
+ * - Móvil: carrusel horizontal con swipe; la siguiente tarjeta asoma para indicar
+ *   que hay más contenido.
+ * - prefers-reduced-motion: cae a una pila vertical simple, sin animación.
+ *
+ * Las fotos aún no llegan: cada carta muestra un placeholder. Para activar una
+ * imagen real, reemplaza el null por la ruta del archivo (déjalo en public/images/):
+ *   const images = ['/images/experiencia-1.jpg', '/images/experiencia-2.jpg', null];
+ */
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+interface Panel {
+  title: string;
+  text: string;
+}
+const panels = t<Panel[]>('home.experience.panels');
+
+// [PENDIENTE: fotos de experiencia] — reemplazar null por la ruta cuando lleguen.
+const images: (string | null)[] = [null, null, null];
+---
+
+<!-- Encabezado de la sección -->
+<section class="bg-white pt-16 md:pt-24">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <p class="reveal font-display text-xs font-bold tracking-[0.2em] text-accent uppercase">
+      {t('home.experience.eyebrow')}
+    </p>
+    <h2 class="reveal mt-3 max-w-2xl font-display text-3xl font-extrabold text-primary md:text-4xl">
+      {t('home.experience.title')}
+    </h2>
+    <p class="reveal mt-3 max-w-xl text-ink/70">{t('home.experience.intro')}</p>
+  </div>
+</section>
+
+<!-- Cartas: baraja apilada (desktop) / carrusel horizontal (móvil) -->
+<section
+  id="experience-section"
+  class="exp-section bg-white"
+  style={`--panels:${panels.length}`}
+>
+  <div class="exp-sticky">
+    <div id="experience-track" class="exp-track">
+      {
+        panels.map((panel, i) => (
+          <article class="exp-panel">
+            <div class="exp-image">
+              {images[i] ? (
+                <img src={images[i]} alt={panel.title} class="h-full w-full object-cover" />
+              ) : (
+                <div
+                  class="flex h-full w-full items-center justify-center border-2 border-dashed border-primary/30 bg-[repeating-linear-gradient(135deg,#f2f8fd,#f2f8fd_14px,#e3f0fb_14px,#e3f0fb_28px)] text-primary/70"
+                  role="img"
+                  aria-label={`[Imagen: ${panel.title}]`}
+                >
+                  <span class="px-4 text-center font-display text-sm font-semibold tracking-wide">
+                    [Imagen: {panel.title}]
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div class="exp-card">
+              <h3 class="font-display text-xl font-extrabold md:text-3xl">{panel.title}</h3>
+              <p class="mt-2 text-sm text-white/85 md:text-lg">{panel.text}</p>
+            </div>
+          </article>
+        ))
+      }
+      <div class="exp-spacer shrink-0" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== MÓVIL (base): carrusel horizontal con swipe ===== */
+  .exp-section {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+  }
+  .exp-sticky {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-inline: 1rem;
+  }
+  .exp-sticky::-webkit-scrollbar {
+    display: none;
+  }
+  .exp-track {
+    display: flex;
+    gap: 1rem;
+  }
+  .exp-panel {
+    position: relative;
+    flex: 0 0 82%;
+    height: 70vh;
+    max-height: 560px;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    scroll-snap-align: start;
+  }
+  .exp-spacer {
+    width: 0.5rem;
+  }
+
+  .exp-image {
+    position: absolute;
+    inset: 0;
+  }
+
+  .exp-card {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
+    color: #fff;
+    background: rgb(10 16 28 / 0.45);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  @media (min-width: 640px) {
+    .exp-panel {
+      flex-basis: 62%;
+    }
+  }
+
+  /* ===== DESKTOP: baraja de cartas apilada ===== */
+  @media (min-width: 1024px) {
+    .exp-section {
+      position: relative;
+      height: calc(var(--panels) * 100vh);
+      padding: 0;
+    }
+    .exp-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      scroll-snap-type: none;
+    }
+    .exp-track {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .exp-panel {
+      grid-area: 1 / 1; /* todas las cartas apiladas en el mismo lugar */
+      width: 90vw;
+      max-width: 1400px;
+      height: 74vh;
+      max-height: none;
+      border-radius: 1.5rem;
+      box-shadow: 0 30px 70px -25px rgb(10 37 64 / 0.55);
+      will-change: transform;
+    }
+    .exp-spacer {
+      display: none;
+    }
+    .exp-card {
+      left: 2.5rem;
+      right: auto;
+      bottom: 2.5rem;
+      max-width: 34rem;
+      padding: 2rem 2.25rem;
+      border-radius: 1.25rem;
+    }
+
+    /* Fallback sin movimiento: pila vertical normal */
+    .exp-section.is-static {
+      height: auto;
+    }
+    .exp-section.is-static .exp-sticky {
+      position: static;
+      height: auto;
+      overflow: visible;
+      display: block;
+    }
+    .exp-section.is-static .exp-track {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: auto;
+      height: auto;
+      padding: 0 1.5rem;
+    }
+    .exp-section.is-static .exp-panel {
+      grid-area: auto;
+      width: 100%;
+      height: 78vh;
+      box-shadow: none;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  const section = document.getElementById('experience-section');
+  const track = document.getElementById('experience-track');
+
+  if (section && track) {
+    const panels = [...track.querySelectorAll<HTMLElement>('.exp-panel')];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+    const smooth = (r: number) => r * r * (3 - 2 * r); // smoothstep
+    let ticking = false;
+
+    // Modo accesible: sin animación, pila vertical
+    if (reduce) section.classList.add('is-static');
+
+    const update = () => {
+      ticking = false;
+      const desktop = window.innerWidth >= 1024 && !reduce;
+
+      if (!desktop) {
+        for (const p of panels) {
+          p.style.transform = '';
+          p.style.zIndex = '';
+        }
+        return;
+      }
+
+      const vh = window.innerHeight;
+      const rect = section.getBoundingClientRect();
+      const scrollable = section.offsetHeight - vh;
+      const progress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 0;
+
+      // x = posición de la carta superior actual dentro de la baraja (0 .. n-1)
+      const segs = Math.max(panels.length - 1, 1);
+      const x = progress * segs;
+
+      panels.forEach((panel, i) => {
+        // Cuánto se ha "retirado" esta carta (1 = ya salió por arriba)
+        const e = smooth(clamp(x - i, 0, 1));
+        // Profundidad bajo la carta superior (0 = es la de arriba)
+        const d = clamp(i - x, 0, 3);
+
+        const leaveY = -e * vh; // se desliza hacia arriba y sale
+        const deckY = d * 0.022 * vh; // las de abajo quedan algo más abajo
+        const ty = leaveY + deckY;
+        const scale = 1 - d * 0.05; // las de abajo, algo más pequeñas
+
+        panel.style.transform = `translate3d(0, ${ty.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+        // La carta superior va encima; las de abajo, detrás
+        panel.style.zIndex = String(panels.length - i);
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+</script>

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
 import MiniBookingForm from '../../components/MiniBookingForm.astro';
+import ExperiencePanels from '../../components/ExperiencePanels.astro';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 import { waLink } from '../../config';
 
@@ -34,6 +35,35 @@ const trustIcons = [
   'M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z', // 24/7
   'M9 12l2 2 4-4m5.6 2a8.6 8.6 0 1 1-17.2 0 8.6 8.6 0 0 1 17.2 0Z', // check sello
 ];
+
+// Íconos por servicio (mismo orden que services.items: personal, ejecutivo,
+// eventos, aeropuerto, giras, especiales). Se usan como decoración en el
+// placeholder mientras no haya foto real.
+const serviceIcons: Record<string, string> = {
+  personal:
+    'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', // personas
+  ejecutivo:
+    'M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1M3 12h18', // maletín
+  eventos:
+    'M8 2v4M16 2v4M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM3 10h18', // calendario
+  aeropuerto:
+    'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z', // avión
+  giras:
+    'M5 17a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2M5 17h14M4 11h16M8 4v3M16 4v3M7 20v-3M17 20v-3M8 14h.01M16 14h.01', // bus
+  especiales:
+    'M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3z', // destello
+};
+
+// [PENDIENTE: fotos de servicios] — reemplazar null por la ruta cuando lleguen,
+// p. ej. personal: '/images/servicio-personal.jpg' (deja el archivo en public/images/).
+const serviceImages: Record<string, string | null> = {
+  personal: null,
+  ejecutivo: null,
+  eventos: null,
+  aeropuerto: null,
+  giras: null,
+  especiales: null,
+};
 ---
 
 <BaseLayout title={t('nav.home')}>
@@ -87,18 +117,57 @@ const trustIcons = [
 
       <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
-          services.map((service) => (
-            <a
-              href={`${localePath(lang, 'services')}#${service.id}`}
-              class="reveal group rounded-3xl border border-primary/10 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
-            >
-              <PlaceholderMedia label={service.mediaLabel} class="aspect-[16/9] rounded-2xl" />
-              <h3 class="mt-4 font-display text-lg font-bold text-primary group-hover:text-action-bright">
-                {service.title}
-              </h3>
-              <p class="mt-2 text-sm text-ink/70">{service.text}</p>
-            </a>
-          ))
+          services.map((service, i) => {
+            const photo = serviceImages[service.id];
+            return (
+              <a
+                href={`${localePath(lang, 'services')}#${service.id}`}
+                class="reveal group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-3xl shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/25"
+              >
+                {/* Fondo: foto real o degradado de marca con ícono */}
+                <div class="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                  {photo ? (
+                    <img src={photo} alt={service.title} class="h-full w-full object-cover" />
+                  ) : (
+                    <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary via-action to-ink">
+                      <svg
+                        viewBox="0 0 24 24"
+                        class="h-20 w-20 stroke-white/15"
+                        fill="none"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d={serviceIcons[service.id]} />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+
+                {/* Overlay para legibilidad del texto */}
+                <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+
+                {/* Número */}
+                <span class="absolute left-5 top-5 font-display text-sm font-bold text-white/70">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+
+                {/* Flecha (botón circular que se enciende al hover) */}
+                <span class="absolute right-5 top-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 group-hover:bg-accent group-hover:text-ink">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+
+                {/* Contenido */}
+                <div class="relative p-6">
+                  <h3 class="font-display text-xl font-bold text-white">{service.title}</h3>
+                  <p class="mt-2 text-sm text-white/80">{service.text}</p>
+                </div>
+              </a>
+            );
+          })
         }
       </div>
 
@@ -109,6 +178,9 @@ const trustIcons = [
       </div>
     </div>
   </section>
+
+  <!-- ====== EXPERIENCIA (paneles parallax / carrusel móvil) ====== -->
+  <ExperiencePanels />
 
   <!-- ====== FRANJA DE CONFIANZA ====== -->
   <section class="bg-primary py-16 md:py-20">

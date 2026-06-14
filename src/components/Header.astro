@@ -17,7 +17,10 @@ const currentPath = Astro.url.pathname;
 const isActive = (href: string) => currentPath === href;
 ---
 
-<header class="sticky top-0 z-40 border-b border-primary/10 bg-white/90 backdrop-blur-md">
+<header
+  id="site-header"
+  class="sticky top-0 z-40 border-b border-primary/10 bg-white/90 backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300"
+>
   <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 md:h-20 md:px-6">
     <a href={localePath(lang, 'home')} class="flex shrink-0 items-center" aria-label="WinTransfer — {t('nav.home')}">
       <!-- [PENDIENTE: logo oficial en alta calidad — se usa versión recortada del PNG actual] -->
@@ -122,4 +125,11 @@ const isActive = (href: string) => currentPath === href;
     const open = menu?.classList.toggle('hidden') === false;
     toggle.setAttribute('aria-expanded', String(open));
   });
+
+  // Header translúcido al hacer scroll (estilo Blacklane): sólido arriba,
+  // semitransparente con desenfoque al bajar.
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 </script>

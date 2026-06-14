@@ -39,17 +39,16 @@ const { title, description = t('site.description') } = Astro.props;
     <WhatsAppFloat />
 
     <script>
-      // Animación de entrada al hacer scroll para elementos .reveal
+      // Animación de entrada/salida al hacer scroll para elementos .reveal.
+      // Reversible (estilo Blacklane): se anima al entrar y al salir del viewport,
+      // tanto al bajar como al subir. Por eso NO usamos unobserve.
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
+            entry.target.classList.toggle('is-visible', entry.isIntersecting);
           }
         },
-        { threshold: 0.15 },
+        { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>

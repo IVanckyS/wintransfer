@@ -39,6 +39,15 @@ h4 {
   font-family: var(--font-display);
 }
 
+/* ---- Header translúcido al hacer scroll (estilo Blacklane) ---- */
+#site-header.is-scrolled {
+  background-color: rgb(255 255 255 / 0.7);
+  border-color: rgb(0 57 174 / 0.06);
+  box-shadow: 0 10px 30px -16px rgb(10 37 64 / 0.25);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
 /* ---- Animación de entrada al hacer scroll (IntersectionObserver) ---- */
 .reveal {
   opacity: 0;

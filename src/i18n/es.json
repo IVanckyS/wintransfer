@@ -60,15 +60,50 @@
     "partnersNote": "[PENDIENTE: logos de convenios — uso autorizado por el cliente, a la espera del material]",
     "finalCtaTitle": "¿Listo para llegar a tiempo?",
     "finalCtaText": "Cuéntanos qué necesitas y coordinamos tu traslado por WhatsApp.",
-    "finalCtaButton": "Reservar por WhatsApp"
+    "finalCtaButton": "Reservar por WhatsApp",
+    "experience": {
+      "eyebrow": "La experiencia WinTransfer",
+      "title": "Sube, relájate y déjanos el camino",
+      "intro": "Cuidamos cada detalle para que tu único trabajo sea llegar.",
+      "panels": [
+        {
+          "title": "Una bienvenida puntual",
+          "text": "Tu conductor llega antes que tú. Sin esperas, sin imprevistos."
+        },
+        {
+          "title": "Viaja con total comodidad",
+          "text": "Vehículos modernos y climatizados para que llegues descansado y a tiempo."
+        },
+        {
+          "title": "Cada detalle, coordinado",
+          "text": "Un equipo disponible 24/7 que ajusta tu traslado a lo que necesitas."
+        }
+      ]
+    }
   },
   "about": {
     "title": "Quiénes somos",
+    "eyebrow": "Empresa chilena de transporte de pasajeros",
     "intro": "Somos WinTransfer, una empresa chilena con 20 años de experiencia en el traslado de pasajeros. Trabajamos con empresas, instituciones, establecimientos educacionales y organizaciones que necesitan transporte seguro, puntual y flexible.",
     "historyTitle": "Nuestra historia",
-    "historyText": "[PENDIENTE: texto de historia entregado por el cliente]",
+    "historyText": "Desde hace 20 años movemos a Chile. Lo que partió como un servicio de traslado de pasajeros hoy es un equipo que acompaña cada día a empresas, instituciones y establecimientos educacionales en todo el país. Dos décadas nos enseñaron que un buen viaje no es solo llegar: es llegar seguro, a tiempo y bien atendido.",
     "missionTitle": "Nuestra misión",
-    "missionText": "[PENDIENTE: texto de misión entregado por el cliente]",
+    "missionText": "Hacer que cada traslado sea simple, seguro y puntual, con vehículos en condiciones, conductores profesionales y una coordinación directa que se adapta a cada necesidad — los 7 días de la semana, en las 16 regiones de Chile.",
+    "processTitle": "Cómo trabajamos",
+    "process": [
+      {
+        "title": "Cuéntanos tu necesidad",
+        "text": "Escríbenos por el formulario o WhatsApp con tu origen, destino, fecha y número de pasajeros."
+      },
+      {
+        "title": "Coordinamos tu traslado",
+        "text": "Te respondemos por WhatsApp, resolvemos tus dudas y confirmamos cada detalle a tu medida."
+      },
+      {
+        "title": "Viajas tranquilo",
+        "text": "Tu conductor llega puntual y te lleva seguro a destino. Tú solo te preocupas de llegar."
+      }
+    ],
     "attributesTitle": "Lo que nos define",
     "attributes": [
       {
@@ -102,6 +137,29 @@
     "coverageBadge": "Atención 24/7 · lunes a domingo",
     "coverageMapLabel": "Mapa de Chile con las regiones donde operamos",
     "mediaLabel": "[Imagen: equipo / operación WinTransfer]"
+  },
+  "legal": {
+    "linkLabel": "Términos y privacidad",
+    "title": "Términos y privacidad",
+    "draftNotice": "Borrador — pendiente de revisión legal. No es vinculante hasta su aprobación.",
+    "privacyTitle": "Privacidad y uso de datos",
+    "privacy": [
+      "WinTransfer es una empresa chilena de transporte de pasajeros. Este sitio es informativo: su objetivo es que conozcas nuestros servicios y puedas contactarnos.",
+      "Qué datos recogemos: solo los que tú nos entregas al contactarnos por el formulario o por WhatsApp — tu nombre, un medio de contacto (teléfono o correo) y los detalles de tu solicitud (origen, destino, fecha, número de pasajeros y tipo de servicio).",
+      "Cómo los recogemos: el sitio no almacena tus datos en servidores propios ni usa una base de datos. Al enviar el formulario se abre WhatsApp con un mensaje que tú decides enviar; la conversación queda en tu cuenta y en la nuestra.",
+      "Para qué los usamos: únicamente para responder tu consulta, cotizar y coordinar tu traslado. No los usamos con fines publicitarios ni para otros propósitos.",
+      "Con quién los compartimos: no vendemos ni cedemos tus datos a terceros. El contacto se realiza a través de WhatsApp (Meta Platforms), sujeto a las políticas de privacidad de ese servicio.",
+      "Cookies: este sitio no utiliza cookies de seguimiento ni publicitarias. Solo carga tipografías de Google (Google Fonts) para mostrar el contenido.",
+      "Tus derechos: puedes pedirnos que dejemos de contactarte o que eliminemos la información que compartiste, escribiendo a reservaswin@gmail.com."
+    ],
+    "termsTitle": "Términos de uso",
+    "terms": [
+      "El contenido de este sitio (textos, imágenes y servicios descritos) es de carácter informativo. La disponibilidad, condiciones y valores de cada servicio se confirman directamente al coordinar tu traslado.",
+      "Las reservas y solicitudes se gestionan por WhatsApp o los canales de contacto indicados. Este sitio no procesa pagos en línea.",
+      "Las políticas específicas de reserva, cancelación y responsabilidad se informarán al coordinar el servicio. [Pendiente de definición y revisión legal.]",
+      "WinTransfer podrá actualizar estos términos. Para cualquier consulta, escríbenos a reservaswin@gmail.com."
+    ],
+    "close": "Cerrar"
   },
   "services": {
     "title": "Nuestros servicios",

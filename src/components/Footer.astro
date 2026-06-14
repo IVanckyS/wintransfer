@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations, localePath } from '../i18n';
+import LegalModal from './LegalModal.astro';
 import {
   waLink,
   CONTACT_EMAIL,
@@ -73,7 +74,9 @@ const year = new Date().getFullYear();
   <div class="border-t border-white/10">
     <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/50 sm:flex-row md:px-6">
       <p>© {year} WinTransfer. {t('footer.rights')}</p>
-      <a href={localePath(lang, 'terms')} class="hover:text-accent">{t('footer.termsLink')}</a>
+      <button type="button" data-legal-open class="hover:text-accent">{t('legal.linkLabel')}</button>
     </div>
   </div>
+
+  <LegalModal />
 </footer>
