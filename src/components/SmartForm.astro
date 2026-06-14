@@ -376,9 +376,18 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 </script>
 
 <script>
-  // Autocompletado de ubicaciones en origen/destino (estilo Google Places,
-  // pero con dataset local sin costo — ver src/data/locations.ts).
+  // Autocompletado de ubicaciones en origen/destino.
+  // Fuente de sugerencias:
+  //   • Con PUBLIC_GOOGLE_MAPS_API_KEY definida → Google Places API (New): cualquier
+  //     dirección o lugar de Chile (incluye calle y número).
+  //   • Sin la variable (por defecto) → dataset local sin costo (src/data/locations.ts).
+  // Queda "listo pero apagado": activar = definir la variable (p. ej. en Vercel) con
+  // una API key que tenga habilitada "Places API (New)" y restringida por dominio.
   import { LOCATIONS } from '../data/locations';
+
+  type Suggestion = { name: string; region: string; type: 'airport' | 'city'; value?: string };
+
+  const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY as string | undefined;
 
   const ICONS = {
     airport:
@@ -393,6 +402,54 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       .normalize('NFD')
       .replace(COMBINING_MARKS, '');
 
+  // Fuente local (gratis, por defecto)
+  const searchLocal = (raw: string): Suggestion[] => {
+    const query = normalize(raw.trim());
+    if (query.length < 2) return [];
+    const starts = LOCATIONS.filter((location) => normalize(location.name).startsWith(query));
+    const contains = LOCATIONS.filter(
+      (location) =>
+        !starts.includes(location) &&
+        (normalize(location.name).includes(query) || normalize(location.region).includes(query)),
+    );
+    return [...starts, ...contains].slice(0, 8);
+  };
+
+  // Fuente Google Places API (New) — solo se usa si hay API key
+  const searchGoogle = async (raw: string): Promise<Suggestion[]> => {
+    if (raw.trim().length < 2) return [];
+    try {
+      const res = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': MAPS_KEY as string },
+        body: JSON.stringify({
+          input: raw,
+          includedRegionCodes: ['cl'],
+          languageCode: document.documentElement.lang || 'es',
+        }),
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return (data.suggestions ?? [])
+        .map((s: any): Suggestion | null => {
+          const p = s.placePrediction;
+          if (!p) return null;
+          return {
+            name: p.structuredFormat?.mainText?.text ?? p.text?.text ?? '',
+            region: p.structuredFormat?.secondaryText?.text ?? '',
+            type: 'city',
+            value: p.text?.text ?? '',
+          };
+        })
+        .filter((x: Suggestion | null): x is Suggestion => !!x && x.name.length > 0)
+        .slice(0, 8);
+    } catch {
+      return [];
+    }
+  };
+
+  const search = MAPS_KEY ? searchGoogle : searchLocal;
+
   document.querySelectorAll<HTMLInputElement>('input[data-autocomplete]').forEach((input) => {
     const wrapper = input.parentElement as HTMLElement;
     const list = document.createElement('ul');
@@ -401,8 +458,10 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     list.setAttribute('role', 'listbox');
     wrapper.appendChild(list);
 
-    let matches: typeof LOCATIONS = [];
+    let matches: Suggestion[] = [];
     let active = -1;
+    let requestId = 0;
+    let debounce: number | undefined;
 
     const close = () => {
       list.classList.add('hidden');
@@ -414,7 +473,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     const select = (index: number) => {
       const location = matches[index];
       if (!location) return;
-      input.value = location.name;
+      input.value = location.value ?? location.name;
       close();
     };
 
@@ -443,18 +502,21 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       list.classList.remove('hidden');
     };
 
+    const runSearch = () => {
+      const id = ++requestId;
+      Promise.resolve(search(input.value)).then((results) => {
+        if (id !== requestId) return; // descartar respuestas que llegaron tarde
+        matches = results;
+        active = -1;
+        render();
+      });
+    };
+
     input.addEventListener('input', () => {
-      const query = normalize(input.value.trim());
-      if (query.length < 2) return close();
-      const starts = LOCATIONS.filter((location) => normalize(location.name).startsWith(query));
-      const contains = LOCATIONS.filter(
-        (location) =>
-          !starts.includes(location) &&
-          (normalize(location.name).includes(query) || normalize(location.region).includes(query)),
-      );
-      matches = [...starts, ...contains].slice(0, 8);
-      active = -1;
-      render();
+      if (input.value.trim().length < 2) return close();
+      window.clearTimeout(debounce);
+      // sin key: instantáneo; con key (consulta de red): pequeño debounce
+      debounce = window.setTimeout(runSearch, MAPS_KEY ? 200 : 0);
     });
 
     input.addEventListener('keydown', (event) => {

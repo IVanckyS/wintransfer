@@ -38,20 +38,11 @@ const segments = REGION_IDS.map((id, i) => ({ name: regions[i], d: pathsById.get
 
 // Continental Chile only — crop out Pacific islands
 const VIEWBOX = '476 -3 140 715';
-
-const dots = Array.from({ length: 24 }, (_, i) => ({
-  cx: 8 + (i % 6) * 13,
-  cy: 6 + Math.floor(i / 6) * 13,
-  r: 2.4 - Math.floor(i / 6) * 0.4,
-}));
 ---
 
 <div class="space-y-6">
   <div id="coverage-map" class="grid items-center gap-10 lg:grid-cols-[minmax(0,300px)_1fr]">
     <figure class="relative mx-auto w-fit">
-      <svg viewBox="0 0 80 48" class="absolute -top-4 -right-12 h-12 w-20 fill-sun/70" aria-hidden="true">
-        {dots.map((dot) => <circle cx={dot.cx} cy={dot.cy} r={dot.r} />)}
-      </svg>
       <svg viewBox={VIEWBOX} class="h-[420px] w-auto md:h-[500px]" role="img" aria-label={t('about.coverageMapLabel')}>
         {
           segments.map((segment, i) => (
@@ -84,8 +75,8 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
   </div>
 
   <!-- Tourist places panel: hidden until a region is selected -->
-  <div id="places-panel" class="hidden overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
-    <img id="places-photo" class="hidden h-52 w-full object-cover md:h-64" alt="" />
+  <div id="places-panel" class="hidden scroll-mt-28 overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
+    <img id="places-photo" class="hidden h-52 w-full object-cover md:h-64 lg:h-[520px]" alt="" />
     <div class="p-6">
       <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
       <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
@@ -182,6 +173,8 @@ const dots = Array.from({ length: 24 }, (_, i) => ({
             `${place}</span></li>`
         )
         .join('');
+
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const hidePlaces = () => {

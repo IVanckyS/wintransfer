@@ -1,0 +1,91 @@
+---
+/**
+ * Popup (modal) de Términos y privacidad.
+ *
+ * BORRADOR: el contenido legal se redactó a partir de lo que el sitio realmente
+ * hace (formulario → WhatsApp, sin pagos ni base de datos). Está marcado como
+ * "borrador pendiente de revisión legal" y NO debe considerarse definitivo hasta
+ * que el abogado del cliente lo apruebe (ver CLAUDE.md > Pendientes).
+ *
+ * Se abre con cualquier elemento que tenga el atributo `data-legal-open`.
+ */
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const privacy = t<string[]>('legal.privacy');
+const terms = t<string[]>('legal.terms');
+---
+
+<dialog id="legal-modal" class="legal-modal w-[min(92vw,42rem)] rounded-3xl bg-white p-0 shadow-2xl" aria-labelledby="legal-modal-title">
+  <div class="flex max-h-[85vh] flex-col">
+    <div class="flex items-start justify-between gap-4 border-b border-primary/10 px-6 py-5">
+      <h2 id="legal-modal-title" class="font-display text-xl font-extrabold text-primary">{t('legal.title')}</h2>
+      <button
+        type="button"
+        data-legal-close
+        class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/50 transition-colors hover:bg-mist hover:text-primary"
+        aria-label={t('legal.close')}
+      >
+        <svg viewBox="0 0 24 24" class="h-5 w-5 stroke-current" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+
+    <div class="overflow-y-auto px-6 py-6">
+      <p class="mb-6 rounded-xl border border-sun/40 bg-sun/15 px-4 py-3 text-sm font-semibold text-ink/80">
+        {t('legal.draftNotice')}
+      </p>
+
+      <h3 class="font-display text-base font-bold text-primary">{t('legal.privacyTitle')}</h3>
+      <div class="mt-3 space-y-3 text-sm leading-relaxed text-ink/70">
+        {privacy.map((p) => <p>{p}</p>)}
+      </div>
+
+      <h3 class="mt-8 font-display text-base font-bold text-primary">{t('legal.termsTitle')}</h3>
+      <div class="mt-3 space-y-3 text-sm leading-relaxed text-ink/70">
+        {terms.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+
+    <div class="border-t border-primary/10 px-6 py-4 text-right">
+      <button
+        type="button"
+        data-legal-close
+        class="rounded-full bg-primary px-6 py-2.5 font-display text-sm font-bold text-white transition-colors hover:bg-action"
+      >
+        {t('legal.close')}
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .legal-modal {
+    border: none;
+    margin: auto;
+  }
+  .legal-modal::backdrop {
+    background: rgb(10 16 28 / 0.6);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+</style>
+
+<script>
+  const modal = document.getElementById('legal-modal') as HTMLDialogElement | null;
+  if (modal) {
+    document.querySelectorAll('[data-legal-open]').forEach((btn) =>
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.showModal();
+      })
+    );
+    modal.querySelectorAll('[data-legal-close]').forEach((btn) =>
+      btn.addEventListener('click', () => modal.close())
+    );
+    // Cerrar al hacer clic en el fondo (backdrop)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.close();
+    });
+  }
+</script>

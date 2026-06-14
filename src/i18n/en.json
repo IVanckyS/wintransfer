@@ -60,15 +60,50 @@
     "partnersNote": "[PENDING: partner logos — use authorized by the client, awaiting files]",
     "finalCtaTitle": "Ready to arrive on time?",
     "finalCtaText": "Tell us what you need and we'll coordinate your transfer on WhatsApp.",
-    "finalCtaButton": "Book via WhatsApp"
+    "finalCtaButton": "Book via WhatsApp",
+    "experience": {
+      "eyebrow": "The WinTransfer experience",
+      "title": "Get in, relax, and leave the road to us",
+      "intro": "We take care of every detail so your only job is to arrive.",
+      "panels": [
+        {
+          "title": "A punctual welcome",
+          "text": "Your driver arrives before you do. No waiting, no surprises."
+        },
+        {
+          "title": "Travel in full comfort",
+          "text": "Modern, climate-controlled vehicles so you arrive rested and on time."
+        },
+        {
+          "title": "Every detail, coordinated",
+          "text": "A team available 24/7 that tailors your transfer to what you need."
+        }
+      ]
+    }
   },
   "about": {
     "title": "About us",
+    "eyebrow": "Chilean passenger transport company",
     "intro": "We are WinTransfer, a Chilean company with 20 years of experience in passenger transport. We work with companies, institutions, schools and organizations that need safe, punctual and flexible transport.",
     "historyTitle": "Our history",
-    "historyText": "[PENDING: history text provided by the client]",
+    "historyText": "For 20 years we've kept Chile moving. What began as a passenger transfer service is today a team that accompanies companies, institutions and schools across the country every day. Two decades taught us that a good trip isn't just about arriving: it's about arriving safely, on time and well taken care of.",
     "missionTitle": "Our mission",
-    "missionText": "[PENDING: mission text provided by the client]",
+    "missionText": "To make every transfer simple, safe and punctual — with well-kept vehicles, professional drivers and direct coordination that adapts to each need, 7 days a week, across all 16 regions of Chile.",
+    "processTitle": "How we work",
+    "process": [
+      {
+        "title": "Tell us what you need",
+        "text": "Write to us via the form or WhatsApp with your origin, destination, date and number of passengers."
+      },
+      {
+        "title": "We coordinate your transfer",
+        "text": "We reply on WhatsApp, answer your questions and confirm every detail to fit your needs."
+      },
+      {
+        "title": "Travel with peace of mind",
+        "text": "Your driver arrives on time and takes you safely to your destination. All you do is arrive."
+      }
+    ],
     "attributesTitle": "What defines us",
     "attributes": [
       {
@@ -102,6 +137,29 @@
     "coverageMapLabel": "Map of Chile with the regions where we operate",
     "coverageBadge": "24/7 service · Monday to Sunday",
     "mediaLabel": "[Image: WinTransfer team / operations]"
+  },
+  "legal": {
+    "linkLabel": "Terms & privacy",
+    "title": "Terms & privacy",
+    "draftNotice": "Draft — pending legal review. Not binding until approved.",
+    "privacyTitle": "Privacy & data use",
+    "privacy": [
+      "WinTransfer is a Chilean passenger transport company. This website is informational: its purpose is to let you learn about our services and get in touch.",
+      "What data we collect: only what you provide when contacting us through the form or WhatsApp — your name, a contact method (phone or email) and the details of your request (origin, destination, date, number of passengers and type of service).",
+      "How we collect it: this site does not store your data on its own servers or use a database. When you submit the form, WhatsApp opens with a message you choose to send; the conversation stays in your account and ours.",
+      "What we use it for: only to answer your inquiry, quote and coordinate your transfer. We do not use it for advertising or any other purpose.",
+      "Who we share it with: we do not sell or transfer your data to third parties. Contact takes place through WhatsApp (Meta Platforms), subject to that service's privacy policies.",
+      "Cookies: this site does not use tracking or advertising cookies. It only loads Google Fonts to display its content.",
+      "Your rights: you can ask us to stop contacting you or to delete the information you shared by writing to reservaswin@gmail.com."
+    ],
+    "termsTitle": "Terms of use",
+    "terms": [
+      "The content of this site (text, images and described services) is informational. The availability, conditions and prices of each service are confirmed directly when coordinating your transfer.",
+      "Bookings and requests are handled via WhatsApp or the contact channels shown. This site does not process online payments.",
+      "Specific booking, cancellation and liability policies will be provided when coordinating the service. [Pending definition and legal review.]",
+      "WinTransfer may update these terms. For any questions, write to us at reservaswin@gmail.com."
+    ],
+    "close": "Close"
   },
   "services": {
     "title": "Our services",
