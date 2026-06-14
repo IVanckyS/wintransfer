@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 
 export function getStaticPaths() {
@@ -80,18 +79,42 @@ const attributeIcons = [
     </div>
   </section>
 
-  <!-- Historia + misión -->
-  <section class="bg-white py-16 md:py-24">
-    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 md:px-6 lg:grid-cols-2">
-      <PlaceholderMedia label={t('about.mediaLabel')} class="reveal aspect-[4/3] rounded-3xl" />
-      <div class="space-y-8">
-        <div class="reveal">
-          <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('about.historyTitle')}</h2>
-          <p class="mt-4 text-lg leading-relaxed text-ink/70">{t('about.historyText')}</p>
+  <!-- Historia + Misión / Visión -->
+  <section class="overflow-x-hidden bg-white py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 md:px-6 lg:grid-cols-2 lg:items-start">
+      <!-- Historia -->
+      <div class="reveal reveal-left">
+        <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('about.historyTitle')}</h2>
+        <p class="mt-4 text-lg leading-relaxed text-ink/70">{t('about.historyText')}</p>
+      </div>
+
+      <!-- Misión y Visión -->
+      <div class="reveal reveal-right space-y-8 rounded-3xl bg-mist p-8 md:p-10">
+        <div class="flex gap-4">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/10">
+            <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-accent" fill="none" stroke-width="1.8" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="5" />
+              <circle cx="12" cy="12" r="1.5" />
+            </svg>
+          </span>
+          <div>
+            <h3 class="font-display text-lg font-bold text-primary">{t('about.missionTitle')}</h3>
+            <p class="mt-1.5 leading-relaxed text-ink/70">{t('about.missionText')}</p>
+          </div>
         </div>
-        <div class="reveal rounded-2xl border-l-4 border-accent bg-mist p-6">
-          <p class="font-display text-xs font-bold tracking-[0.15em] text-accent uppercase">{t('about.missionTitle')}</p>
-          <p class="mt-2 text-lg font-medium leading-relaxed text-ink/80">{t('about.missionText')}</p>
+
+        <div class="flex gap-4">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/10">
+            <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-accent" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </span>
+          <div>
+            <h3 class="font-display text-lg font-bold text-primary">{t('about.visionTitle')}</h3>
+            <p class="mt-1.5 leading-relaxed text-ink/70">{t('about.visionText')}</p>
+          </div>
         </div>
       </div>
     </div>

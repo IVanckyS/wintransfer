@@ -30,27 +30,37 @@ const services = t<ServiceItem[]>('services.items');
 
   <!-- Bloques alternados imagen + texto + botón -->
   <section class="bg-white py-16 md:py-24">
-    <div class="mx-auto max-w-6xl space-y-16 px-4 md:px-6 md:space-y-20">
+    <div class="mx-auto max-w-6xl space-y-16 overflow-x-hidden px-4 md:px-6 md:space-y-20">
       {
-        services.map((service, i) => (
-          <article
-            id={service.id}
-            class:list={['reveal grid scroll-mt-24 items-center gap-8 lg:grid-cols-2', i % 2 === 1 && 'lg:[&>*:first-child]:order-2']}
-          >
-            <PlaceholderMedia label={service.mediaLabel} class="aspect-[16/10] rounded-3xl" />
-            <div>
-              <span class="font-display text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
-              <h2 class="mt-2 font-display text-2xl font-extrabold text-primary md:text-3xl">{service.title}</h2>
-              <p class="mt-4 text-ink/70">{service.text}</p>
-              <a
-                href={localePath(lang, 'contact')}
-                class="mt-6 inline-block rounded-full bg-action px-6 py-3 font-display text-sm font-bold text-white transition-colors hover:bg-action-bright"
-              >
-                {t('services.ctaCard')}
-              </a>
-            </div>
-          </article>
-        ))
+        services.map((service, i) => {
+          // La imagen entra desde un lado y el texto desde el opuesto, siguiendo
+          // la alternancia visual de la página. Reversible vía el observer .reveal.
+          const fromLeft = i % 2 === 0;
+          const mediaReveal = fromLeft ? 'reveal-left' : 'reveal-right';
+          const textReveal = fromLeft ? 'reveal-right' : 'reveal-left';
+          return (
+            <article
+              id={service.id}
+              class:list={['grid scroll-mt-24 items-center gap-8 lg:grid-cols-2', i % 2 === 1 && 'lg:[&>*:first-child]:order-2']}
+            >
+              <PlaceholderMedia label={service.mediaLabel} class={`reveal ${mediaReveal} aspect-[16/10] rounded-3xl`} />
+              <div class:list={['reveal', textReveal]}>
+                <span class="font-display text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
+                <h2 class="mt-2 font-display text-2xl font-extrabold text-primary md:text-3xl">{service.title}</h2>
+                <p class="mt-4 text-ink/70">{service.text}</p>
+                <a
+                  href={localePath(lang, 'contact')}
+                  class="group mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-action-bright transition-colors hover:text-primary"
+                >
+                  {t('services.ctaCard')}
+                  <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+            </article>
+          );
+        })
       }
     </div>
   </section>

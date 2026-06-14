@@ -1,6 +1,6 @@
-# WinTransfer — Sitio web
+# Win Transfer — Sitio web
 
-Sitio estático bilingüe (ES/EN) para WinTransfer, empresa chilena de transporte de pasajeros.
+Sitio estático bilingüe (ES/EN) para Win Transfer, empresa chilena de transporte de pasajeros.
 Construido con **Astro 5 + Tailwind CSS 4**. Sin backend ni base de datos.
 
 ## Cómo correr el proyecto

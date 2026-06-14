@@ -1,8 +1,8 @@
 {
   "site": {
-    "name": "WinTransfer",
+    "name": "Win Transfer",
     "slogan": "Llegar a tiempo también es ganar",
-    "description": "WinTransfer — transporte de pasajeros para empresas e instituciones. Transfer de aeropuerto, traslado de personal y servicios corporativos en todo Chile, 24/7."
+    "description": "Win Transfer — transporte de pasajeros para empresas e instituciones. Transfer de aeropuerto, traslado de personal y servicios corporativos en todo Chile, 24/7."
   },
   "nav": {
     "home": "Inicio",
@@ -37,7 +37,7 @@
     "servicesTitle": "Soluciones de transporte para tu organización",
     "servicesIntro": "Seis líneas de servicio pensadas para empresas, instituciones y establecimientos educacionales.",
     "servicesCta": "Ver todos los servicios",
-    "trustTitle": "Por qué elegir WinTransfer",
+    "trustTitle": "Por qué elegir Win Transfer",
     "trust": [
       {
         "title": "20 años de experiencia",
@@ -62,7 +62,7 @@
     "finalCtaText": "Cuéntanos qué necesitas y coordinamos tu traslado por WhatsApp.",
     "finalCtaButton": "Reservar por WhatsApp",
     "experience": {
-      "eyebrow": "La experiencia WinTransfer",
+      "eyebrow": "La experiencia Win Transfer",
       "title": "Sube, relájate y déjanos el camino",
       "intro": "Cuidamos cada detalle para que tu único trabajo sea llegar.",
       "panels": [
@@ -84,11 +84,13 @@
   "about": {
     "title": "Quiénes somos",
     "eyebrow": "Empresa chilena de transporte de pasajeros",
-    "intro": "Somos WinTransfer, una empresa chilena con 20 años de experiencia en el traslado de pasajeros. Trabajamos con empresas, instituciones, establecimientos educacionales y organizaciones que necesitan transporte seguro, puntual y flexible.",
+    "intro": "Win Transfer es una empresa especializada en transporte de pasajeros, enfocada en entregar un servicio seguro, puntual y profesional para empresas, instituciones, establecimientos educacionales y organizaciones, además de traslados particulares.",
     "historyTitle": "Nuestra historia",
-    "historyText": "Desde hace 20 años movemos a Chile. Lo que partió como un servicio de traslado de pasajeros hoy es un equipo que acompaña cada día a empresas, instituciones y establecimientos educacionales en todo el país. Dos décadas nos enseñaron que un buen viaje no es solo llegar: es llegar seguro, a tiempo y bien atendido.",
+    "historyText": "Contamos con 20 años de experiencia en el traslado de pasajeros y operamos en todo Chile, los 7 días de la semana, las 24 horas. Atendemos a empresas dentro y fuera de la Región del Biobío, traslados personales fijos y viajes diarios al Aeropuerto Carriel Sur, siempre con un servicio seguro, puntual y profesional.",
     "missionTitle": "Nuestra misión",
-    "missionText": "Hacer que cada traslado sea simple, seguro y puntual, con vehículos en condiciones, conductores profesionales y una coordinación directa que se adapta a cada necesidad — los 7 días de la semana, en las 16 regiones de Chile.",
+    "missionText": "Brindar un transporte de pasajeros seguro, puntual y cercano a empresas, instituciones y personas en todo Chile, con conductores profesionales y una coordinación directa que se adapta a cada necesidad.",
+    "visionTitle": "Nuestra visión",
+    "visionText": "Ser la empresa de transporte de pasajeros de confianza en Chile, reconocida por la seguridad, la puntualidad y la calidad de cada viaje.",
     "processTitle": "Cómo trabajamos",
     "process": [
       {
@@ -136,7 +138,7 @@
     "coverageCta": "Ver mapa de cobertura →",
     "coverageBadge": "Atención 24/7 · lunes a domingo",
     "coverageMapLabel": "Mapa de Chile con las regiones donde operamos",
-    "mediaLabel": "[Imagen: equipo / operación WinTransfer]"
+    "mediaLabel": "[Imagen: equipo / operación Win Transfer]"
   },
   "legal": {
     "linkLabel": "Términos y privacidad",
@@ -144,7 +146,7 @@
     "draftNotice": "Borrador — pendiente de revisión legal. No es vinculante hasta su aprobación.",
     "privacyTitle": "Privacidad y uso de datos",
     "privacy": [
-      "WinTransfer es una empresa chilena de transporte de pasajeros. Este sitio es informativo: su objetivo es que conozcas nuestros servicios y puedas contactarnos.",
+      "Win Transfer es una empresa chilena de transporte de pasajeros. Este sitio es informativo: su objetivo es que conozcas nuestros servicios y puedas contactarnos.",
       "Qué datos recogemos: solo los que tú nos entregas al contactarnos por el formulario o por WhatsApp — tu nombre, un medio de contacto (teléfono o correo) y los detalles de tu solicitud (origen, destino, fecha, número de pasajeros y tipo de servicio).",
       "Cómo los recogemos: el sitio no almacena tus datos en servidores propios ni usa una base de datos. Al enviar el formulario se abre WhatsApp con un mensaje que tú decides enviar; la conversación queda en tu cuenta y en la nuestra.",
       "Para qué los usamos: únicamente para responder tu consulta, cotizar y coordinar tu traslado. No los usamos con fines publicitarios ni para otros propósitos.",
@@ -157,14 +159,14 @@
       "El contenido de este sitio (textos, imágenes y servicios descritos) es de carácter informativo. La disponibilidad, condiciones y valores de cada servicio se confirman directamente al coordinar tu traslado.",
       "Las reservas y solicitudes se gestionan por WhatsApp o los canales de contacto indicados. Este sitio no procesa pagos en línea.",
       "Las políticas específicas de reserva, cancelación y responsabilidad se informarán al coordinar el servicio. [Pendiente de definición y revisión legal.]",
-      "WinTransfer podrá actualizar estos términos. Para cualquier consulta, escríbenos a reservaswin@gmail.com."
+      "Win Transfer podrá actualizar estos términos. Para cualquier consulta, escríbenos a reservaswin@gmail.com."
     ],
     "close": "Cerrar"
   },
   "services": {
     "title": "Nuestros servicios",
     "intro": "Transporte de pasajeros para el mundo corporativo e institucional. Todos nuestros servicios se coordinan de forma directa y se adaptan a tu operación.",
-    "ctaCard": "Consultar / Reservar",
+    "ctaCard": "Cotizar este servicio",
     "items": [
       {
         "id": "personal",
@@ -208,9 +210,9 @@
   },
   "agreement": {
     "title": "Únete a convenio",
-    "intro": "El convenio corporativo WinTransfer entrega a tu empresa transporte confiable con condiciones preferentes y coordinación directa, sin intermediarios.",
+    "intro": "El convenio corporativo Win Transfer entrega a tu empresa transporte confiable con condiciones preferentes y coordinación directa, sin intermediarios.",
     "whatTitle": "¿Qué es el convenio?",
-    "whatText": "Es un acuerdo de servicio permanente entre tu organización y WinTransfer: tu equipo solicita traslados cuando los necesita y nosotros respondemos con prioridad, tarifas preferenciales y facturación formal.",
+    "whatText": "Es un acuerdo de servicio permanente entre tu organización y Win Transfer: tu equipo solicita traslados cuando los necesita y nosotros respondemos con prioridad, tarifas preferenciales y facturación formal.",
     "benefitsTitle": "Beneficios del convenio",
     "benefits": [
       "Tarifas preferenciales",
@@ -239,14 +241,11 @@
         "text": "Realizamos el servicio con puntualidad y seguridad."
       }
     ],
-    "paymentTitle": "Formas de pago",
-    "paymentText": "El pago se coordina directamente con nuestro equipo una vez confirmado el servicio. No se realizan cobros en línea a través de este sitio.",
-    "paymentMethods": [
-      "Transferencia bancaria",
-      "Webpay",
-      "Facturación para empresas con convenio"
-    ],
-    "paymentNote": "[PENDIENTE: confirmar medios de pago definitivos con el cliente]",
+    "partnersTitle": "Con quién trabajamos",
+    "partnersText": "Empresas, instituciones y organizaciones de distintos rubros ya confían en Win Transfer.",
+    "driverTitle": "¿Quieres ser conductor?",
+    "driverText": "Súmate a nuestro equipo. Si tienes experiencia en el transporte de pasajeros y compromiso con la puntualidad y la seguridad, queremos conocerte.",
+    "driverCta": "Trabaja con nosotros",
     "ctaTitle": "¿Tu empresa necesita transporte permanente?",
     "ctaText": "Escríbenos y conversemos sobre un convenio a la medida.",
     "ctaButton": "Solicitar convenio"
@@ -310,6 +309,7 @@
     "namePlaceholder": "Tu nombre",
     "passengerName": "Nombre del pasajero",
     "contactPhone": "Teléfono de contacto",
+    "fieldRequired": "Completa este campo",
     "payment": "Forma de pago",
     "paymentPlaceholder": "Selecciona una opción",
     "paymentOptions": ["Transferencia bancaria", "Webpay", "Facturación empresa (convenio)"],

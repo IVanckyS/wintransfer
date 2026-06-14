@@ -15,7 +15,13 @@ interface ProcessStep {
 }
 const benefits = t<string[]>('agreement.benefits');
 const process = t<ProcessStep[]>('agreement.process');
-const paymentMethods = t<string[]>('agreement.paymentMethods');
+const partners = t<string[]>('partners');
+
+// [PENDIENTE: logos de partners] — null muestra el nombre como placeholder. Para
+// activar un logo, pon la ruta del archivo (déjalo en public/images/partners/), p. ej.:
+//   const partnerLogos = ['/images/partners/oxiquim.png', null, ...];
+// El orden debe coincidir con el array "partners" del i18n.
+const partnerLogos: (string | null)[] = [null, null, null, null, null, null];
 ---
 
 <BaseLayout title={t('agreement.title')}>
@@ -74,20 +80,39 @@ const paymentMethods = t<string[]>('agreement.paymentMethods');
     </div>
   </section>
 
-  <!-- Formas de pago (informativo, sin cobro en línea) -->
+  <!-- Con quién trabajamos (logos de partners) -->
   <section class="bg-white py-16 md:py-24">
     <div class="mx-auto max-w-6xl px-4 md:px-6">
-      <div class="reveal rounded-3xl bg-ink p-8 md:p-12">
-        <h2 class="font-display text-2xl font-extrabold text-white md:text-3xl">{t('agreement.paymentTitle')}</h2>
-        <p class="mt-4 max-w-2xl text-white/80">{t('agreement.paymentText')}</p>
-        <ul class="mt-6 flex flex-wrap gap-3">
-          {
-            paymentMethods.map((method) => (
-              <li class="rounded-full border border-accent/40 px-5 py-2 text-sm font-semibold text-accent">{method}</li>
-            ))
-          }
-        </ul>
-        <p class="mt-4 text-xs text-white/40">{t('agreement.paymentNote')}</p>
+      <h2 class="reveal font-display text-3xl font-extrabold text-primary md:text-4xl">{t('agreement.partnersTitle')}</h2>
+      <p class="reveal mt-3 max-w-2xl text-ink/70">{t('agreement.partnersText')}</p>
+      <ul class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {
+          partners.map((partner, i) => (
+            <li class="reveal flex h-28 items-center justify-center rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+              {partnerLogos[i] ? (
+                <img src={partnerLogos[i]} alt={partner} class="max-h-14 w-auto object-contain" />
+              ) : (
+                <span class="text-center font-display text-base font-bold text-primary/70">{partner}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ¿Quieres ser conductor? → formulario "Trabaja con nosotros" -->
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <div class="reveal overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-ink p-8 text-center md:p-12">
+        <h2 class="font-display text-2xl font-extrabold text-white md:text-3xl">{t('agreement.driverTitle')}</h2>
+        <p class="mx-auto mt-3 max-w-2xl text-white/80">{t('agreement.driverText')}</p>
+        <a
+          href={`${localePath(lang, 'contact')}?form=jobs#smart-form`}
+          class="mt-7 inline-flex items-center gap-2 rounded-full bg-sun px-7 py-3.5 font-display font-bold text-ink transition hover:bg-sun/85"
+        >
+          {t('agreement.driverCta')}
+        </a>
       </div>
     </div>
   </section>

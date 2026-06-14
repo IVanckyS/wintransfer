@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /*
-  Tokens de diseño WinTransfer.
+  Tokens de diseño Win Transfer.
   Colores oficiales de marca confirmados por el cliente:
   azul corporativo #0039AE y amarillo corporativo #F3BF19.
   Regla de uso: el azul primario domina, el cyan ilumina,
@@ -62,8 +62,22 @@ h4 {
   transform: translateY(0);
 }
 
+/* Variantes direccionales: deslizan desde los lados (página de servicios) */
+.reveal.reveal-left {
+  transform: translateX(-48px);
+}
+.reveal.reveal-right {
+  transform: translateX(48px);
+}
+.reveal.reveal-left.is-visible,
+.reveal.reveal-right.is-visible {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .reveal.reveal-left,
+  .reveal.reveal-right {
     opacity: 1;
     transform: none;
     transition: none;
