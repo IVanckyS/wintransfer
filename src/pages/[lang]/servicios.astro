@@ -45,7 +45,7 @@ const services = t<ServiceItem[]>('services.items');
             >
               <PlaceholderMedia label={service.mediaLabel} class={`reveal ${mediaReveal} aspect-[16/10] rounded-3xl`} />
               <div class:list={['reveal', textReveal]}>
-                <span class="font-display text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
+                <span class="font-display text-sm font-bold text-action">{String(i + 1).padStart(2, '0')}</span>
                 <h2 class="mt-2 font-display text-2xl font-extrabold text-primary md:text-3xl">{service.title}</h2>
                 <p class="mt-4 text-ink/70">{service.text}</p>
                 <a

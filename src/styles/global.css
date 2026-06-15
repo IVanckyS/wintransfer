@@ -11,7 +11,7 @@
   --color-primary: #0039ae; /* azul corporativo oficial: header, titulares, secciones */
   --color-ink: #0a2540; /* azul tinta: textos largos y fondos oscuros */
   --color-action: #0b5cad; /* azul medio: botones */
-  --color-action-bright: #1e84e5; /* azul medio claro: botones / interactivo */
+  --color-action-bright: #1a73d1; /* azul medio claro: botones / interactivo (AA con texto blanco) */
   --color-accent: #3bb6f5; /* cyan acento: hover, detalles brillantes */
   --color-sun: #f3bf19; /* amarillo corporativo oficial: uso mínimo */
   --color-wa: #22b765; /* verde exclusivo del botón WhatsApp */

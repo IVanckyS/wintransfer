@@ -32,7 +32,7 @@ const images: (string | null)[] = [null, null, null];
 <!-- Encabezado de la sección -->
 <section class="bg-white pt-16 md:pt-24">
   <div class="mx-auto max-w-6xl px-4 md:px-6">
-    <p class="reveal font-display text-xs font-bold tracking-[0.2em] text-accent uppercase">
+    <p class="reveal font-display text-xs font-bold tracking-[0.2em] text-action uppercase">
       {t('home.experience.eyebrow')}
     </p>
     <h2 class="reveal mt-3 max-w-2xl font-display text-3xl font-extrabold text-primary md:text-4xl">
@@ -58,7 +58,7 @@ const images: (string | null)[] = [null, null, null];
                 <img src={images[i]} alt={panel.title} class="h-full w-full object-cover" />
               ) : (
                 <div
-                  class="flex h-full w-full items-center justify-center border-2 border-dashed border-primary/30 bg-[repeating-linear-gradient(135deg,#f2f8fd,#f2f8fd_14px,#e3f0fb_14px,#e3f0fb_28px)] text-primary/70"
+                  class="flex h-full w-full items-center justify-center border-2 border-dashed border-primary/30 bg-[repeating-linear-gradient(135deg,#f2f8fd,#f2f8fd_14px,#e3f0fb_14px,#e3f0fb_28px)] text-primary"
                   role="img"
                   aria-label={`[Imagen: ${panel.title}]`}
                 >

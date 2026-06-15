@@ -76,7 +76,7 @@ const VIEWBOX = '476 -3 140 715';
 
   <!-- Tourist places panel: hidden until a region is selected -->
   <div id="places-panel" class="hidden scroll-mt-28 overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
-    <img id="places-photo" class="hidden h-52 w-full object-cover md:h-64 lg:h-[520px]" alt="" />
+    <img id="places-photo" class="hidden h-52 w-full object-cover md:h-64 lg:h-[520px]" alt="" loading="lazy" decoding="async" />
     <div class="p-6">
       <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
       <h3 id="places-title" class="mt-1 font-display text-xl font-extrabold text-white"></h3>
