@@ -17,10 +17,6 @@ export const CONTACT_PHONE_2_DISPLAY = '+56 9 2008 5893';
 export const INSTAGRAM_HANDLE = '@wintransfer.chile';
 export const INSTAGRAM_URL = 'https://www.instagram.com/wintransfer.chile';
 
-// Aeropuerto que se prellena en las pestañas "Hacia/Desde aeropuerto" del
-// formulario de reserva. Debe coincidir con una entrada de src/data/locations.ts
-export const BOOKING_AIRPORT = 'Aeropuerto Carriel Sur (CCP)';
-
 export const SITE_NAME = 'Win Transfer';
 export const SITE_URL = 'https://wintransfer.cl';
 

@@ -37,12 +37,22 @@ Sitio web estático bilingüe (ES/EN) para Win Transfer, empresa chilena de tran
 | `/es/contacto/` | `pages/[lang]/contacto.astro` | SmartForm (reserva / convenio / trabaja con nosotros) |
 | `/es/terminos/` | `pages/[lang]/terminos.astro` | Términos (pendiente texto legal) |
 
-> La página `/flota/` fue eliminada. Las fotos de flota se agregarán cuando el cliente las entregue (~2026-06-15).
+> La página `/flota/` fue eliminada. Desde 2026-06-15 hay **fotos reales** del cliente (improvisadas, de celular) integradas en hero, servicios y quiénes-somos. Queda pendiente una sesión fotográfica profesional para reemplazarlas por mejor calidad.
+
+## Fotos / imágenes
+
+- **Originales** del cliente en `media/fotos/` (raíz, **gitignored**, no se despliegan).
+- **Optimizadas** (webp) en `public/images/`, generadas con `scripts/optimize-photos.mjs` (sharp). Para cambiar/añadir fotos: editar el array `JOBS` del script y `node scripts/optimize-photos.mjs`.
+- **Hero del inicio**: `HeroSlideshow.astro` (fundido automático + Ken Burns) con `hero-*.webp`. Array de rutas en `index.astro`.
+- **Servicios**: `src/data/serviceImages.ts` mapea `id`→`/images/servicio-*.webp`; lo usan la portada y `/servicios`.
+- **Quiénes somos**: banner + foto en Historia (alt en `about.bannerAlt` / `about.historyAlt`).
+- ⚠️ Los vehículos llevan marca **"transferwin.cl" / logo "WIN"** (≠ "Win Transfer" / wintransfer.cl). No usar de forma protagónica la foto donde se lee grande "TRANSFERWIN.CL".
 
 ## Componentes clave
 
 - **`MiniBookingForm.astro`** — Widget hero del inicio: 3 tabs de tipo de viaje + botón "Continuar reserva". Al hacer submit redirige a `/contacto/?trip=...` para que SmartForm preseleccione el tipo.
-- **`SmartForm.astro`** — Formulario completo en `/contacto/`. Tipos: Reserva / Convenio / Trabaja con nosotros. Al enviar abre WhatsApp con el mensaje armado. Lee URL params (`?trip=`, `?origin=`, etc.) para pre-rellenarse.
+- **`SmartForm.astro`** — Formulario completo en `/contacto/`. Tipos: Reserva / Convenio / Trabaja con nosotros. Al enviar abre WhatsApp con el mensaje armado. Lee URL params (`?trip=`, `?origin=`, etc.) para pre-rellenarse. Con «Hacia/Desde aeropuerto» el campo respectivo entra en *modo aeropuerto* (`data-filter="airport"`): el autocompletado muestra solo aeropuertos y se valida que el valor sea uno de la lista (ya no se bloquea a un único aeropuerto). Incluye validación de formato y límites (pasajeros 1–15, maletas 0–20, nombre solo letras, teléfono por país) con mensajes propios en `form.err*`.
+- **`PhoneField.astro`** — Campo de teléfono con selector de país (bandera + prefijo, por defecto Chile +56). Prefijos en `src/data/countryCodes.ts`. Usado dos veces dentro de SmartForm (reserva y trabajo); su lógica de apertura/validación vive en el script de SmartForm.
 - **`TripTypeTabs.astro`** — Tabs de tipo de viaje con iconos Lucide. Compartido entre MiniBookingForm y SmartForm.
 - **`CoverageMap.astro`** — Mapa SVG interactivo de Chile (16 regiones). Hover/click en región la ilumina en el mapa y muestra foto + destinos turísticos desde Wikimedia Commons. Datos en `src/data/regionPhotos.ts` y en `regionPlaces` del JSON de i18n.
 - **`Header.astro`** / **`Footer.astro`** — Con segundo número de WhatsApp e Instagram.

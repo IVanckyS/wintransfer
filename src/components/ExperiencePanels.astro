@@ -10,9 +10,9 @@
  *   que hay más contenido.
  * - prefers-reduced-motion: cae a una pila vertical simple, sin animación.
  *
- * Las fotos aún no llegan: cada carta muestra un placeholder. Para activar una
- * imagen real, reemplaza el null por la ruta del archivo (déjalo en public/images/):
- *   const images = ['/images/experiencia-1.jpg', '/images/experiencia-2.jpg', null];
+ * Fotos reales por carta en el array `images` (webp en public/images, generados
+ * con scripts/optimize-photos.mjs). Si una entrada es null, esa carta cae al
+ * placeholder a rayas.
  */
 import { getLangFromUrl, useTranslations } from '../i18n';
 
@@ -25,8 +25,12 @@ interface Panel {
 }
 const panels = t<Panel[]>('home.experience.panels');
 
-// [PENDIENTE: fotos de experiencia] — reemplazar null por la ruta cuando lleguen.
-const images: (string | null)[] = [null, null, null];
+// Fotos por carta (mismo orden que home.experience.panels).
+const images: (string | null)[] = [
+  '/images/experiencia-1.webp',
+  '/images/experiencia-2.webp',
+  '/images/experiencia-3.webp',
+];
 ---
 
 <!-- Encabezado de la sección -->
@@ -55,7 +59,7 @@ const images: (string | null)[] = [null, null, null];
           <article class="exp-panel">
             <div class="exp-image">
               {images[i] ? (
-                <img src={images[i]} alt={panel.title} class="h-full w-full object-cover" />
+                <img src={images[i]} alt={panel.title} loading="lazy" decoding="async" class="h-full w-full object-cover" />
               ) : (
                 <div
                   class="flex h-full w-full items-center justify-center border-2 border-dashed border-primary/30 bg-[repeating-linear-gradient(135deg,#f2f8fd,#f2f8fd_14px,#e3f0fb_14px,#e3f0fb_28px)] text-primary"
