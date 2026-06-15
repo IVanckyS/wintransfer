@@ -1,0 +1,21 @@
+{
+  "name": "Win Transfer",
+  "short_name": "Win Transfer",
+  "description": "Transporte de pasajeros para empresas e instituciones en todo Chile, 24/7.",
+  "start_url": "/es/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0039ae",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
