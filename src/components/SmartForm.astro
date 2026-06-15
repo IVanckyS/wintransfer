@@ -191,7 +191,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     <div>
       <label class={labelClass} for="f-experience">{t('form.experience')}</label>
       <textarea id="f-experience" name="experience" data-label={t('form.experience')} required rows="4" placeholder={t('form.experiencePlaceholder')} class={inputClass}></textarea>
-      <p class="mt-2 text-xs text-ink/60">{t('form.jobsNote')}</p>
+      <p class="mt-2 text-xs text-ink/70">{t('form.jobsNote')}</p>
     </div>
   </fieldset>
 
@@ -202,7 +202,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true"><path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z"/></svg>
     {t('form.submit')}
   </button>
-  <p class="mt-3 text-center text-xs text-ink/50">{t('form.disclaimer')}</p>
+  <p class="mt-3 text-center text-xs text-ink/70">{t('form.disclaimer')}</p>
 </form>
 
 <style>
@@ -579,7 +579,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
         const item = document.createElement('li');
         item.setAttribute('role', 'option');
         item.className = 'flex cursor-pointer items-center gap-3 px-4 py-2.5 hover:bg-mist';
-        item.innerHTML = `${ICONS[location.type]}<span class="min-w-0"><span class="block truncate text-sm font-semibold text-ink">${location.name}</span><span class="block truncate text-xs text-ink/50">${location.region}</span></span>`;
+        item.innerHTML = `${ICONS[location.type]}<span class="min-w-0"><span class="block truncate text-sm font-semibold text-ink">${location.name}</span><span class="block truncate text-xs text-ink/70">${location.region}</span></span>`;
         // mousedown (no click) para seleccionar antes de que el blur cierre la lista
         item.addEventListener('mousedown', (event) => {
           event.preventDefault();
