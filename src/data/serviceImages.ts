@@ -9,9 +9,9 @@
  */
 export const serviceImages: Record<string, string> = {
   personal: '/images/servicio-personal.webp',
-  ejecutivo: '/images/servicio-ejecutivo.webp',
+  ejecutivo: '/images/servicio-especiales.webp',
   eventos: '/images/servicio-eventos.webp',
-  aeropuerto: '/images/servicio-aeropuerto.webp',
+  aeropuerto: '/images/icecar.webp',
   giras: '/images/servicio-giras.webp',
   especiales: '/images/servicio-especiales.webp',
 };

@@ -49,8 +49,7 @@ const services = t<ServiceItem[]>('services.items');
                 loading="lazy"
                 decoding="async"
                 class:list={['reveal', mediaReveal, 'aspect-[16/10] w-full rounded-3xl object-cover shadow-sm ring-1 ring-primary/5']}
-              />
-              <div class:list={['reveal', textReveal]}>
+              />              <div class:list={['reveal', textReveal]}>
                 <span class="font-display text-sm font-bold text-action">{String(i + 1).padStart(2, '0')}</span>
                 <h2 class="mt-2 font-display text-2xl font-extrabold text-primary md:text-3xl">{service.title}</h2>
                 <p class="mt-4 text-ink/70">{service.text}</p>
