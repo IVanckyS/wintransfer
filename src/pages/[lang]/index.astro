@@ -26,8 +26,18 @@ interface TrustItem {
 
 const services = t<ServiceItem[]>('services.items');
 const trust = t<TrustItem[]>('home.trust');
+// Repetimos las tarjetas 4× para el carrusel infinito: así el "camino" llena
+// pantallas anchas sin huecos y el loop (mueve una tanda por vuelta) no corta.
+const trustLoop = [...trust, ...trust, ...trust, ...trust];
 const partners = t<string[]>('partners');
 const rotating = t<string[]>('home.heroRotating');
+
+// Separamos la última palabra del slogan ("ganar" en ES / "winning" en EN)
+// para destacarla en amarillo y rotarle la tipografía. El resto del título
+// queda igual, en el idioma de la página.
+const sloganWords = t('site.slogan').trim().split(/\s+/);
+const sloganPrefix = sloganWords.slice(0, -1).join(' ');
+const sloganLast = sloganWords[sloganWords.length - 1];
 
 const trustIcons = [
   'M12 8v4l2.5 2.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', // reloj
@@ -78,7 +88,8 @@ const serviceImages: Record<string, string | null> = {
       <div>
         <p class="font-display text-xs font-bold tracking-[0.2em] text-sun uppercase">{t('home.heroEyebrow')}</p>
         <h1 class="mt-4 max-w-3xl font-display text-4xl leading-tight font-extrabold text-white md:text-6xl">
-          {t('site.slogan')}
+          {sloganPrefix}{' '}
+          <span data-winning class="winning-word text-sun"><span class="winning-ghost">{sloganLast}</span><span class="winning-live" aria-hidden="true">{sloganLast}</span></span>
         </h1>
         <p class="rotator mt-5 font-display text-xl font-bold text-accent md:text-2xl" data-rotator>
           {rotating.map((phrase, i) => <span class:list={[i === 0 && 'is-active']}>{phrase}</span>)}
@@ -182,14 +193,20 @@ const serviceImages: Record<string, string | null> = {
   <!-- ====== EXPERIENCIA (paneles parallax / carrusel móvil) ====== -->
   <ExperiencePanels />
 
-  <!-- ====== FRANJA DE CONFIANZA ====== -->
+  <!-- ====== FRANJA DE CONFIANZA (carrusel infinito tipo "camino") ====== -->
   <section class="bg-primary py-16 md:py-20">
     <div class="mx-auto max-w-6xl px-4 md:px-6">
       <h2 class="reveal font-display text-3xl font-extrabold text-white md:text-4xl">{t('home.trustTitle')}</h2>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    </div>
+
+    <div class="marquee reveal mt-10">
+      <div class="marquee-track">
         {
-          trust.map((item, i) => (
-            <div class="reveal rounded-3xl bg-white/5 p-6 backdrop-blur transition-colors hover:bg-white/10">
+          trustLoop.map((item, i) => (
+            <div
+              class="marquee-card mr-5 w-[17rem] shrink-0 rounded-3xl bg-white/5 p-6 backdrop-blur transition-colors hover:bg-white/10 md:mr-6 md:w-[19rem]"
+              aria-hidden={i >= trust.length ? 'true' : undefined}
+            >
               <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sun/15">
                 <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-sun" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d={trustIcons[i % trustIcons.length]} />
@@ -239,6 +256,65 @@ const serviceImages: Record<string, string | null> = {
   </section>
 </BaseLayout>
 
+<style>
+  /* Palabra destacada del hero ("ganar"/"winning"). La copia "ghost" (en la
+     fuente base) reserva el espacio y la línea base; la copia "live" rota de
+     tipografía por encima, en posición absoluta, sin afectar el layout. Si no
+     hay JS o se prefiere menos movimiento, se ve la ghost (Sora) normal. */
+  .winning-word {
+    position: relative;
+    display: inline-block;
+    font-family: 'Sora', ui-sans-serif, sans-serif;
+  }
+  .winning-live {
+    display: none;
+  }
+
+  /* ===== Carrusel infinito "camino" (franja de confianza) ===== */
+  .marquee {
+    overflow: hidden;
+    /* Desvanece los bordes para que las tarjetas "entren" y "salgan" suave. */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    /* La pista tiene 4 tandas iguales. Mover una tanda (25%) hacia la DERECHA
+       (de -25% a 0) y reiniciar es invisible, porque el patrón se repite cada
+       tanda → loop infinito sin cortes y sin huecos en pantallas anchas. */
+    animation: road 24s linear infinite;
+    will-change: transform;
+  }
+  /* Pausa al pasar el mouse */
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes road {
+    from {
+      transform: translateX(-25%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  /* Accesibilidad: sin movimiento automático, se puede arrastrar a mano */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+    }
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>
+
 <script>
   // Titular rotativo del hero
   const rotator = document.querySelector('[data-rotator]');
@@ -250,5 +326,105 @@ const serviceImages: Record<string, string | null> = {
       index = (index + 1) % phrases.length;
       phrases[index]?.classList.add('is-active');
     }, 2800);
+  }
+
+  // Palabra destacada: rota de tipografía sin mover NADA (ni el resto de la
+  // página ni la palabra misma). La copia "ghost" (siempre en la fuente base)
+  // reserva el espacio y la línea base; la copia "live" flota encima en
+  // position:absolute (no afecta el layout) y va cambiando de fuente. Para que
+  // tampoco cambie de largo ni de altura, a la live le fijamos:
+  //   - el ancho con scaleX (= ancho de la fuente base), y
+  //   - la línea base con un offset vertical medido por canvas (ascendente).
+  const winning = document.querySelector<HTMLElement>('[data-winning]');
+  const ghost = winning?.querySelector<HTMLElement>('.winning-ghost') ?? null;
+  const live = winning?.querySelector<HTMLElement>('.winning-live') ?? null;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (winning && ghost && live && !prefersReduced && 'fonts' in document) {
+    const fonts = [
+      { fam: "'Sora'", stack: "'Sora', sans-serif" },
+      { fam: "'Playfair Display'", stack: "'Playfair Display', serif" },
+      { fam: "'Bebas Neue'", stack: "'Bebas Neue', sans-serif" },
+      { fam: "'Pacifico'", stack: "'Pacifico', cursive" },
+      { fam: "'Space Mono'", stack: "'Space Mono', monospace" },
+    ];
+    const text = live.textContent ?? '';
+    const ctx = document.createElement('canvas').getContext('2d');
+    let fi = 0;
+    const scaleX: number[] = []; // factor de ancho por fuente
+    const topOff: number[] = []; // offset vertical (px) para igualar la línea base
+
+    const apply = (i: number) => {
+      live.style.fontFamily = fonts[i].stack;
+      live.style.transform = `scaleX(${scaleX[i].toFixed(4)})`;
+      live.style.top = `${topOff[i].toFixed(2)}px`;
+    };
+
+    const measure = () => {
+      // La live flota encima de la ghost, sin afectar el layout.
+      live.style.position = 'absolute';
+      live.style.left = '0';
+      live.style.top = '0';
+      live.style.display = 'inline-block';
+      live.style.whiteSpace = 'nowrap';
+      live.style.transformOrigin = 'left center';
+      live.style.pointerEvents = 'none';
+      ghost.style.color = 'transparent'; // reserva espacio pero no se ve
+
+      const cs = getComputedStyle(ghost);
+      const fontHead = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize}`;
+      const target = ghost.getBoundingClientRect().width; // ancho de la fuente base
+
+      let baseAscent = 0;
+      if (ctx) {
+        ctx.font = `${fontHead} ${fonts[0].fam}`;
+        baseAscent = ctx.measureText(text).fontBoundingBoxAscent;
+      }
+
+      scaleX.length = 0;
+      topOff.length = 0;
+      for (const f of fonts) {
+        live.style.transform = 'none';
+        live.style.fontFamily = f.stack;
+        const w = live.getBoundingClientRect().width;
+        scaleX.push(w ? target / w : 1);
+
+        let off = 0;
+        if (ctx && baseAscent) {
+          ctx.font = `${fontHead} ${f.fam}`;
+          const a = ctx.measureText(text).fontBoundingBoxAscent;
+          if (Number.isFinite(a)) off = baseAscent - a;
+        }
+        topOff.push(off);
+      }
+      apply(fi);
+    };
+
+    const start = async () => {
+      const cs = getComputedStyle(ghost);
+      // Carga las fuentes (en su peso/tamaño reales) antes de medir.
+      await Promise.all(
+        fonts.map((f) =>
+          document.fonts.load(`${cs.fontWeight} ${cs.fontSize} ${f.fam}`).catch(() => {}),
+        ),
+      );
+      measure();
+      setInterval(() => {
+        fi = (fi + 1) % fonts.length;
+        apply(fi);
+      }, 1500);
+      // Re-mide si cambia el tamaño (p. ej. al cruzar el breakpoint del título).
+      let rt: number | undefined;
+      window.addEventListener(
+        'resize',
+        () => {
+          clearTimeout(rt);
+          rt = window.setTimeout(measure, 150);
+        },
+        { passive: true },
+      );
+    };
+
+    document.fonts.ready.then(start);
   }
 </script>
