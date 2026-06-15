@@ -44,6 +44,15 @@ const attributeIcons = [
     </div>
   </section>
 
+  <!-- Banner de foto (flota + conductor) -->
+  <img
+    src="/images/hero-conductor-van.webp"
+    alt={t('about.bannerAlt')}
+    loading="lazy"
+    decoding="async"
+    class="h-60 w-full object-cover object-center md:h-80 lg:h-96"
+  />
+
   <!-- Cómo trabajamos -->
   <section class="bg-mist py-16 md:py-24">
     <div class="mx-auto max-w-6xl px-4 md:px-6">
@@ -86,6 +95,13 @@ const attributeIcons = [
       <div class="reveal reveal-left">
         <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('about.historyTitle')}</h2>
         <p class="mt-4 text-lg leading-relaxed text-ink/70">{t('about.historyText')}</p>
+        <img
+          src="/images/nosotros-historia.webp"
+          alt={t('about.historyAlt')}
+          loading="lazy"
+          decoding="async"
+          class="mt-6 aspect-[4/3] w-full rounded-3xl object-cover object-center shadow-sm ring-1 ring-primary/5"
+        />
       </div>
 
       <!-- Misión y Visión -->

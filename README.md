@@ -27,13 +27,16 @@ Presente en el **hero del inicio** y en `/es/contacto/`: selector Reserva / Conv
 Trabaja con nosotros. Al enviar, arma el mensaje con los campos y abre WhatsApp (`wa.me`)
 hacia `WHATSAPP_NUMBER` de `src/config.ts`.
 
-El modo Reserva tiene flujo tipo Transvip: pestañas Hacia/Desde aeropuerto (prellenan
-`BOOKING_AIRPORT` de `src/config.ts`), solo ida / ida y vuelta, steppers de pasajeros y
-maletas, y resumen del viaje en vivo. La cotización y el pago siguen siendo por WhatsApp
-(sin precios ni cobro en línea en esta fase).
+El modo Reserva tiene flujo tipo Transvip: pestañas Hacia/Desde aeropuerto, solo ida /
+ida y vuelta, steppers de pasajeros y maletas, y resumen del viaje en vivo. La cotización
+y el pago siguen siendo por WhatsApp (sin precios ni cobro en línea en esta fase).
 
 Los campos origen/destino tienen **autocompletado de ubicaciones** (aeropuertos y
 ciudades de Chile) con dataset local en `src/data/locations.ts` — sin APIs de pago.
+Al elegir «Hacia/Desde aeropuerto», ese campo entra en *modo aeropuerto*: el
+autocompletado muestra solo aeropuertos (`type === 'airport'`) y se valida que el valor
+sea uno de la lista. El teléfono usa el componente `PhoneField.astro` con selector de
+país (prefijos en `src/data/countryCodes.ts`, por defecto Chile +56).
 
 ## Pendientes
 

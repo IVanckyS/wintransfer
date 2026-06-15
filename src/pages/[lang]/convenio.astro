@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { partnerLogos } from '../../data/partnerLogos';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 
 export function getStaticPaths() {
@@ -16,12 +17,6 @@ interface ProcessStep {
 const benefits = t<string[]>('agreement.benefits');
 const process = t<ProcessStep[]>('agreement.process');
 const partners = t<string[]>('partners');
-
-// [PENDIENTE: logos de partners] — null muestra el nombre como placeholder. Para
-// activar un logo, pon la ruta del archivo (déjalo en public/images/partners/), p. ej.:
-//   const partnerLogos = ['/images/partners/oxiquim.png', null, ...];
-// El orden debe coincidir con el array "partners" del i18n.
-const partnerLogos: (string | null)[] = [null, null, null, null, null, null];
 ---
 
 <BaseLayout title={t('agreement.title')}>

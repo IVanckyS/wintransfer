@@ -6,8 +6,9 @@
  * (número en src/config.ts → WHATSAPP_NUMBER).
  */
 import TripTypeTabs from './TripTypeTabs.astro';
+import PhoneField from './PhoneField.astro';
 import { getLangFromUrl, useTranslations } from '../i18n';
-import { WHATSAPP_NUMBER, BOOKING_AIRPORT } from '../config';
+import { WHATSAPP_NUMBER } from '../config';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -23,7 +24,6 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   id="smart-form"
   class="scroll-mt-28 rounded-3xl border border-primary/10 bg-white p-6 shadow-xl shadow-primary/5 md:p-8"
   data-wa-number={WHATSAPP_NUMBER}
-  data-airport={BOOKING_AIRPORT}
   data-intro-booking={t('form.waIntroBooking')}
   data-intro-agreement={t('form.waIntroAgreement')}
   data-intro-jobs={t('form.waIntroJobs')}
@@ -33,6 +33,13 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   data-label-luggage={t('form.luggage')}
   data-summary-empty={t('form.summaryEmpty')}
   data-err-required={t('form.fieldRequired')}
+  data-airport-placeholder={t('form.airportPlaceholder')}
+  data-err-name={t('form.errName')}
+  data-err-phone={t('form.errPhone')}
+  data-err-phone-cl={t('form.errPhoneCl')}
+  data-err-airport={t('form.errAirport')}
+  data-err-passengers={t('form.errPassengers')}
+  data-err-luggage={t('form.errLuggage')}
 >
   <fieldset>
     <legend class="font-display text-lg font-bold text-primary">{t('form.title')}</legend>
@@ -84,6 +91,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
         data-autocomplete
         autocomplete="off"
         aria-autocomplete="list"
+        maxlength="80"
         required
         placeholder={t('form.originPlaceholder')}
         class={inputClass}
@@ -98,6 +106,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
         data-autocomplete
         autocomplete="off"
         aria-autocomplete="list"
+        maxlength="80"
         required
         placeholder={t('form.destinationPlaceholder')}
         class={inputClass}
@@ -126,7 +135,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       <label class={labelClass} for="f-passengers">{t('form.passengers')}</label>
       <div class="flex items-center gap-2">
         <button type="button" data-stepper="-1" data-target="f-passengers" aria-label="−" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">−</button>
-        <input id="f-passengers" name="passengers" type="number" min="1" max="200" value="1" data-label={t('form.passengers')} required class={`${inputClass} text-center`} />
+        <input id="f-passengers" name="passengers" type="number" inputmode="numeric" min="1" max="15" step="1" value="1" data-label={t('form.passengers')} data-validate="passengers" required class={`${inputClass} text-center`} />
         <button type="button" data-stepper="1" data-target="f-passengers" aria-label="+" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">+</button>
       </div>
     </div>
@@ -134,19 +143,16 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       <label class={labelClass} for="f-luggage">{t('form.luggage')}</label>
       <div class="flex items-center gap-2">
         <button type="button" data-stepper="-1" data-target="f-luggage" aria-label="−" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">−</button>
-        <input id="f-luggage" name="luggage" type="number" min="0" max="100" value="0" data-label={t('form.luggage')} class={`${inputClass} text-center`} />
+        <input id="f-luggage" name="luggage" type="number" inputmode="numeric" min="0" max="20" step="1" value="0" data-label={t('form.luggage')} data-validate="luggage" class={`${inputClass} text-center`} />
         <button type="button" data-stepper="1" data-target="f-luggage" aria-label="+" class="h-11 w-11 shrink-0 rounded-xl border border-primary/20 font-display text-lg font-bold text-primary transition-colors hover:bg-mist">+</button>
       </div>
     </div>
 
     <div>
       <label class={labelClass} for="f-name">{t('form.passengerName')}</label>
-      <input id="f-name" name="name" data-label={t('form.passengerName')} required placeholder={t('form.namePlaceholder')} class={inputClass} />
+      <input id="f-name" name="name" data-label={t('form.passengerName')} data-validate="name" maxlength="60" required placeholder={t('form.namePlaceholder')} class={inputClass} />
     </div>
-    <div>
-      <label class={labelClass} for="f-phone">{t('form.contactPhone')}</label>
-      <input id="f-phone" name="phone" type="tel" data-label={t('form.contactPhone')} required placeholder={t('form.phonePlaceholder')} class={inputClass} />
-    </div>
+    <PhoneField id="f-phone" name="phone" label={t('form.contactPhone')} />
     <div class="sm:col-span-2">
       <label class={labelClass} for="f-payment">{t('form.payment')}</label>
       <select id="f-payment" name="payment" data-label={t('form.payment')} required class={inputClass}>
@@ -166,15 +172,15 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   <fieldset data-panel="agreement" class="mt-6 hidden grid-cols-1 gap-4" disabled>
     <div>
       <label class={labelClass} for="f-company">{t('form.companyName')}</label>
-      <input id="f-company" name="company" data-label={t('form.companyName')} required placeholder={t('form.companyPlaceholder')} class={inputClass} />
+      <input id="f-company" name="company" data-label={t('form.companyName')} maxlength="80" required placeholder={t('form.companyPlaceholder')} class={inputClass} />
     </div>
     <div>
       <label class={labelClass} for="f-contact">{t('form.contactPerson')}</label>
-      <input id="f-contact" name="contact" data-label={t('form.contactPerson')} required placeholder={t('form.contactPlaceholder')} class={inputClass} />
+      <input id="f-contact" name="contact" data-label={t('form.contactPerson')} maxlength="80" required placeholder={t('form.contactPlaceholder')} class={inputClass} />
     </div>
     <div>
       <label class={labelClass} for="f-message">{t('form.message')}</label>
-      <textarea id="f-message" name="message" data-label={t('form.message')} required rows="4" placeholder={t('form.messagePlaceholder')} class={inputClass}></textarea>
+      <textarea id="f-message" name="message" data-label={t('form.message')} maxlength="600" required rows="4" placeholder={t('form.messagePlaceholder')} class={inputClass}></textarea>
     </div>
   </fieldset>
 
@@ -182,15 +188,12 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   <fieldset data-panel="jobs" class="mt-6 hidden grid-cols-1 gap-4" disabled>
     <div>
       <label class={labelClass} for="f-job-name">{t('form.name')}</label>
-      <input id="f-job-name" name="job-name" data-label={t('form.name')} required placeholder={t('form.namePlaceholder')} class={inputClass} />
+      <input id="f-job-name" name="job-name" data-label={t('form.name')} data-validate="name" maxlength="60" required placeholder={t('form.namePlaceholder')} class={inputClass} />
     </div>
-    <div>
-      <label class={labelClass} for="f-job-phone">{t('form.phone')}</label>
-      <input id="f-job-phone" name="job-phone" type="tel" data-label={t('form.phone')} required placeholder={t('form.phonePlaceholder')} class={inputClass} />
-    </div>
+    <PhoneField id="f-job-phone" name="job-phone" label={t('form.phone')} />
     <div>
       <label class={labelClass} for="f-experience">{t('form.experience')}</label>
-      <textarea id="f-experience" name="experience" data-label={t('form.experience')} required rows="4" placeholder={t('form.experiencePlaceholder')} class={inputClass}></textarea>
+      <textarea id="f-experience" name="experience" data-label={t('form.experience')} maxlength="600" required rows="4" placeholder={t('form.experiencePlaceholder')} class={inputClass}></textarea>
       <p class="mt-2 text-xs text-ink/70">{t('form.jobsNote')}</p>
     </div>
   </fieldset>
@@ -237,6 +240,9 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 </style>
 
 <script>
+  import { LOCATIONS } from '../data/locations';
+  import { COUNTRY_CODES } from '../data/countryCodes';
+
   const form = document.getElementById('smart-form') as HTMLFormElement;
   const panels = form.querySelectorAll<HTMLFieldSetElement>('[data-panel]');
   const radios = form.querySelectorAll<HTMLInputElement>('input[name="form-type"]');
@@ -259,7 +265,6 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   showPanel(activePanelType());
 
   // ---- Reserva estilo Transvip ----
-  const AIRPORT = form.dataset.airport ?? '';
   const bookingPanel = form.querySelector<HTMLFieldSetElement>('[data-panel="booking"]')!;
   const origin = form.querySelector<HTMLInputElement>('#f-origin')!;
   const destination = form.querySelector<HTMLInputElement>('#f-destination')!;
@@ -267,32 +272,47 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 
   const formatDate = (value: string) => value.split('-').reverse().join('/');
 
-  function lockField(field: HTMLInputElement, locked: boolean) {
-    field.readOnly = locked;
-    field.classList.toggle('bg-mist', locked);
-    field.classList.toggle('text-ink/70', locked);
+  // Conjunto de aeropuertos para validar el "modo aeropuerto" del origen/destino
+  const COMBINING = new RegExp('[\\u0300-\\u036f]', 'g');
+  const norm = (text: string) => text.toLowerCase().normalize('NFD').replace(COMBINING, '').trim();
+  const AIRPORT_NAMES = new Set(LOCATIONS.filter((l) => l.type === 'airport').map((l) => norm(l.name)));
+  const isAirport = (value: string) => AIRPORT_NAMES.has(norm(value));
+  const AIRPORT_PLACEHOLDER = form.dataset.airportPlaceholder ?? '';
+
+  // Guarda el placeholder original para restaurarlo al salir del modo aeropuerto
+  origin.dataset.basePlaceholder = origin.placeholder;
+  destination.dataset.basePlaceholder = destination.placeholder;
+
+  // En "modo aeropuerto" el campo solo acepta un aeropuerto de la lista
+  function refreshAirportValidity(field: HTMLInputElement) {
+    const needsAirport = field.dataset.filter === 'airport' && field.value.trim() !== '';
+    field.setCustomValidity(needsAirport && !isAirport(field.value) ? (form.dataset.errAirport ?? '') : '');
   }
 
-  // Prellena y bloquea el aeropuerto según la pestaña de tipo de viaje
-  function applyTripType(value: string) {
-    if (value === 'to-airport') {
-      if (origin.value === AIRPORT) origin.value = '';
-      destination.value = AIRPORT;
-      lockField(destination, true);
-      lockField(origin, false);
-    } else if (value === 'from-airport') {
-      if (destination.value === AIRPORT) destination.value = '';
-      origin.value = AIRPORT;
-      lockField(origin, true);
-      lockField(destination, false);
+  // Activa/desactiva el modo aeropuerto sobre un campo (filtra sugerencias a solo aeropuertos)
+  function setAirportMode(field: HTMLInputElement, on: boolean) {
+    if (on) {
+      field.dataset.filter = 'airport';
+      field.placeholder = AIRPORT_PLACEHOLDER;
+      // Si traía una ciudad (no un aeropuerto), se limpia para que elija uno
+      if (field.value.trim() && !isAirport(field.value)) field.value = '';
     } else {
-      if (origin.value === AIRPORT) origin.value = '';
-      if (destination.value === AIRPORT) destination.value = '';
-      lockField(origin, false);
-      lockField(destination, false);
+      delete field.dataset.filter;
+      field.placeholder = field.dataset.basePlaceholder ?? '';
     }
+    refreshAirportValidity(field);
+  }
+
+  // El tipo de viaje decide qué campo entra en modo aeropuerto (sin bloquear: se elige entre todos)
+  function applyTripType(value: string) {
+    setAirportMode(destination, value === 'to-airport');
+    setAirportMode(origin, value === 'from-airport');
     updateSummary();
   }
+
+  [origin, destination].forEach((field) =>
+    field.addEventListener('input', () => refreshAirportValidity(field)),
+  );
 
   // Muestra/oculta los campos de regreso según solo ida / ida y vuelta
   function applyTripMode(value: string) {
@@ -322,6 +342,20 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       const next = (Number(field.value) || 0) + Number(button.dataset.stepper);
       field.value = String(Math.min(Number(field.max), Math.max(Number(field.min), next)));
       updateSummary();
+    });
+  });
+
+  // Si escriben a mano, mantener el número dentro de [min, max] y como entero
+  form.querySelectorAll<HTMLInputElement>('input[type="number"]').forEach((field) => {
+    field.addEventListener('input', () => {
+      if (field.value === '') return; // permitir vaciar mientras se edita
+      let n = Math.floor(Number(field.value));
+      if (Number.isNaN(n)) {
+        field.value = '';
+        return;
+      }
+      n = Math.min(Number(field.max), Math.max(Number(field.min), n));
+      field.value = String(n);
     });
   });
 
@@ -407,8 +441,13 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       .querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(`[data-panel="${type}"] [data-label]`)
       .forEach((field) => {
         if (field.disabled || !field.value.trim()) return;
-        const fieldValue =
+        let fieldValue =
           field instanceof HTMLInputElement && field.type === 'date' ? formatDate(field.value) : field.value.trim();
+        // Teléfono: anteponer el prefijo del país elegido (p. ej. +56 9 1234 5678)
+        if (field instanceof HTMLInputElement && field.dataset.phoneInput !== undefined) {
+          const country = COUNTRY_CODES.find((c) => c.code === field.dataset.country);
+          fieldValue = `${country?.dial ?? ''} ${field.value.trim()}`.trim();
+        }
         lines.push(`• ${field.dataset.label}: ${fieldValue}`);
       });
 
@@ -421,10 +460,14 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 
   type FieldEl = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
+  // El mensaje de error se ancla bajo el grupo (data-error-anchor) o, si no hay, junto al campo
+  const errorAnchor = (field: FieldEl) =>
+    (field.closest('[data-error-anchor]') as HTMLElement | null) ?? field.parentElement;
+
   const showFieldError = (field: FieldEl, message: string) => {
     field.classList.add('is-invalid');
     field.setAttribute('aria-invalid', 'true');
-    const wrapper = field.parentElement;
+    const wrapper = errorAnchor(field);
     if (!wrapper) return;
     let msg = wrapper.querySelector<HTMLElement>('[data-error]');
     if (!msg) {
@@ -439,16 +482,130 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
   const clearFieldError = (field: FieldEl) => {
     field.classList.remove('is-invalid');
     field.removeAttribute('aria-invalid');
-    field.parentElement?.querySelector('[data-error]')?.remove();
+    errorAnchor(field)?.querySelector('[data-error]')?.remove();
   };
+
+  // Nombre: empieza con letra y solo letras/tildes/ñ, espacios, guion y apóstrofe (2–60)
+  const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M} '’.\-]{1,59}$/u;
+
+  function phoneError(field: HTMLInputElement): string {
+    if (field.value.trim() === '') return '';
+    const country = COUNTRY_CODES.find((c) => c.code === field.dataset.country);
+    const digits = field.value.replace(/\D/g, '');
+    if (country?.len) {
+      const ok = digits.length === country.len && (!country.startsWith || digits.startsWith(country.startsWith));
+      return ok ? '' : (form.dataset.errPhoneCl ?? form.dataset.errPhone ?? '');
+    }
+    return digits.length >= 8 && digits.length <= 15 ? '' : (form.dataset.errPhone ?? '');
+  }
+
+  // Calcula y fija la validez según el tipo de campo (deja que el navegador bloquee el envío)
+  function applyValidator(field: FieldEl) {
+    const type = field.dataset.validate;
+    if (type === 'name') {
+      const v = field.value.trim();
+      field.setCustomValidity(v === '' || NAME_RE.test(v) ? '' : (form.dataset.errName ?? ''));
+    } else if (type === 'phone') {
+      field.setCustomValidity(phoneError(field as HTMLInputElement));
+    }
+  }
+
+  function messageFor(field: FieldEl): string {
+    const v = field.validity;
+    if (v.valueMissing) return REQUIRED_MSG;
+    if (v.customError) return field.validationMessage; // nombre / teléfono / aeropuerto
+    if (v.rangeOverflow || v.rangeUnderflow || v.badInput || v.stepMismatch) {
+      if (field.dataset.validate === 'passengers') return form.dataset.errPassengers ?? field.validationMessage;
+      if (field.dataset.validate === 'luggage') return form.dataset.errLuggage ?? field.validationMessage;
+    }
+    return field.validationMessage;
+  }
 
   form.querySelectorAll<FieldEl>('input, textarea, select').forEach((field) => {
     field.addEventListener('invalid', (event) => {
       event.preventDefault(); // ocultar el globo nativo del navegador
-      showFieldError(field, field.validity.valueMissing ? REQUIRED_MSG : field.validationMessage);
+      showFieldError(field, messageFor(field));
     });
-    field.addEventListener('input', () => clearFieldError(field));
-    field.addEventListener('change', () => clearFieldError(field));
+    field.addEventListener('input', () => {
+      clearFieldError(field);
+      applyValidator(field);
+    });
+    field.addEventListener('change', () => {
+      clearFieldError(field);
+      applyValidator(field);
+    });
+    // Al salir del campo, mostrar errores de formato (no de obligatoriedad)
+    field.addEventListener('blur', () => {
+      if (field.value.trim() !== '' && (field.dataset.validate || field.dataset.filter)) field.checkValidity();
+    });
+  });
+
+  // ---- Selector de país del teléfono (bandera + prefijo) ----
+  form.querySelectorAll<HTMLElement>('[data-phone-field]').forEach((wrap) => {
+    const trigger = wrap.querySelector<HTMLButtonElement>('[data-country-trigger]')!;
+    const list = wrap.querySelector<HTMLUListElement>('[data-country-list]')!;
+    const input = wrap.querySelector<HTMLInputElement>('[data-phone-input]')!;
+    const flagEl = wrap.querySelector<HTMLElement>('[data-country-flag]')!;
+    const dialEl = wrap.querySelector<HTMLElement>('[data-country-dial]')!;
+    const options = Array.from(list.querySelectorAll<HTMLLIElement>('[data-code]'));
+    let active = -1;
+
+    const paint = () => options.forEach((o, i) => o.classList.toggle('bg-mist', i === active));
+    const open = () => {
+      list.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      active = options.findIndex((o) => o.dataset.code === input.dataset.country);
+      paint();
+      options[active]?.scrollIntoView({ block: 'nearest' });
+    };
+    const close = () => {
+      list.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      active = -1;
+    };
+    const choose = (code: string) => {
+      const c = COUNTRY_CODES.find((x) => x.code === code);
+      if (!c) return;
+      input.dataset.country = c.code;
+      flagEl.textContent = c.flag;
+      dialEl.textContent = c.dial;
+      input.placeholder = c.example;
+      clearFieldError(input);
+      applyValidator(input);
+      close();
+      input.focus();
+    };
+
+    trigger.addEventListener('click', () => (list.hidden ? open() : close()));
+    options.forEach((o) => o.addEventListener('click', () => choose(o.dataset.code!)));
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (list.hidden) return open();
+        active = (active + 1) % options.length;
+        paint();
+        options[active].scrollIntoView({ block: 'nearest' });
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (list.hidden) return;
+        active = (active - 1 + options.length) % options.length;
+        paint();
+        options[active].scrollIntoView({ block: 'nearest' });
+      } else if (event.key === 'Enter' && !list.hidden && active >= 0) {
+        event.preventDefault();
+        choose(options[active].dataset.code!);
+      } else if (event.key === 'Escape') {
+        close();
+      }
+    });
+    // Mantener solo dígitos y separadores en el número
+    input.addEventListener('input', () => {
+      const cleaned = input.value.replace(/[^\d\s()+.-]/g, '');
+      if (cleaned !== input.value) input.value = cleaned;
+    });
+    document.addEventListener('click', (event) => {
+      if (!wrap.contains(event.target as Node)) close();
+    });
   });
 
   // ---- Abrir el calendario/reloj al hacer clic en todo el campo ----
@@ -490,21 +647,24 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       .normalize('NFD')
       .replace(COMBINING_MARKS, '');
 
-  // Fuente local (gratis, por defecto)
-  const searchLocal = (raw: string): Suggestion[] => {
+  // Fuente local (gratis, por defecto). Con filter='airport' solo sugiere aeropuertos.
+  const searchLocal = (raw: string, filter?: string): Suggestion[] => {
+    const pool = filter === 'airport' ? LOCATIONS.filter((l) => l.type === 'airport') : LOCATIONS;
+    const cap = filter === 'airport' ? 14 : 8;
     const query = normalize(raw.trim());
+    if (filter === 'airport' && query.length === 0) return pool.slice(0, cap); // al enfocar: todos
     if (query.length < 2) return [];
-    const starts = LOCATIONS.filter((location) => normalize(location.name).startsWith(query));
-    const contains = LOCATIONS.filter(
+    const starts = pool.filter((location) => normalize(location.name).startsWith(query));
+    const contains = pool.filter(
       (location) =>
         !starts.includes(location) &&
         (normalize(location.name).includes(query) || normalize(location.region).includes(query)),
     );
-    return [...starts, ...contains].slice(0, 8);
+    return [...starts, ...contains].slice(0, cap);
   };
 
   // Fuente Google Places API (New) — solo se usa si hay API key
-  const searchGoogle = async (raw: string): Promise<Suggestion[]> => {
+  const searchGoogle = async (raw: string, filter?: string): Promise<Suggestion[]> => {
     if (raw.trim().length < 2) return [];
     try {
       const res = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
@@ -514,6 +674,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
           input: raw,
           includedRegionCodes: ['cl'],
           languageCode: document.documentElement.lang || 'es',
+          ...(filter === 'airport' ? { includedPrimaryTypes: ['airport'] } : {}),
         }),
       });
       if (!res.ok) return [];
@@ -550,6 +711,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     let active = -1;
     let requestId = 0;
     let debounce: number | undefined;
+    let suppress = false; // evita que el input programático tras seleccionar reabra la lista
 
     const close = () => {
       list.classList.add('hidden');
@@ -562,6 +724,11 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
       const location = matches[index];
       if (!location) return;
       input.value = location.value ?? location.name;
+      // Notificar a los demás listeners (resumen, validez de aeropuerto, limpiar error)
+      // sin reabrir esta misma lista de autocompletado.
+      suppress = true;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      suppress = false;
       close();
     };
 
@@ -592,7 +759,7 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
 
     const runSearch = () => {
       const id = ++requestId;
-      Promise.resolve(search(input.value)).then((results) => {
+      Promise.resolve(search(input.value, input.dataset.filter)).then((results) => {
         if (id !== requestId) return; // descartar respuestas que llegaron tarde
         matches = results;
         active = -1;
@@ -601,10 +768,18 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
     };
 
     input.addEventListener('input', () => {
-      if (input.value.trim().length < 2) return close();
+      if (suppress) return; // ignorar el input programático tras seleccionar
+      const airportMode = input.dataset.filter === 'airport';
+      // En modo aeropuerto se sugiere incluso con el campo casi vacío (lista completa)
+      if (!airportMode && input.value.trim().length < 2) return close();
       window.clearTimeout(debounce);
       // sin key: instantáneo; con key (consulta de red): pequeño debounce
       debounce = window.setTimeout(runSearch, MAPS_KEY ? 200 : 0);
+    });
+
+    // Al enfocar en modo aeropuerto, mostrar de inmediato todos los aeropuertos
+    input.addEventListener('focus', () => {
+      if (input.dataset.filter === 'airport') runSearch();
     });
 
     input.addEventListener('keydown', (event) => {

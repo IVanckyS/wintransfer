@@ -13,6 +13,8 @@ ASSETS_PENDIENTES.md
 WIN (2).png
 Transfer win (1)/
 scripts/
+# Fotos originales sin optimizar (las versiones webp optimizadas sí se commitean en public/images)
+media/
 
 # Claude Code (configuración local)
 .claude/

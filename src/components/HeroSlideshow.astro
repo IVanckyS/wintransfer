@@ -1,0 +1,65 @@
+---
+/**
+ * Slideshow de fondo para el hero: apila varias fotos y hace un fundido
+ * (crossfade) limpio entre ellas, sin zoom ni desplazamiento (para que el
+ * cambio no "choque").
+ * Decorativo (aria-hidden): el contenido del hero ya aporta el texto.
+ * Respeta "prefers-reduced-motion" (muestra solo la primera, sin cambios).
+ *
+ * La primera imagen carga con prioridad; el resto, diferidas.
+ */
+interface Props {
+  images: string[];
+  class?: string;
+}
+
+const { images, class: className = '' } = Astro.props;
+---
+
+<div class:list={['hero-slideshow overflow-hidden bg-ink', className]} data-hero-slideshow aria-hidden="true">
+  {
+    images.map((src, i) => (
+      <div class:list={['hero-slide', i === 0 && 'is-active']}>
+        <img
+          src={src}
+          alt=""
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+        />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+  .hero-slide.is-active {
+    opacity: 1;
+  }
+  .hero-slide img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-hero-slideshow]');
+  const slides = root ? Array.from(root.querySelectorAll<HTMLElement>('.hero-slide')) : [];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (slides.length > 1 && !reduce) {
+    let i = 0;
+    setInterval(() => {
+      slides[i].classList.remove('is-active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('is-active');
+    }, 5000);
+  }
+</script>

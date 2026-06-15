@@ -1,0 +1,84 @@
+---
+/**
+ * Campo de teléfono con selector de país (bandera + prefijo).
+ * Por defecto Chile (+56). El número se escribe aparte; la validación
+ * por país vive en SmartForm.astro (busca [data-phone-field]).
+ *
+ * El selector se renderiza aquí en HTML (opciones desde COUNTRY_CODES);
+ * el JS de SmartForm solo abre/cierra la lista y actualiza el valor.
+ */
+import { COUNTRY_CODES } from '../data/countryCodes';
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+}
+
+const { id, name, label } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const def = COUNTRY_CODES.find((c) => c.code === 'CL') ?? COUNTRY_CODES[0];
+const nameOf = (c: (typeof COUNTRY_CODES)[number]) => (lang === 'en' ? c.nameEn : c.nameEs);
+
+const inputClass =
+  'w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm text-ink transition-colors placeholder:text-ink/40 hover:border-primary/40 focus:border-action-bright focus:ring-2 focus:ring-accent/40 focus:outline-none';
+const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
+---
+
+<div data-phone-field data-error-anchor>
+  <label class={labelClass} for={id}>{label}</label>
+  <div class="relative">
+    <div class="flex items-stretch gap-2">
+      <button
+        type="button"
+        data-country-trigger
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-label={t('form.countrySelect')}
+        class="flex shrink-0 items-center gap-1.5 rounded-xl border border-primary/20 bg-white px-3 text-sm transition-colors hover:border-primary/40 focus:border-action-bright focus:ring-2 focus:ring-accent/40 focus:outline-none"
+      >
+        <span data-country-flag class="text-base leading-none">{def.flag}</span>
+        <span data-country-dial class="font-semibold text-ink">{def.dial}</span>
+        <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 stroke-ink/50" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <input
+        id={id}
+        name={name}
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        maxlength="20"
+        data-label={label}
+        data-phone-input
+        data-validate="phone"
+        data-country={def.code}
+        required
+        placeholder={def.example}
+        class={`${inputClass} flex-1`}
+      />
+    </div>
+    <ul
+      data-country-list
+      role="listbox"
+      hidden
+      class="absolute left-0 right-0 top-full z-30 mt-1.5 max-h-72 overflow-auto rounded-2xl border border-primary/10 bg-white py-1.5 shadow-xl shadow-primary/15"
+    >
+      {
+        COUNTRY_CODES.map((c) => (
+          <li
+            role="option"
+            data-code={c.code}
+            class="flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm hover:bg-mist"
+          >
+            <span class="text-base leading-none">{c.flag}</span>
+            <span class="min-w-0 flex-1 truncate font-semibold text-ink">{nameOf(c)}</span>
+            <span class="shrink-0 text-ink/60">{c.dial}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
