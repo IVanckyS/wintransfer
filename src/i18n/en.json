@@ -21,6 +21,12 @@
     "contactUs": "Contact us",
     "pending": "[PENDING]"
   },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home",
+    "whatsapp": "Message us on WhatsApp"
+  },
   "home": {
     "heroEyebrow": "Passenger transport · 20 years of experience",
     "heroRotating": [
