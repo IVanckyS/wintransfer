@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // URL canónica del sitio. En Vercel usamos automáticamente el dominio de
 // producción (mientras no se compre wintransfer.cl será wintransfer-black.vercel.app;
@@ -21,6 +22,16 @@ export default defineConfig({
       redirectToDefaultLocale: true,
     },
   },
+  integrations: [
+    // Genera /sitemap-index.xml + /sitemap-0.xml en cada build.
+    // Detecta la config i18n y añade enlaces hreflang ES/EN por URL.
+    sitemap({
+      i18n: {
+        defaultLocale: 'es',
+        locales: { es: 'es-CL', en: 'en-US' },
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

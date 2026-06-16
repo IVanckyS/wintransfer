@@ -21,6 +21,12 @@
     "contactUs": "Contáctanos",
     "pending": "[PENDIENTE]"
   },
+  "notFound": {
+    "title": "Página no encontrada",
+    "text": "La página que buscas no existe o cambió de dirección.",
+    "home": "Volver al inicio",
+    "whatsapp": "Escríbenos por WhatsApp"
+  },
   "home": {
     "heroEyebrow": "Transporte de pasajeros · 20 años de experiencia",
     "heroRotating": [
