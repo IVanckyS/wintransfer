@@ -23,13 +23,13 @@ const items = t<PromoItem[]>('promos.items');
   aria-haspopup="dialog"
   aria-expanded="false"
   aria-controls="promo-panel"
-  class="fixed bottom-20 left-4 z-50 flex items-center gap-2 rounded-full bg-sun py-2.5 pr-4 pl-3 text-sm font-bold text-ink shadow-lg shadow-sun/40 transition-transform hover:scale-105 md:bottom-24 md:left-6"
+  class="fixed bottom-20 left-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-sun text-ink shadow-lg shadow-sun/40 transition-transform hover:scale-105 sm:h-auto sm:w-auto sm:gap-2 sm:py-2.5 sm:pr-4 sm:pl-3 md:bottom-24 md:left-6"
 >
-  <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-current sm:h-4 sm:w-4" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
     <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none" />
   </svg>
-  {t('promos.launcher')}
+  <span class="hidden sm:inline text-sm font-bold">{t('promos.launcher')}</span>
 </button>
 
 <!-- Panel -->
