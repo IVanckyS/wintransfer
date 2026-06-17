@@ -1,0 +1,435 @@
+{
+  "site": {
+    "name": "Win Transfer",
+    "slogan": "Chegar na hora também é ganhar",
+    "description": "Win Transfer — transporte de passageiros para empresas e instituições. Transfer de aeroporto, transporte de funcionários e serviços corporativos em todo o Chile, 24/7."
+  },
+  "nav": {
+    "home": "Início",
+    "about": "Quem somos",
+    "services": "Serviços",
+    "agreement": "Adira ao convênio",
+    "coverage": "Cobertura",
+    "contact": "Contato",
+    "terms": "Termos e condições",
+    "book": "Reservar",
+    "language": "Idioma"
+  },
+  "common": {
+    "bookNow": "Reserve seu transfer",
+    "whatsappCta": "Fale conosco pelo WhatsApp",
+    "instagramCta": "Siga-nos no Instagram",
+    "learnMore": "Ver mais",
+    "contactUs": "Fale conosco",
+    "pending": "[PENDENTE]"
+  },
+  "chat": {
+    "launcher": "Tem dúvidas?",
+    "title": "Assistente Win",
+    "status": "Online · responde na hora",
+    "greeting": "Olá! Sou o seu assistente de Transfer Win. Escolha um tema e te conto na hora 👇",
+    "human": "Falar com uma pessoa",
+    "close": "Fechar",
+    "categories": [
+      { "id": "reservas", "label": "Reservas" },
+      { "id": "tarifas", "label": "Tarifas" },
+      { "id": "cobertura", "label": "Cobertura" }
+    ],
+    "faqs": [
+      { "id": "book", "cat": "reservas", "q": "Como reservo?", "a": "Conte-nos origem, destino, data e número de passageiros pelo formulário ou WhatsApp e coordenamos seu transfer.", "cta": "Ir para a reserva" },
+      { "id": "hours", "cat": "reservas", "q": "Atendem 24/7?", "a": "Sim, estamos disponíveis os 7 dias da semana, 24 horas por dia.", "cta": "Reservar agora" },
+      { "id": "services", "cat": "reservas", "q": "Quais serviços oferecem?", "a": "Transporte de funcionários, executivo, eventos, aeroporto, excursões institucionais e serviços especiais.", "cta": "Ver serviços" },
+      { "id": "jobs", "cat": "reservas", "q": "Trabalhe conosco", "a": "Tem experiência ao volante e compromisso com pontualidade e segurança? Queremos conhecer você.", "cta": "Candidatar-se" },
+      { "id": "price", "cat": "tarifas", "q": "Quanto custa?", "a": "O valor depende do trajeto (rota, data e número de passageiros). Fazemos seu orçamento grátis e sem compromisso pelo WhatsApp.", "cta": "Orçar pelo WhatsApp" },
+      { "id": "agreement", "cat": "tarifas", "q": "Convênio para empresas", "a": "Transporte permanente com tarifas preferenciais, prioridade no atendimento e faturamento formal.", "cta": "Ver convênio" },
+      { "id": "coverage", "cat": "cobertura", "q": "Para onde vocês vão?", "a": "Operamos nas 16 regiões do Chile, de Arica a Magallanes, os 7 dias da semana, 24 horas por dia.", "cta": "Ver cobertura" }
+    ]
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "text": "A página que você procura não existe ou mudou de endereço.",
+    "home": "Voltar ao início",
+    "whatsapp": "Fale conosco pelo WhatsApp"
+  },
+  "home": {
+    "heroEyebrow": "Transporte de passageiros · 20 anos de experiência",
+    "heroRotating": [
+      "Transfer para o aeroporto",
+      "Transporte de funcionários",
+      "Transporte executivo",
+      "Serviços para eventos",
+      "Excursões institucionais"
+    ],
+    "heroSub": "Serviço para empresas, instituições e organizações em todo o Chile. Disponíveis 24/7, registrados no Sernatur.",
+    "heroCtaPrimary": "Reserve seu transfer",
+    "heroCtaSecondary": "Conheça nossos serviços",
+    "heroMediaLabel": "[Vídeo hero: veículo na estrada / cidade]",
+    "servicesTitle": "Soluções de transporte para a sua organização",
+    "servicesIntro": "Seis linhas de serviço pensadas para empresas, instituições e instituições de ensino.",
+    "servicesCta": "Ver todos os serviços",
+    "trustTitle": "Por que escolher a Win Transfer",
+    "trust": [
+      {
+        "title": "20 anos de experiência",
+        "text": "Duas décadas transportando passageiros com segurança e pontualidade."
+      },
+      {
+        "title": "Cobertura nacional",
+        "text": "Operamos nas 16 regiões do Chile, de Arica a Magallanes."
+      },
+      {
+        "title": "Disponíveis 24/7",
+        "text": "De segunda a domingo, a qualquer hora. Seu transfer não espera."
+      },
+      {
+        "title": "Registrados no Sernatur",
+        "text": "Transporte turístico registrado: conformidade com as normas garantida."
+      }
+    ],
+    "partnersTitle": "Empresas que confiam em nós",
+    "partnersNote": "Algumas das empresas e instituições que confiam no nosso serviço.",
+    "finalCtaTitle": "Pronto para chegar na hora?",
+    "finalCtaText": "Conte-nos o que você precisa e coordenamos seu transfer pelo WhatsApp.",
+    "finalCtaButton": "Reservar pelo WhatsApp",
+    "experience": {
+      "eyebrow": "A experiência Win Transfer",
+      "title": "Embarque, relaxe e deixe o caminho com a gente",
+      "intro": "Cuidamos de cada detalhe para que seu único trabalho seja chegar.",
+      "panels": [
+        {
+          "title": "Uma recepção pontual",
+          "text": "Seu motorista chega antes de você. Sem esperas, sem imprevistos."
+        },
+        {
+          "title": "Viaje com todo o conforto",
+          "text": "Veículos modernos e climatizados para você chegar descansado e na hora."
+        },
+        {
+          "title": "Cada detalhe, coordenado",
+          "text": "Uma equipe disponível 24/7 que ajusta seu transfer ao que você precisa."
+        }
+      ]
+    }
+  },
+  "about": {
+    "title": "Quem somos",
+    "eyebrow": "Empresa chilena de transporte de passageiros",
+    "intro": "A Win Transfer é uma empresa especializada em transporte de passageiros, focada em oferecer um serviço seguro, pontual e profissional para empresas, instituições, instituições de ensino e organizações, além de transfers particulares.",
+    "historyTitle": "Nossa história",
+    "historyText": "Temos 20 anos de experiência no transporte de passageiros e operamos em todo o Chile, os 7 dias da semana, 24 horas por dia. Atendemos empresas dentro e fora da Região do Biobío, transfers pessoais fixos e viagens diárias ao Aeroporto Carriel Sur, sempre com um serviço seguro, pontual e profissional.",
+    "bannerAlt": "Veículo da Win Transfer em operação",
+    "historyAlt": "Frota de veículos Win Transfer",
+    "missionTitle": "Nossa missão",
+    "missionText": "Oferecer um transporte de passageiros seguro, pontual e próximo a empresas, instituições e pessoas em todo o Chile, com motoristas profissionais e uma coordenação direta que se adapta a cada necessidade.",
+    "visionTitle": "Nossa visão",
+    "visionText": "Ser a empresa de transporte de passageiros de confiança no Chile, reconhecida pela segurança, pela pontualidade e pela qualidade de cada viagem.",
+    "processTitle": "Como trabalhamos",
+    "process": [
+      {
+        "title": "Conte-nos sua necessidade",
+        "text": "Escreva para nós pelo formulário ou WhatsApp com sua origem, destino, data e número de passageiros."
+      },
+      {
+        "title": "Coordenamos seu transfer",
+        "text": "Respondemos pelo WhatsApp, tiramos suas dúvidas e confirmamos cada detalhe sob medida."
+      },
+      {
+        "title": "Você viaja tranquilo",
+        "text": "Seu motorista chega pontual e leva você com segurança ao destino. Você só se preocupa em chegar."
+      }
+    ],
+    "attributesTitle": "O que nos define",
+    "attributes": [
+      {
+        "title": "Segurança e conformidade",
+        "text": "Operação registrada no Sernatur e de acordo com as normas vigentes."
+      },
+      {
+        "title": "Motoristas profissionais",
+        "text": "Equipe com experiência e atendimento cordial em cada transfer."
+      },
+      {
+        "title": "Pontualidade",
+        "text": "Chegar na hora também é ganhar: é o nosso compromisso central."
+      },
+      {
+        "title": "Atendimento personalizado",
+        "text": "Coordenação direta e soluções sob medida para cada cliente."
+      },
+      {
+        "title": "Flexibilidade operacional",
+        "text": "Adaptamo-nos a horários, rotas e requisitos especiais."
+      },
+      {
+        "title": "Cobertura regional",
+        "text": "Presença operacional em todo o Chile."
+      }
+    ],
+    "coverageTitle": "Cobertura em todo o Chile",
+    "coverageText": "Chegamos às 16 regiões do país, de Arica y Parinacota a Magallanes.",
+    "coverageCta": "Ver mapa de cobertura →",
+    "coverageBadge": "Atendimento 24/7 · de segunda a domingo",
+    "coverageMapLabel": "Mapa do Chile com as regiões onde operamos",
+    "mediaLabel": "[Imagem: equipe / operação Win Transfer]"
+  },
+  "legal": {
+    "linkLabel": "Termos e privacidade",
+    "title": "Termos e privacidade",
+    "draftNotice": "Rascunho — pendente de revisão jurídica. Não é vinculante até sua aprovação.",
+    "privacyTitle": "Privacidade e uso de dados",
+    "privacy": [
+      "A Win Transfer é uma empresa chilena de transporte de passageiros. Este site é informativo: seu objetivo é que você conheça nossos serviços e possa entrar em contato.",
+      "Quais dados coletamos: apenas os que você nos fornece ao entrar em contato pelo formulário ou pelo WhatsApp — seu nome, um meio de contato (telefone ou e-mail) e os detalhes da sua solicitação (origem, destino, data, número de passageiros e tipo de serviço).",
+      "Como os coletamos: o site não armazena seus dados em servidores próprios nem usa banco de dados. Ao enviar o formulário, o WhatsApp é aberto com uma mensagem que você decide enviar; a conversa fica na sua conta e na nossa.",
+      "Para que os usamos: unicamente para responder sua consulta, cotar e coordenar seu transfer. Não os usamos para fins publicitários nem para outros propósitos.",
+      "Com quem os compartilhamos: não vendemos nem cedemos seus dados a terceiros. O contato é feito por meio do WhatsApp (Meta Platforms), sujeito às políticas de privacidade desse serviço.",
+      "Cookies: este site não utiliza cookies de rastreamento nem publicitários. Apenas carrega fontes do Google (Google Fonts) para exibir o conteúdo.",
+      "Seus direitos: você pode nos pedir para parar de contatá-lo ou para excluir as informações que compartilhou, escrevendo para reservaswin@gmail.com."
+    ],
+    "termsTitle": "Termos de uso",
+    "terms": [
+      "O conteúdo deste site (textos, imagens e serviços descritos) tem caráter informativo. A disponibilidade, as condições e os valores de cada serviço são confirmados diretamente ao coordenar seu transfer.",
+      "As reservas e solicitações são gerenciadas pelo WhatsApp ou pelos canais de contato indicados. Este site não processa pagamentos on-line.",
+      "As políticas específicas de reserva, cancelamento e responsabilidade serão informadas ao coordenar o serviço. [Pendente de definição e revisão jurídica.]",
+      "A Win Transfer poderá atualizar estes termos. Para qualquer dúvida, escreva para nós em reservaswin@gmail.com."
+    ],
+    "close": "Fechar"
+  },
+  "services": {
+    "title": "Nossos serviços",
+    "intro": "Transporte de passageiros para o mundo corporativo e institucional. Todos os nossos serviços são coordenados de forma direta e se adaptam à sua operação.",
+    "ctaCard": "Cotar este serviço",
+    "items": [
+      {
+        "id": "personal",
+        "title": "Transporte de funcionários",
+        "text": "Transporte diário ou por turnos para as equipes da sua empresa, com rotas e horários sob medida.",
+        "mediaLabel": "[Imagem: transporte de funcionários]"
+      },
+      {
+        "id": "ejecutivo",
+        "title": "Transporte executivo",
+        "text": "Serviço premium para executivos e visitantes: pontualidade, discrição e conforto.",
+        "mediaLabel": "[Imagem: transporte executivo]"
+      },
+      {
+        "id": "eventos",
+        "title": "Serviços para eventos",
+        "text": "Logística de transporte para seminários, comemorações e eventos corporativos.",
+        "mediaLabel": "[Imagem: serviços para eventos]"
+      },
+      {
+        "id": "aeropuerto",
+        "title": "Transfers para o aeroporto",
+        "text": "Transfer pontual de e para o aeroporto Carriel Sur, coordenado com seu voo.",
+        "mediaLabel": "[Imagem: transfer aeroporto]"
+      },
+      {
+        "id": "giras",
+        "title": "Excursões e atividades institucionais",
+        "text": "Transfers para escolas, universidades e instituições em excursões e atividades.",
+        "mediaLabel": "[Imagem: excursões institucionais]"
+      },
+      {
+        "id": "especiales",
+        "title": "Serviços especiais",
+        "text": "Tem uma necessidade diferente? Desenhamos o serviço de acordo com a sua necessidade.",
+        "mediaLabel": "[Imagem: serviços especiais]"
+      }
+    ],
+    "bottomCtaTitle": "Não encontrou o que procura?",
+    "bottomCtaText": "Conte-nos seu requisito e montamos um serviço especial para você."
+  },
+  "agreement": {
+    "title": "Adira ao convênio",
+    "intro": "O convênio corporativo Win Transfer oferece à sua empresa transporte confiável com condições preferenciais e coordenação direta, sem intermediários.",
+    "whatTitle": "O que é o convênio?",
+    "whatText": "É um acordo de serviço permanente entre a sua organização e a Win Transfer: sua equipe solicita transfers quando precisa e nós respondemos com prioridade, tarifas preferenciais e faturamento formal.",
+    "benefitsTitle": "Benefícios do convênio",
+    "benefits": [
+      "Tarifas preferenciais",
+      "Prioridade no atendimento",
+      "Coordenação direta",
+      "Faturamento formal",
+      "Soluções de transporte confiáveis",
+      "Serviço adaptável a diferentes necessidades"
+    ],
+    "processTitle": "Como funciona?",
+    "process": [
+      {
+        "title": "Assinatura do convênio",
+        "text": "Formalizamos o acordo com a sua organização."
+      },
+      {
+        "title": "Solicitação do serviço",
+        "text": "Você pede o transfer pelo canal combinado, quando precisar."
+      },
+      {
+        "title": "Confirmação de disponibilidade",
+        "text": "Confirmamos veículo, horário e condições."
+      },
+      {
+        "title": "Execução do transfer",
+        "text": "Realizamos o serviço com pontualidade e segurança."
+      }
+    ],
+    "partnersTitle": "Com quem trabalhamos",
+    "partnersText": "Empresas, instituições e organizações de diferentes setores já confiam na Win Transfer.",
+    "driverTitle": "Quer ser motorista?",
+    "driverText": "Junte-se à nossa equipe. Se você tem experiência no transporte de passageiros e compromisso com a pontualidade e a segurança, queremos conhecer você.",
+    "driverCta": "Trabalhe conosco",
+    "ctaTitle": "Sua empresa precisa de transporte permanente?",
+    "ctaText": "Escreva para nós e vamos conversar sobre um convênio sob medida.",
+    "ctaButton": "Solicitar convênio"
+  },
+  "coverage": {
+    "title": "Cobertura",
+    "intro": "Operamos nas 16 regiões do Chile. Selecione uma região para descobrir seus principais destinos turísticos.",
+    "placesTitle": "Destinos em destaque",
+    "placesHint": "Selecione uma região no mapa ou na lista para ver seus destinos turísticos."
+  },
+  "fleet": {
+    "title": "Nossa frota",
+    "intro": "Veículos confortáveis e seguros para cada tipo de serviço. Clique em uma imagem para ampliá-la.",
+    "note": "[PENDENTE: sessão fotográfica oficial da frota — fotos em breve]",
+    "vehicles": [
+      "[Imagem: veículo 1]",
+      "[Imagem: veículo 2]",
+      "[Imagem: veículo 3]",
+      "[Imagem: veículo 4]",
+      "[Imagem: veículo 5]",
+      "[Imagem: veículo 6]"
+    ]
+  },
+  "contact": {
+    "title": "Contato",
+    "intro": "Preencha o formulário e responderemos pelo WhatsApp, ou escreva diretamente para nós.",
+    "dataTitle": "Dados de contato",
+    "phoneLabel": "Telefone / WhatsApp",
+    "emailLabel": "E-mail",
+    "hoursLabel": "Horário",
+    "hoursValue": "24/7 · de segunda a domingo",
+    "coverageLabel": "Cobertura",
+    "coverageValue": "As 16 regiões do Chile",
+    "mapLabel": "[Mapa: localização / área de operação]"
+  },
+  "form": {
+    "title": "O que você precisa?",
+    "typeBooking": "Reserva",
+    "typeAgreement": "Convênio",
+    "typeJobs": "Trabalhe conosco",
+    "origin": "Origem",
+    "originPlaceholder": "Ex.: Concepción centro",
+    "destination": "Destino",
+    "destinationPlaceholder": "Ex.: Aeroporto Carriel Sur",
+    "date": "Data",
+    "time": "Hora",
+    "passengers": "N.º de passageiros",
+    "luggage": "Malas",
+    "tripToAirport": "Para o aeroporto",
+    "tripFromAirport": "Do aeroporto",
+    "tripOther": "Outro transfer",
+    "oneWay": "Somente ida",
+    "roundTrip": "Ida e volta",
+    "returnDate": "Data de volta",
+    "returnTime": "Hora de volta",
+    "outbound": "Ida",
+    "return": "Volta",
+    "summaryTitle": "Resumo da sua viagem",
+    "summaryEmpty": "Preencha os dados e aqui você verá o resumo da sua viagem.",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome",
+    "passengerName": "Nome do passageiro",
+    "contactPhone": "Telefone de contato",
+    "fieldRequired": "Preencha este campo",
+    "airportPlaceholder": "Busque um aeroporto…",
+    "countrySelect": "Código do país",
+    "errName": "Digite um nome válido (apenas letras).",
+    "errPhone": "Digite um telefone válido (8 a 15 dígitos).",
+    "errPhoneCl": "O número deve começar com 9 e ter 9 dígitos.",
+    "errAirport": "Escolha um aeroporto da lista.",
+    "errPassengers": "Indique entre 1 e 15 passageiros.",
+    "errLuggage": "Indique entre 0 e 20 malas.",
+    "payment": "Forma de pagamento",
+    "paymentPlaceholder": "Selecione uma opção",
+    "paymentOptions": ["Transferência bancária", "Webpay", "Faturamento empresa (convênio)"],
+    "companyName": "Nome da empresa",
+    "companyPlaceholder": "Razão social ou nome fantasia",
+    "contactPerson": "Pessoa de contato",
+    "contactPlaceholder": "Nome e cargo",
+    "message": "Mensagem",
+    "messagePlaceholder": "Conte-nos o que a sua organização precisa",
+    "phone": "Telefone",
+    "phonePlaceholder": "+56 9 ...",
+    "experience": "Experiência",
+    "experiencePlaceholder": "Resuma sua experiência como motorista",
+    "jobsNote": "Não são anexados arquivos: o currículo é solicitado por e-mail se você avançar no processo.",
+    "submit": "Enviar pelo WhatsApp",
+    "miniSubmit": "Continuar reserva",
+    "miniHint": "Você vai completar e enviar sua reserva na página de contato.",
+    "disclaimer": "Ao enviar, o WhatsApp será aberto com sua mensagem pronta para a nossa equipe.",
+    "waIntroBooking": "Olá, quero reservar um transfer",
+    "waIntroAgreement": "Olá, quero informações sobre o convênio corporativo",
+    "waIntroJobs": "Olá, quero trabalhar com vocês"
+  },
+  "terms": {
+    "title": "Termos e condições",
+    "updated": "Última atualização: [PENDENTE]",
+    "body": "[PENDENTE: texto jurídico em revisão pelo advogado da empresa. Será publicado assim que aprovado.]"
+  },
+  "footer": {
+    "contactTitle": "Contato",
+    "coverageTitle": "Cobertura",
+    "coverageText": "As 16 regiões do Chile, de Arica y Parinacota a Magallanes. Atendimento 24/7.",
+    "socialTitle": "Redes",
+    "paymentTitle": "Formas de pagamento",
+    "paymentText": "Transferência · Webpay · Faturamento empresas. Sem cobranças on-line.",
+    "termsLink": "Termos e condições",
+    "rights": "Todos os direitos reservados.",
+    "sernatur": "Registrados no Sernatur como transporte turístico"
+  },
+  "regions": [
+    "Arica y Parinacota",
+    "Tarapacá",
+    "Antofagasta",
+    "Atacama",
+    "Coquimbo",
+    "Valparaíso",
+    "Metropolitana de Santiago",
+    "O'Higgins",
+    "Maule",
+    "Ñuble",
+    "Biobío",
+    "La Araucanía",
+    "Los Ríos",
+    "Los Lagos",
+    "Aysén del General Carlos Ibáñez del Campo",
+    "Magallanes y de la Antártica Chilena"
+  ],
+  "regionPlaces": [
+    ["Lago Chungará", "Parque Nacional Lauca", "Vale de Azapa", "Putre", "Geoglifos de Lluta"],
+    ["Humberstone (UNESCO)", "Praia Cavancha", "Pampa del Tamarugal", "Gigante do Atacama", "Vulcão Isluga"],
+    ["Vale da Lua", "Gêiseres del Tatio", "Salar do Atacama", "San Pedro de Atacama", "Toconao"],
+    ["Bahía Inglesa", "Parque Nac. Pan de Azúcar", "Laguna Verde", "Nevado Tres Cruces", "Deserto Florido"],
+    ["Vale do Elqui", "Observatório Mamalluca", "La Serena", "Ilha Damas", "Tongoy"],
+    ["Morros de Valparaíso (UNESCO)", "Viña del Mar", "Ilha de Páscoa (UNESCO)", "Vale de Casablanca", "Zapallar"],
+    ["Cajón del Maipo", "Centro histórico de Santiago", "Portillo", "Pomaire", "Reserva Nac. El Yeso"],
+    ["Sewell (UNESCO)", "Vale de Colchagua", "Pichilemu", "Lago Rapel", "Santa Cruz"],
+    ["Constitución", "Vale do Maule", "Lago Colbún", "Reserva Altos de Lircay", "Vichuquén"],
+    ["Nevados de Chillán", "Termas de Chillán", "Salto del Itata", "Chillán Viejo", "Laguna del Dial"],
+    ["Salto del Laja", "Parque Nac. Laguna del Laja", "Concepción", "Ilha Santa María", "Lebu"],
+    ["Lago Villarrica", "Vulcão Villarrica", "Parque Nac. Huerquehue", "Parque Nac. Conguillío", "Temuco"],
+    ["Valdivia", "Huilo-Huilo", "Lago Panguipulli", "Reserva Nac. Mocho-Choshuenco", "Futrono"],
+    ["Chiloé", "Puerto Varas", "Lago Llanquihue", "Vulcão Osorno", "Parque Nac. V. Pérez Rosales"],
+    ["Lago General Carrera", "Carretera Austral", "Parque Patagônia", "Reserva Nac. Cerro Castillo", "Villa O'Higgins"],
+    ["Torres del Paine", "Cabo Horn", "Puerto Natales", "Punta Arenas", "Ilha Navarino"]
+  ],
+  "partners": [
+    "Oxiquim",
+    "Turismo Esquerré",
+    "Lycée Charles de Gaulle",
+    "Russell Mineral Equipment",
+    "SGS Chile",
+    "Grupo Eulen"
+  ]
+}

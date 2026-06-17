@@ -4,7 +4,7 @@ import { partnerLogos } from '../../data/partnerLogos';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 
 export function getStaticPaths() {
-  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
 }
 
 const lang = Astro.params.lang as Lang;

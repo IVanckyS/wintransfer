@@ -1,0 +1,92 @@
+---
+/**
+ * Banderas SVG inline para el selector de idioma.
+ * Usamos SVG (no emoji 🇨🇱) porque en Windows de escritorio los emoji de
+ * bandera NO se renderizan: Chrome/Edge muestran el código de país ("CL").
+ * Mapeo por idioma: es→Chile, en→EE. UU., pt→Brasil.
+ *
+ * El `clipPath` lleva un id único por instancia para evitar colisiones cuando
+ * la misma bandera aparece varias veces en la página.
+ */
+import type { Lang } from '../i18n';
+
+interface Props {
+  code: Lang;
+  class?: string;
+}
+
+const { code, class: className = 'h-[15px] w-[22px]' } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 9);
+const clip = `flag-clip-${code}-${uid}`;
+---
+
+<svg
+  class:list={['shrink-0 rounded-[2px]', className]}
+  viewBox="0 0 30 20"
+  role="img"
+  aria-hidden="true"
+  preserveAspectRatio="xMidYMid slice"
+>
+  <defs>
+    <clipPath id={clip}><rect width="30" height="20" rx="2.5" /></clipPath>
+  </defs>
+  <g clip-path={`url(#${clip})`}>
+    {
+      code === 'es' && (
+        <>
+          {/* Chile */}
+          <rect width="30" height="10" fill="#ffffff" />
+          <rect y="10" width="30" height="10" fill="#d52b1e" />
+          <rect width="10" height="10" fill="#0039a6" />
+          <path
+            d="M5 1.8 5.764 3.948 8.043 4.011 6.236 5.402 6.881 7.589 5 6.3 3.119 7.589 3.764 5.402 1.957 4.011 4.236 3.948Z"
+            fill="#ffffff"
+          />
+        </>
+      )
+    }
+    {
+      code === 'en' && (
+        <>
+          {/* EE. UU. */}
+          <rect width="30" height="20" fill="#b22234" />
+          <g fill="#ffffff">
+            <rect y="1.538" width="30" height="1.538" />
+            <rect y="4.615" width="30" height="1.538" />
+            <rect y="7.692" width="30" height="1.538" />
+            <rect y="10.769" width="30" height="1.538" />
+            <rect y="13.846" width="30" height="1.538" />
+            <rect y="16.923" width="30" height="1.538" />
+          </g>
+          <rect width="12" height="10.769" fill="#3c3b6e" />
+          <g fill="#ffffff">
+            <circle cx="2" cy="2.2" r="0.45" />
+            <circle cx="4.5" cy="2.2" r="0.45" />
+            <circle cx="7" cy="2.2" r="0.45" />
+            <circle cx="9.5" cy="2.2" r="0.45" />
+            <circle cx="2" cy="5.4" r="0.45" />
+            <circle cx="4.5" cy="5.4" r="0.45" />
+            <circle cx="7" cy="5.4" r="0.45" />
+            <circle cx="9.5" cy="5.4" r="0.45" />
+            <circle cx="2" cy="8.6" r="0.45" />
+            <circle cx="4.5" cy="8.6" r="0.45" />
+            <circle cx="7" cy="8.6" r="0.45" />
+            <circle cx="9.5" cy="8.6" r="0.45" />
+          </g>
+        </>
+      )
+    }
+    {
+      code === 'pt' && (
+        <>
+          {/* Brasil */}
+          <rect width="30" height="20" fill="#009b3a" />
+          <path d="M15 2 28 10 15 18 2 10Z" fill="#ffdf00" />
+          <circle cx="15" cy="10" r="4.6" fill="#002776" />
+          <path d="M11.2 10.6 Q15 8.6 18.8 10.6" stroke="#ffffff" stroke-width="0.9" fill="none" />
+        </>
+      )
+    }
+  </g>
+  <rect width="30" height="20" rx="2.5" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1" />
+</svg>

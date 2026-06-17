@@ -1,0 +1,117 @@
+---
+/**
+ * Selector de idioma: título "Idioma" + desplegable con bandera y el nombre
+ * del idioma escrito en su propio idioma (Español / English / Português).
+ * El orden y los nombres salen de `languageMeta` (src/i18n). Cada opción
+ * enlaza a la misma página en el otro idioma vía `switchLangPath`.
+ */
+import { getLangFromUrl, useTranslations, switchLangPath, languageMeta, type Lang } from '../i18n';
+import FlagIcon from './FlagIcon.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const langCodes = Object.keys(languageMeta) as Lang[];
+---
+
+<div class="relative flex items-center gap-2" data-lang-switcher>
+  <span class="hidden text-xs font-bold uppercase tracking-wide text-ink/50 md:inline">
+    {t('nav.language')}
+  </span>
+
+  <button
+    type="button"
+    data-lang-toggle
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-label={t('nav.language')}
+    class="flex items-center gap-2 rounded-full border border-primary/20 px-2.5 py-1.5 text-sm font-bold text-primary transition-colors hover:bg-mist focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+  >
+    <FlagIcon code={lang} />
+    <span class="hidden sm:inline">{languageMeta[lang].native}</span>
+    <svg
+      class="lang-chev h-3.5 w-3.5 transition-transform"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <div
+    data-lang-menu
+    role="menu"
+    class="absolute right-0 top-full z-50 mt-2 hidden min-w-[11rem] overflow-hidden rounded-2xl border border-primary/15 bg-white py-1 shadow-xl shadow-primary/10"
+  >
+    {
+      langCodes.map((code) => (
+        <a
+          href={switchLangPath(Astro.url, code)}
+          role="menuitem"
+          hreflang={code}
+          aria-current={code === lang ? 'true' : undefined}
+          class:list={[
+            'flex items-center gap-2.5 px-3.5 py-2 text-sm font-semibold transition-colors',
+            code === lang ? 'bg-mist text-primary' : 'text-ink/80 hover:bg-mist hover:text-primary',
+          ]}
+        >
+          <FlagIcon code={code} />
+          <span>{languageMeta[code].native}</span>
+          {code === lang && (
+            <svg
+              class="ml-auto h-4 w-4 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m5 13 4 4L19 7" />
+            </svg>
+          )}
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* Gira el chevron cuando el menú está abierto. */
+  [data-lang-toggle][aria-expanded='true'] .lang-chev {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-lang-switcher]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('[data-lang-toggle]');
+    const menu = root.querySelector<HTMLElement>('[data-lang-menu]');
+    if (!btn || !menu) return;
+
+    const close = () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+    const open = () => {
+      menu.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menu.classList.contains('hidden') ? open() : close();
+    });
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  });
+</script>

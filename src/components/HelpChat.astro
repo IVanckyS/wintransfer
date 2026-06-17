@@ -1,0 +1,304 @@
+---
+import { getLangFromUrl, useTranslations, localePath } from '../i18n';
+import { waLink } from '../config';
+
+interface Faq {
+  id: string;
+  cat: string;
+  q: string;
+  a: string;
+  cta: string;
+}
+interface Category {
+  id: string;
+  label: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const faqs = t<Faq[]>('chat.faqs');
+const categories = t<Category[]>('chat.categories');
+
+const dest: Record<string, { href: string; external: boolean }> = {
+  book:      { href: localePath(lang, 'contact'), external: false },
+  coverage:  { href: localePath(lang, 'coverage'), external: false },
+  services:  { href: localePath(lang, 'services'), external: false },
+  agreement: { href: localePath(lang, 'agreement'), external: false },
+  price:     { href: waLink(t('form.waIntroBooking')), external: true },
+  hours:     { href: localePath(lang, 'contact'), external: false },
+  jobs:      { href: `${localePath(lang, 'contact')}?form=jobs`, external: false },
+};
+const fallback = { href: localePath(lang, 'contact'), external: false };
+
+const firstCat = categories[0]?.id ?? '';
+const humanHref = waLink();
+
+const catIcons: Record<string, string[]> = {
+  reservas: [
+    'M5 17H3a2 2 0 0 1-2-2V9l3-5h12l3 5v6a2 2 0 0 1-2 2h-2',
+    'M7 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0',
+    'M13 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0',
+    'M5 11h14',
+  ],
+  tarifas:  ['M12 2l10 10-10 10L2 12z'],
+  cobertura: [
+    'M12 21s-7-5.3-7-11a7 7 0 1 1 14 0c0 5.7-7 11-7 11Z',
+    'M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
+  ],
+};
+---
+
+<!-- Lanzador -->
+<button
+  id="help-chat-launcher"
+  type="button"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="help-chat-panel"
+  class="fixed bottom-4 left-4 z-50 flex items-center gap-2 rounded-full bg-primary py-3 pr-4 pl-3.5 text-sm font-bold text-white shadow-lg shadow-primary/30 transition-transform hover:scale-105 md:bottom-6 md:left-6"
+>
+  <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true">
+    <path d="M12 2l1.5 8.5L22 12l-8.5 1.5L12 22l-1.5-8.5L2 12l8.5-1.5z" />
+  </svg>
+  <span class="hidden sm:inline">{t('chat.launcher')}</span>
+</button>
+
+<!-- Panel -->
+<div
+  id="help-chat-panel"
+  role="dialog"
+  aria-label={t('chat.title')}
+  hidden
+  class="fixed bottom-20 left-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-primary/20 md:bottom-24 md:left-6"
+>
+  <!-- Header -->
+  <header class="flex flex-shrink-0 items-center justify-between gap-2 bg-primary px-4 py-3">
+    <div class="flex items-center gap-3">
+      <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/20">
+        <svg viewBox="0 0 24 24" class="h-5 w-5 fill-white" aria-hidden="true">
+          <path d="M12 2l1.5 8.5L22 12l-8.5 1.5L12 22l-1.5-8.5L2 12l8.5-1.5z" />
+        </svg>
+      </div>
+      <div>
+        <p class="text-sm font-bold text-white">{t('chat.title')}</p>
+        <p class="flex items-center gap-1.5 text-xs text-white/80">
+          <span class="h-2 w-2 flex-shrink-0 rounded-full bg-green-400"></span>
+          {t('chat.status')}
+        </p>
+      </div>
+    </div>
+    <button
+      data-chat-close
+      type="button"
+      aria-label={t('chat.close')}
+      class="flex h-8 w-8 items-center justify-center rounded-lg border border-white/30 text-white transition-colors hover:bg-white/10"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Cuerpo desplazable -->
+  <div class="flex-1 overflow-y-auto">
+    <!-- Burbuja de saludo -->
+    <div class="p-4 pb-3">
+      <div class="flex items-start gap-2.5">
+        <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-primary">
+          <svg viewBox="0 0 24 24" class="h-4 w-4 fill-white" aria-hidden="true">
+            <path d="M12 2l1.5 8.5L22 12l-8.5 1.5L12 22l-1.5-8.5L2 12l8.5-1.5z" />
+          </svg>
+        </div>
+        <p class="max-w-[80%] rounded-2xl rounded-tl-sm bg-gray-100 px-3.5 py-2.5 text-sm leading-snug text-gray-800">
+          {t('chat.greeting')}
+        </p>
+      </div>
+    </div>
+
+    <!-- Pills de categoría -->
+    <div class="flex flex-wrap gap-2 px-4 pb-3">
+      {
+        categories.map((cat, i) => (
+          <button
+            type="button"
+            data-category={cat.id}
+            class:list={[
+              'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+              i === 0
+                ? 'border-primary bg-primary text-white'
+                : 'border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary',
+            ]}
+          >
+            {catIcons[cat.id] && (
+              <svg
+                viewBox="0 0 24 24"
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                {catIcons[cat.id].map((p) => (
+                  <path d={p} />
+                ))}
+              </svg>
+            )}
+            {cat.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Acordeón de FAQs -->
+    <div class="divide-y divide-gray-100 px-4 pb-4">
+      {
+        faqs.map((f) => {
+          const d = dest[f.id] ?? fallback;
+          return (
+            <div data-faq-item data-cat={f.cat} hidden={f.cat !== firstCat}>
+              <button
+                type="button"
+                data-faq-toggle
+                aria-expanded="false"
+                class="flex w-full items-center justify-between gap-2 py-3 text-left text-sm font-semibold text-gray-800 hover:text-primary"
+              >
+                <span>{f.q}</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  class="chevron h-4 w-4 flex-shrink-0 stroke-current text-gray-400 transition-transform duration-200"
+                  fill="none"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div data-faq-body hidden class="pb-3">
+                <p class="text-sm leading-relaxed text-gray-600">{f.a}</p>
+                <a
+                  href={d.href}
+                  target={d.external ? '_blank' : undefined}
+                  rel={d.external ? 'noopener' : undefined}
+                  class="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  {f.cta}
+                  <svg viewBox="0 0 24 24" class="h-3 w-3 stroke-current" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <!-- Botón WhatsApp fijo al fondo -->
+  <div class="flex-shrink-0 border-t border-gray-100 p-3">
+    <a
+      href={humanHref}
+      target="_blank"
+      rel="noopener"
+      class="flex w-full items-center justify-center gap-2 rounded-xl bg-wa py-3 text-sm font-bold text-white underline transition-opacity hover:opacity-90"
+    >
+      <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true">
+        <path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z" />
+      </svg>
+      {t('chat.human')}
+    </a>
+  </div>
+</div>
+
+<style>
+  #help-chat-panel {
+    display: flex;
+    max-height: min(70vh, 520px);
+  }
+  #help-chat-panel[hidden] {
+    display: none;
+  }
+  [data-faq-toggle][aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  const panel = document.getElementById('help-chat-panel');
+  const launcher = document.getElementById('help-chat-launcher');
+
+  if (panel && launcher) {
+    const open = () => {
+      panel.hidden = false;
+      launcher.setAttribute('aria-expanded', 'true');
+      panel.querySelector<HTMLButtonElement>('[data-category]')?.focus();
+    };
+    const close = () => {
+      panel.hidden = true;
+      launcher.setAttribute('aria-expanded', 'false');
+    };
+
+    launcher.addEventListener('click', (e) => {
+      e.stopPropagation();
+      panel.hidden ? open() : close();
+    });
+
+    panel.querySelector('[data-chat-close]')?.addEventListener('click', close);
+
+    // Filtro de categorías
+    panel.querySelectorAll<HTMLButtonElement>('[data-category]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category;
+
+        panel.querySelectorAll<HTMLButtonElement>('[data-category]').forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('bg-primary', active);
+          b.classList.toggle('border-primary', active);
+          b.classList.toggle('text-white', active);
+          b.classList.toggle('bg-white', !active);
+          b.classList.toggle('border-gray-200', !active);
+          b.classList.toggle('text-gray-600', !active);
+        });
+
+        panel.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((item) => {
+          const visible = item.dataset.cat === cat;
+          item.hidden = !visible;
+          if (!visible) {
+            (item.querySelector<HTMLElement>('[data-faq-body]')!).hidden = true;
+            item.querySelector<HTMLButtonElement>('[data-faq-toggle]')!.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    });
+
+    // Acordeón
+    panel.querySelectorAll<HTMLButtonElement>('[data-faq-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest<HTMLElement>('[data-faq-item]')!;
+        const body = item.querySelector<HTMLElement>('[data-faq-body]')!;
+        const wasOpen = !body.hidden;
+
+        panel.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((i) => {
+          (i.querySelector<HTMLElement>('[data-faq-body]')!).hidden = true;
+          i.querySelector<HTMLButtonElement>('[data-faq-toggle]')!.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!wasOpen) {
+          body.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !panel.contains(e.target as Node) && !launcher.contains(e.target as Node)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) close();
+    });
+  }
+</script>

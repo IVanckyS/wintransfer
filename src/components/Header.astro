@@ -1,6 +1,7 @@
 ---
-import { getLangFromUrl, useTranslations, localePath, switchLangPath, languages, type Lang } from '../i18n';
+import { getLangFromUrl, useTranslations, localePath } from '../i18n';
 import { waLink } from '../config';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -48,22 +49,7 @@ const isActive = (href: string) => currentPath === href;
     </nav>
 
     <div class="flex items-center gap-2 md:gap-3">
-      <div class="flex items-center overflow-hidden rounded-full border border-primary/20 text-xs font-bold" aria-label="Idioma / Language">
-        {
-          (Object.keys(languages) as Lang[]).map((code) => (
-            <a
-              href={switchLangPath(Astro.url, code)}
-              class:list={[
-                'px-2.5 py-1.5 transition-colors',
-                code === lang ? 'bg-primary text-white' : 'text-primary hover:bg-mist',
-              ]}
-              aria-current={code === lang ? 'true' : undefined}
-            >
-              {languages[code]}
-            </a>
-          ))
-        }
-      </div>
+      <LanguageSwitcher />
 
       <a
         href={waLink()}

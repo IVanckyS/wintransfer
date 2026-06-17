@@ -2,9 +2,10 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import HelpChat from '../components/HelpChat.astro';
 import Analytics from '@vercel/analytics/astro';
-import { getLangFromUrl, useTranslations } from '../i18n';
+import { getLangFromUrl, useTranslations, languageMeta, type Lang } from '../i18n';
 import {
   SITE_NAME,
   CONTACT_EMAIL,
@@ -32,10 +33,14 @@ const pathNoLang = path.replace(/^\/(es|en)/, '') || '/';
 const canonical = new URL(path, Astro.site).href;
 const esUrl = new URL(`/es${pathNoLang}`, Astro.site).href;
 const enUrl = new URL(`/en${pathNoLang}`, Astro.site).href;
+const ptUrl = new URL(`/pt${pathNoLang}`, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 
-const ogLocale = lang === 'en' ? 'en_US' : 'es_CL';
-const ogLocaleAlt = lang === 'en' ? 'es_CL' : 'en_US';
+// og:locale usa formato xx_XX (guion bajo); languageMeta los guarda con guion.
+const ogLocale = languageMeta[lang].locale.replace('-', '_');
+const ogLocaleAlt = (Object.keys(languageMeta) as Lang[])
+  .filter((l) => l !== lang)
+  .map((l) => languageMeta[l].locale.replace('-', '_'));
 
 // Datos estructurados de la organización (schema.org).
 // Sin dirección/RUT por decisión del cliente, así que mantenemos `Organization`
@@ -55,14 +60,14 @@ const jsonLd = {
   email: CONTACT_EMAIL,
   telephone: `+${WHATSAPP_NUMBER}`,
   areaServed: { '@type': 'Country', name: 'Chile' },
-  knowsLanguage: ['es', 'en'],
+  knowsLanguage: ['es', 'en', 'pt'],
   sameAs: [INSTAGRAM_URL],
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: `+${WHATSAPP_NUMBER}`,
     email: CONTACT_EMAIL,
     contactType: 'customer service',
-    availableLanguage: ['es', 'en'],
+    availableLanguage: ['es', 'en', 'pt'],
     hoursAvailable: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: [
@@ -94,6 +99,7 @@ const jsonLd = {
     {/* hreflang */}
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="pt" href={ptUrl} />
     <link rel="alternate" hreflang="x-default" href={esUrl} />
 
     {/* Open Graph */}
@@ -109,7 +115,7 @@ const jsonLd = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${SITE_NAME} — ${t('site.slogan')}`} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+    {ogLocaleAlt.map((alt) => <meta property="og:locale:alternate" content={alt} />)}
 
     {/* Twitter */}
     <meta name="twitter:card" content="summary_large_image" />
@@ -141,7 +147,8 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
-    <WhatsAppFloat />
+    <FloatingActions />
+    <HelpChat />
     <Analytics />
 
     <script>

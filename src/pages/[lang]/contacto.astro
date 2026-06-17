@@ -14,7 +14,7 @@ import {
 } from '../../config';
 
 export function getStaticPaths() {
-  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
 }
 
 const lang = Astro.params.lang as Lang;
@@ -36,45 +36,73 @@ const t = useTranslations(lang);
         <div class="reveal rounded-3xl border border-primary/10 bg-white p-6 shadow-sm md:p-8">
           <h2 class="font-display text-xl font-bold text-primary">{t('contact.dataTitle')}</h2>
           <dl class="mt-5 space-y-4 text-sm">
-            <div>
-              <dt class="font-bold text-ink">{t('contact.phoneLabel')}</dt>
-              <dd class="mt-0.5">
-                <a href={waLink()} target="_blank" rel="noopener" class="text-action-bright hover:underline">
-                  {CONTACT_PHONE_DISPLAY}
-                </a>
-              </dd>
-              <dd class="mt-0.5">
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER_2}`}
-                  target="_blank"
-                  rel="noopener"
-                  class="text-action-bright hover:underline"
-                >
-                  {CONTACT_PHONE_2_DISPLAY}
-                </a>
-              </dd>
+            <div class="flex items-start gap-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-wa text-white">
+                <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current" aria-hidden="true"><path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z"/></svg>
+              </span>
+              <div>
+                <dt class="font-bold text-ink">{t('contact.phoneLabel')}</dt>
+                <dd class="mt-0.5">
+                  <a href={waLink()} target="_blank" rel="noopener" class="text-action-bright hover:underline">
+                    {CONTACT_PHONE_DISPLAY}
+                  </a>
+                </dd>
+                <dd class="mt-0.5">
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER_2}`}
+                    target="_blank"
+                    rel="noopener"
+                    class="text-action-bright hover:underline"
+                  >
+                    {CONTACT_PHONE_2_DISPLAY}
+                  </a>
+                </dd>
+              </div>
             </div>
-            <div>
-              <dt class="font-bold text-ink">{t('contact.emailLabel')}</dt>
-              <dd class="mt-0.5">
-                <a href={`mailto:${CONTACT_EMAIL}`} class="text-action-bright hover:underline">{CONTACT_EMAIL}</a>
-              </dd>
+            <div class="flex items-start gap-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+                <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              </span>
+              <div>
+                <dt class="font-bold text-ink">{t('contact.emailLabel')}</dt>
+                <dd class="mt-0.5">
+                  <a href={`mailto:${CONTACT_EMAIL}`} class="text-action-bright hover:underline">{CONTACT_EMAIL}</a>
+                </dd>
+              </div>
             </div>
-            <div>
-              <dt class="font-bold text-ink">Instagram</dt>
-              <dd class="mt-0.5">
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="text-action-bright hover:underline">
-                  {INSTAGRAM_HANDLE}
-                </a>
-              </dd>
+            <div class="flex items-start gap-3">
+              <span
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white"
+                style="background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)"
+              >
+                <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+              </span>
+              <div>
+                <dt class="font-bold text-ink">Instagram</dt>
+                <dd class="mt-0.5">
+                  <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="text-action-bright hover:underline">
+                    {INSTAGRAM_HANDLE}
+                  </a>
+                </dd>
+              </div>
             </div>
-            <div>
-              <dt class="font-bold text-ink">{t('contact.hoursLabel')}</dt>
-              <dd class="mt-0.5 text-ink/70">{t('contact.hoursValue')}</dd>
+            <div class="flex items-start gap-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+                <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              </span>
+              <div>
+                <dt class="font-bold text-ink">{t('contact.hoursLabel')}</dt>
+                <dd class="mt-0.5 text-ink/70">{t('contact.hoursValue')}</dd>
+              </div>
             </div>
-            <div>
-              <dt class="font-bold text-ink">{t('contact.coverageLabel')}</dt>
-              <dd class="mt-0.5 text-ink/70">{t('contact.coverageValue')}</dd>
+            <div class="flex items-start gap-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+                <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <div>
+                <dt class="font-bold text-ink">{t('contact.coverageLabel')}</dt>
+                <dd class="mt-0.5 text-ink/70">{t('contact.coverageValue')}</dd>
+              </div>
             </div>
           </dl>
         </div>

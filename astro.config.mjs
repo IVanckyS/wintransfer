@@ -14,9 +14,8 @@ const site = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export default defineConfig({
   site,
   i18n: {
-    // Para sumar portugués en fase 2: agregar 'pt' aquí y crear src/i18n/pt.json
     defaultLocale: 'es',
-    locales: ['es', 'en'],
+    locales: ['es', 'en', 'pt'],
     routing: {
       prefixDefaultLocale: true,
       redirectToDefaultLocale: true,
@@ -28,7 +27,7 @@ export default defineConfig({
     sitemap({
       i18n: {
         defaultLocale: 'es',
-        locales: { es: 'es-CL', en: 'en-US' },
+        locales: { es: 'es-CL', en: 'en-US', pt: 'pt-BR' },
       },
     }),
   ],
