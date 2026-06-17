@@ -37,12 +37,35 @@
     ],
     "faqs": [
       { "id": "book", "cat": "reservas", "q": "Como reservo?", "a": "Conte-nos origem, destino, data e número de passageiros pelo formulário ou WhatsApp e coordenamos seu transfer.", "cta": "Ir para a reserva" },
-      { "id": "hours", "cat": "reservas", "q": "Atendem 24/7?", "a": "Sim, estamos disponíveis os 7 dias da semana, 24 horas por dia.", "cta": "Reservar agora" },
+      { "id": "hours", "cat": "reservas", "q": "Qual é o horário de atendimento?", "a": "Estamos disponíveis os 7 dias da semana, 24 horas por dia, incluindo feriados.", "cta": "Reservar agora" },
       { "id": "services", "cat": "reservas", "q": "Quais serviços oferecem?", "a": "Transporte de funcionários, executivo, eventos, aeroporto, excursões institucionais e serviços especiais.", "cta": "Ver serviços" },
       { "id": "jobs", "cat": "reservas", "q": "Trabalhe conosco", "a": "Tem experiência ao volante e compromisso com pontualidade e segurança? Queremos conhecer você.", "cta": "Candidatar-se" },
       { "id": "price", "cat": "tarifas", "q": "Quanto custa?", "a": "O valor depende do trajeto (rota, data e número de passageiros). Fazemos seu orçamento grátis e sem compromisso pelo WhatsApp.", "cta": "Orçar pelo WhatsApp" },
       { "id": "agreement", "cat": "tarifas", "q": "Convênio para empresas", "a": "Transporte permanente com tarifas preferenciais, prioridade no atendimento e faturamento formal.", "cta": "Ver convênio" },
       { "id": "coverage", "cat": "cobertura", "q": "Para onde vocês vão?", "a": "Operamos nas 16 regiões do Chile, de Arica a Magallanes, os 7 dias da semana, 24 horas por dia.", "cta": "Ver cobertura" }
+    ]
+  },
+  "promos": {
+    "launcher": "Promoções",
+    "title": "Promoções ativas",
+    "close": "Fechar",
+    "items": [
+      {
+        "id": "banco-chile",
+        "discount": "30%",
+        "title": "Banco de Chile",
+        "desc": "30% de desconto no seu transfer pagando com cartões Banco de Chile.",
+        "cta": "Quero este desconto",
+        "waText": "Olá, quero aproveitar o desconto de 30% pagando com cartão Banco de Chile."
+      },
+      {
+        "id": "viaje-regreso",
+        "discount": "50%",
+        "title": "Viagem de Volta",
+        "desc": "Reserve seu transfer de ida hoje e agende a volta com 50% de desconto no trajeto de retorno.",
+        "cta": "Quero este desconto",
+        "waText": "Olá, quero reservar ida e volta com o 50% de desconto na viagem de retorno."
+      }
     ]
   },
   "notFound": {
