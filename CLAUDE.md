@@ -1,12 +1,12 @@
 # Win Transfer — Contexto para Claude Code
 
-Sitio web estático bilingüe (ES/EN) para Win Transfer, empresa chilena de transporte de pasajeros con 20 años de experiencia.
+Sitio web estático trilingüe (ES/EN/PT) para Win Transfer, empresa chilena de transporte de pasajeros con 20 años de experiencia.
 
 ## Stack
 
 - **Framework:** Astro (SSG, sin backend ni base de datos)
 - **CSS:** Tailwind CSS v4 con design tokens en `src/styles/global.css` via `@theme`
-- **Idiomas:** ES (default) + EN — strings en `src/i18n/es.json` y `src/i18n/en.json`
+- **Idiomas:** ES (default) + EN + PT (brasileño) — strings en `src/i18n/es.json`, `en.json` y `pt.json`. Para sumar un idioma: crear el JSON, registrarlo en `src/i18n/index.ts` (`translations`, `languages`, `languageMeta`), añadir el locale en `astro.config.mjs`, sumar el `params` en los `getStaticPaths` de `[lang]/*` y en el swap de `404.astro`.
 - **Deploy:** Vercel (conectado al repo GitHub `IVanckyS/wintransfer`)
 - **Repo:** https://github.com/IVanckyS/wintransfer
 
@@ -56,6 +56,10 @@ Sitio web estático bilingüe (ES/EN) para Win Transfer, empresa chilena de tran
 - **`TripTypeTabs.astro`** — Tabs de tipo de viaje con iconos Lucide. Compartido entre MiniBookingForm y SmartForm.
 - **`CoverageMap.astro`** — Mapa SVG interactivo de Chile (16 regiones). Hover/click en región la ilumina en el mapa y muestra foto + destinos turísticos desde Wikimedia Commons. Datos en `src/data/regionPhotos.ts` y en `regionPlaces` del JSON de i18n.
 - **`Header.astro`** / **`Footer.astro`** — Con segundo número de WhatsApp e Instagram.
+- **`LanguageSwitcher.astro`** — Selector de idioma del header: título "Idioma" + desplegable con bandera y el nombre del idioma en su propio idioma (Español/English/Português). Orden y nombres en `languageMeta` (i18n). Usa `FlagIcon`.
+- **`FlagIcon.astro`** — Banderas SVG inline (es→Chile, en→EE. UU., pt→Brasil). SVG y no emoji 🇨🇱 porque en Windows de escritorio los emoji de bandera muestran el código de país ("CL") en vez de la bandera.
+- **`FloatingActions.astro`** — Botones flotantes apilados abajo a la derecha: Instagram (degradado de marca) + WhatsApp. Reemplazó al antiguo `WhatsAppFloat`.
+- **`HelpChat.astro`** — Chat de ayuda "¿Tienes dudas?" (FAQ por opciones, 100% estático, sin backend). Lanzador-píldora abajo a la izquierda + panel. Contenido en la clave `chat` de los JSON i18n; cada FAQ tiene un `id` mapeado a su destino (página o WhatsApp) en el frontmatter. La de "precios" deriva a WhatsApp (no se publican tarifas).
 - **`PlaceholderMedia.astro`** — Placeholder con label para reemplazar por imágenes reales cuando lleguen.
 
 ## i18n

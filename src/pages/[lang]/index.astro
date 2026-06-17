@@ -16,7 +16,7 @@ const heroImages = [
 ];
 
 export function getStaticPaths() {
-  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
 }
 
 const lang = Astro.params.lang as Lang;
@@ -235,14 +235,14 @@ const serviceIcons: Record<string, string> = {
     <div class="mx-auto max-w-6xl px-4 text-center md:px-6">
       <h2 class="reveal font-display text-2xl font-extrabold text-primary md:text-3xl">{t('home.partnersTitle')}</h2>
       <p class="reveal mt-2 text-xs text-ink/70">{t('home.partnersNote')}</p>
-      <ul class="reveal mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <ul class="reveal mx-auto mt-8 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3">
         {
           partners.map((partner, i) => (
-            <li class="flex h-20 items-center justify-center rounded-2xl border border-primary/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
+            <li class="flex h-28 items-center justify-center rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
               {partnerLogos[i] ? (
-                <img src={partnerLogos[i]} alt={partner} loading="lazy" decoding="async" class="max-h-12 w-auto object-contain" />
+                <img src={partnerLogos[i]} alt={partner} loading="lazy" decoding="async" class="max-h-14 w-auto object-contain" />
               ) : (
-                <span class="text-center font-display text-sm font-semibold text-primary">{partner}</span>
+                <span class="text-center font-display text-base font-semibold text-primary">{partner}</span>
               )}
             </li>
           ))

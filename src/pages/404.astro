@@ -4,10 +4,11 @@ import { useTranslations } from '../i18n';
 import { waLink } from '../config';
 
 // La 404 se prerenderiza a un único 404.html, así que no conoce el idioma en
-// el servidor. Renderizamos ES (locale por defecto) e intercambiamos a EN en el
-// cliente según la URL. Todo el texto sale de los JSON (es/en), nunca hardcode.
+// el servidor. Renderizamos ES (locale por defecto) e intercambiamos a EN/PT en
+// el cliente según la URL. Todo el texto sale de los JSON, nunca hardcode.
 const es = useTranslations('es');
 const en = useTranslations('en');
+const pt = useTranslations('pt');
 
 const copy = {
   es: {
@@ -23,6 +24,13 @@ const copy = {
     home: en('notFound.home'),
     whatsapp: en('notFound.whatsapp'),
     homeHref: '/en/',
+  },
+  pt: {
+    title: pt('notFound.title'),
+    text: pt('notFound.text'),
+    home: pt('notFound.home'),
+    whatsapp: pt('notFound.whatsapp'),
+    homeHref: '/pt/',
   },
 };
 
@@ -59,9 +67,10 @@ const wa = waLink();
   </section>
 
   <script is:inline define:vars={{ copy }}>
-    if (location.pathname.startsWith('/en')) {
-      const c = copy.en;
-      document.documentElement.lang = 'en';
+    const seg = location.pathname.split('/')[1];
+    if (seg === 'en' || seg === 'pt') {
+      const c = copy[seg];
+      document.documentElement.lang = seg;
       document.getElementById('nf-title').textContent = c.title;
       document.getElementById('nf-text').textContent = c.text;
       const home = document.getElementById('nf-home');

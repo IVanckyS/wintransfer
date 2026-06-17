@@ -12,14 +12,38 @@
     "coverage": "Cobertura",
     "contact": "Contacto",
     "terms": "Términos y condiciones",
-    "book": "Reservar"
+    "book": "Reservar",
+    "language": "Idioma"
   },
   "common": {
     "bookNow": "Reserva tu traslado",
     "whatsappCta": "Escríbenos por WhatsApp",
+    "instagramCta": "Síguenos en Instagram",
     "learnMore": "Ver más",
     "contactUs": "Contáctanos",
     "pending": "[PENDIENTE]"
+  },
+  "chat": {
+    "launcher": "¿Tienes dudas?",
+    "title": "Asistente Win",
+    "status": "En línea · responde al instante",
+    "greeting": "¡Hola! Soy tu asistente de Transfer Win. Elige un tema y te cuento al tiro 👇",
+    "human": "Hablar con una persona",
+    "close": "Cerrar",
+    "categories": [
+      { "id": "reservas", "label": "Reservas" },
+      { "id": "tarifas", "label": "Tarifas" },
+      { "id": "cobertura", "label": "Cobertura" }
+    ],
+    "faqs": [
+      { "id": "book", "cat": "reservas", "q": "¿Cómo reservo?", "a": "Cuéntanos origen, destino, fecha y número de pasajeros por el formulario o WhatsApp y coordinamos tu traslado.", "cta": "Ir a reservar" },
+      { "id": "hours", "cat": "reservas", "q": "¿Atienden 24/7?", "a": "Sí, estamos disponibles los 7 días de la semana, las 24 horas.", "cta": "Reservar ahora" },
+      { "id": "services", "cat": "reservas", "q": "¿Qué servicios tienen?", "a": "Traslado de personal, ejecutivo, eventos, aeropuerto, giras institucionales y servicios especiales.", "cta": "Ver servicios" },
+      { "id": "jobs", "cat": "reservas", "q": "Trabaja con nosotros", "a": "¿Tienes experiencia conduciendo y compromiso con la puntualidad y la seguridad? Queremos conocerte.", "cta": "Postular ahora" },
+      { "id": "price", "cat": "tarifas", "q": "¿Cuánto cuesta?", "a": "El valor depende del viaje (ruta, fecha y número de pasajeros). Te cotizamos gratis y sin compromiso por WhatsApp.", "cta": "Cotizar por WhatsApp" },
+      { "id": "agreement", "cat": "tarifas", "q": "Convenio para empresas", "a": "Transporte permanente con tarifas preferenciales, prioridad de atención y facturación formal.", "cta": "Ver convenio" },
+      { "id": "coverage", "cat": "cobertura", "q": "¿A dónde llegan?", "a": "Operamos en las 16 regiones de Chile, de Arica a Magallanes, los 7 días, las 24 horas.", "cta": "Ver cobertura" }
+    ]
   },
   "notFound": {
     "title": "Página no encontrada",

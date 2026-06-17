@@ -1,22 +1,29 @@
 import es from './es.json';
 import en from './en.json';
+import pt from './pt.json';
 
-/**
- * Para agregar portugués (fase 2):
- * 1. Crear src/i18n/pt.json (misma estructura de claves).
- * 2. Importarlo aquí y agregarlo a `translations` y `languages`.
- * 3. Agregar 'pt' a `locales` en astro.config.mjs.
- */
 export const languages = {
   es: 'ES',
   en: 'EN',
+  pt: 'PT',
 } as const;
 
 export type Lang = keyof typeof languages;
 
 export const defaultLang: Lang = 'es';
 
-const translations = { es, en } as const;
+const translations = { es, en, pt } as const;
+
+/**
+ * Metadatos por idioma para el selector: nombre escrito en su propio idioma
+ * y locale para SEO (hreflang / og:locale). El orden de las claves define el
+ * orden en el desplegable.
+ */
+export const languageMeta: Record<Lang, { native: string; locale: string }> = {
+  es: { native: 'Español', locale: 'es-CL' },
+  en: { native: 'English', locale: 'en-US' },
+  pt: { native: 'Português', locale: 'pt-BR' },
+};
 
 /** Slugs de página (compartidos entre idiomas). */
 export const routes = {

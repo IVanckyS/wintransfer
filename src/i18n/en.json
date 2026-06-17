@@ -12,14 +12,38 @@
     "coverage": "Coverage",
     "contact": "Contact",
     "terms": "Terms & conditions",
-    "book": "Book now"
+    "book": "Book now",
+    "language": "Language"
   },
   "common": {
     "bookNow": "Book your transfer",
     "whatsappCta": "Message us on WhatsApp",
+    "instagramCta": "Follow us on Instagram",
     "learnMore": "Learn more",
     "contactUs": "Contact us",
     "pending": "[PENDING]"
+  },
+  "chat": {
+    "launcher": "Have questions?",
+    "title": "Win Assistant",
+    "status": "Online · responds instantly",
+    "greeting": "Hi! I'm your Win Transfer assistant. Choose a topic and I'll help you right away 👇",
+    "human": "Talk to a person",
+    "close": "Close",
+    "categories": [
+      { "id": "reservas", "label": "Bookings" },
+      { "id": "tarifas", "label": "Pricing" },
+      { "id": "cobertura", "label": "Coverage" }
+    ],
+    "faqs": [
+      { "id": "book", "cat": "reservas", "q": "How do I book?", "a": "Tell us your pick-up, drop-off, date and number of passengers via the form or WhatsApp and we'll coordinate your transfer.", "cta": "Go to booking" },
+      { "id": "hours", "cat": "reservas", "q": "Are you available 24/7?", "a": "Yes, we're available 7 days a week, 24 hours a day.", "cta": "Book now" },
+      { "id": "services", "cat": "reservas", "q": "What services do you offer?", "a": "Staff, executive, events, airport, institutional tours and special transfers.", "cta": "View services" },
+      { "id": "jobs", "cat": "reservas", "q": "Work with us", "a": "Do you have driving experience and a commitment to punctuality and safety? We'd like to meet you.", "cta": "Apply now" },
+      { "id": "price", "cat": "tarifas", "q": "How much does it cost?", "a": "It depends on the trip (route, date and number of passengers). We'll quote you for free, no commitment, on WhatsApp.", "cta": "Get a quote on WhatsApp" },
+      { "id": "agreement", "cat": "tarifas", "q": "Corporate agreement", "a": "Standing transport with preferential rates, priority service and formal invoicing.", "cta": "View agreement" },
+      { "id": "coverage", "cat": "cobertura", "q": "Where do you go?", "a": "We operate in all 16 regions of Chile, from Arica to Magallanes, 7 days a week, 24 hours a day.", "cta": "View coverage" }
+    ]
   },
   "notFound": {
     "title": "Page not found",
