@@ -1,0 +1,153 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n';
+import { waLink } from '../config';
+
+interface PromoItem {
+  id: string;
+  discount: string;
+  title: string;
+  desc: string;
+  cta: string;
+  waText: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const items = t<PromoItem[]>('promos.items');
+---
+
+<!-- Lanzador -->
+<button
+  id="promo-launcher"
+  type="button"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="promo-panel"
+  class="fixed bottom-20 left-4 z-50 flex items-center gap-2 rounded-full bg-sun py-2.5 pr-4 pl-3 text-sm font-bold text-ink shadow-lg shadow-sun/40 transition-transform hover:scale-105 md:bottom-24 md:left-6"
+>
+  <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+    <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none" />
+  </svg>
+  {t('promos.launcher')}
+</button>
+
+<!-- Panel -->
+<div
+  id="promo-panel"
+  role="dialog"
+  aria-label={t('promos.title')}
+  hidden
+  class="fixed bottom-32 left-4 z-50 w-[calc(100vw-2rem)] max-w-sm overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-primary/20 md:bottom-36 md:left-6"
+>
+  <!-- Header -->
+  <header class="flex items-center justify-between bg-primary px-4 py-3">
+    <div class="flex items-center gap-2">
+      <svg viewBox="0 0 24 24" class="h-5 w-5 stroke-sun" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+        <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none" />
+      </svg>
+      <p class="text-sm font-bold text-white">{t('promos.title')}</p>
+    </div>
+    <button
+      data-promo-close
+      type="button"
+      aria-label={t('promos.close')}
+      class="flex h-7 w-7 items-center justify-center rounded-lg border border-white/30 text-white transition-colors hover:bg-white/10"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Cards de promoción -->
+  <div class="flex flex-col gap-3 p-3">
+    {
+      items.map((item, i) => {
+        const href = waLink(item.waText);
+        const isSun = i === 0;
+        return (
+          <div
+            class:list={[
+              'overflow-hidden rounded-xl border p-4',
+              isSun ? 'border-sun/40 bg-sun/10' : 'border-primary/20 bg-primary/5',
+            ]}
+          >
+            <div class="flex items-start gap-3">
+              <!-- Badge de descuento -->
+              <div
+                class:list={[
+                  'flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-xl font-display font-extrabold leading-none',
+                  isSun ? 'bg-sun text-ink' : 'bg-primary text-white',
+                ]}
+              >
+                <span class="text-xl">{item.discount}</span>
+                <span class="text-[10px] font-bold tracking-wide">OFF</span>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class:list={['text-sm font-bold', isSun ? 'text-ink' : 'text-primary']}>
+                  {item.title}
+                </p>
+                <p class="mt-0.5 text-xs leading-snug text-gray-600">{item.desc}</p>
+              </div>
+            </div>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener"
+              class:list={[
+                'mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2 text-xs font-bold transition-opacity hover:opacity-90',
+                isSun ? 'bg-sun text-ink' : 'bg-wa text-white',
+              ]}
+            >
+              <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current" aria-hidden="true">
+                <path d="M12 2a9.9 9.9 0 0 0-8.5 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6c-3-1.3-5-4.4-5.1-4.6-.1-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1-2.5.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.5.1.7-.1l.9-1c.2-.3.4-.3.7-.2l2.2 1c.3.2.5.3.6.4.1.2.1.7-.2 1.2Z" />
+              </svg>
+              {item.cta}
+            </a>
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  #promo-panel {
+    display: block;
+  }
+  #promo-panel[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const panel = document.getElementById('promo-panel');
+  const launcher = document.getElementById('promo-launcher');
+
+  if (panel && launcher) {
+    const open = () => {
+      panel.hidden = false;
+      launcher.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      panel.hidden = true;
+      launcher.setAttribute('aria-expanded', 'false');
+    };
+
+    launcher.addEventListener('click', (e) => {
+      e.stopPropagation();
+      panel.hidden ? open() : close();
+    });
+
+    panel.querySelector('[data-promo-close]')?.addEventListener('click', close);
+
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !panel.contains(e.target as Node) && !launcher.contains(e.target as Node)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) close();
+    });
+  }
+</script>
