@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
 import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
 import SmartForm from '../../components/SmartForm.astro';
 import { useTranslations, type Lang } from '../../i18n';
@@ -22,12 +23,12 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout title={t('contact.title')}>
-  <section class="bg-primary py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-4 md:px-6">
+  <PageBanner image="/images/servicio-personal.webp">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
       <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('contact.title')}</h1>
       <p class="mt-4 max-w-2xl text-lg text-white/85">{t('contact.intro')}</p>
     </div>
-  </section>
+  </PageBanner>
 
   <section class="bg-mist py-16 md:py-24">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 md:px-6 lg:grid-cols-[1fr_minmax(0,1.2fr)]">

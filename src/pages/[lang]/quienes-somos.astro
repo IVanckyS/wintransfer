@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 
 export function getStaticPaths() {
@@ -35,43 +36,15 @@ const attributeIcons = [
 ---
 
 <BaseLayout title={t('about.title')}>
-  <!-- Hero: texto izquierda + imagen derecha (estilo banner) -->
-  <section class="relative overflow-hidden bg-primary md:min-h-[420px]">
-    <!-- Imagen lado derecho — solo desktop -->
-    <div class="absolute inset-y-0 right-0 hidden w-3/5 md:block">
-      <img
-        src="/images/icecar.webp"
-        alt={t('about.bannerAlt')}
-        loading="eager"
-        decoding="async"
-        class="h-full w-full object-cover object-center"
-      />
-      <!-- Gradiente que funde la imagen con el azul del texto -->
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-4/5 bg-gradient-to-r from-primary via-primary/65 to-transparent"></div>
-    </div>
-
-    <!-- Texto -->
-    <div class="relative z-10 mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+  <PageBanner image="/images/hero-van.webp">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
       <div class="md:max-w-lg">
         <p class="font-display text-xs font-bold tracking-[0.2em] text-sun uppercase">{t('about.eyebrow')}</p>
         <h1 class="mt-3 font-display text-4xl font-extrabold text-white md:text-5xl">{t('about.title')}</h1>
         <p class="mt-4 text-lg text-white/85">{t('about.intro')}</p>
       </div>
     </div>
-
-    <!-- Imagen mobile — debajo del texto -->
-    <div class="relative md:hidden">
-      <img
-        src="/images/icecar.webp"
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        class="h-48 w-full object-cover object-center"
-      />
-      <div class="pointer-events-none absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-primary to-transparent"></div>
-    </div>
-  </section>
+  </PageBanner>
 
   <!-- Cómo trabajamos -->
   <section class="bg-mist py-16 md:py-24">
@@ -116,7 +89,7 @@ const attributeIcons = [
         <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('about.historyTitle')}</h2>
         <p class="mt-4 text-lg leading-relaxed text-ink/70">{t('about.historyText')}</p>
         <img
-          src="/images/servicio-eventos.webp"
+          src="/images/nosotros-historia.webp"
           alt={t('about.historyAlt')}
           loading="lazy"
           decoding="async"
