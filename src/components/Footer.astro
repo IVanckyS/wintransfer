@@ -6,7 +6,6 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_2_DISPLAY,
-  WHATSAPP_NUMBER_2,
   INSTAGRAM_HANDLE,
   INSTAGRAM_URL,
 } from '../config';
@@ -32,7 +31,7 @@ const year = new Date().getFullYear();
           <a href={waLink()} target="_blank" rel="noopener" class="hover:text-accent">{CONTACT_PHONE_DISPLAY}</a>
         </li>
         <li>
-          <a href={`https://wa.me/${WHATSAPP_NUMBER_2}`} target="_blank" rel="noopener" class="hover:text-accent">{CONTACT_PHONE_2_DISPLAY}</a>
+          <span class="text-white/80">{CONTACT_PHONE_2_DISPLAY}</span>
         </li>
         <li>
           <a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-accent">{CONTACT_EMAIL}</a>

@@ -1,19 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import HeroSlideshow from '../../components/HeroSlideshow.astro';
 import MiniBookingForm from '../../components/MiniBookingForm.astro';
 import ExperiencePanels from '../../components/ExperiencePanels.astro';
 import { serviceImages } from '../../data/serviceImages';
 import { partnerLogos } from '../../data/partnerLogos';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 import { waLink } from '../../config';
-
-// Fotos de fondo del hero (slideshow con fundido limpio). Optimizadas en public/images.
-const heroImages = [
-  '/images/servicio-personal.webp',
-  '/images/icecar.webp',
-  '/images/hero-nieve.webp',
-];
 
 export function getStaticPaths() {
   return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
@@ -77,7 +69,19 @@ const serviceIcons: Record<string, string> = {
 <BaseLayout title={t('nav.home')}>
   <!-- ====== HERO ====== -->
   <section class="relative isolate overflow-hidden bg-ink">
-    <HeroSlideshow images={heroImages} class="absolute inset-0 h-full w-full" />
+    <div class="absolute inset-0 h-full w-full overflow-hidden bg-ink" aria-hidden="true">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="/images/hero-van.webp"
+        class="hero-video h-full w-full object-cover"
+      >
+        <source src="/images/herovideo.mp4" type="video/mp4" />
+        <img src="/images/hero-van.webp" alt="" class="h-full w-full object-cover" />
+      </video>
+    </div>
     <!-- Scrim para legibilidad del texto sobre las fotos -->
     <div class="absolute inset-0 bg-gradient-to-r from-ink/90 via-primary/60 to-primary/25" aria-hidden="true"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-ink/65 via-transparent to-ink/25" aria-hidden="true"></div>
@@ -277,7 +281,8 @@ const serviceIcons: Record<string, string> = {
   .winning-word {
     position: relative;
     display: inline-block;
-    font-family: 'Sora', ui-sans-serif, sans-serif;
+    font-family: 'Playfair Display', Georgia, serif;
+    text-transform: uppercase;
   }
   .winning-live {
     display: none;
@@ -355,6 +360,12 @@ const serviceIcons: Record<string, string> = {
 </style>
 
 <script>
+  // Pausa el video si el usuario prefiere menos movimiento
+  const heroVideo = document.querySelector<HTMLVideoElement>('.hero-video');
+  if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroVideo.pause();
+  }
+
   // Titular rotativo del hero
   const rotator = document.querySelector('[data-rotator]');
   if (rotator) {
@@ -381,11 +392,10 @@ const serviceIcons: Record<string, string> = {
 
   if (winning && ghost && live && !prefersReduced && 'fonts' in document) {
     const fonts = [
-      { fam: "'Sora'", stack: "'Sora', sans-serif" },
-      { fam: "'Playfair Display'", stack: "'Playfair Display', serif" },
-      { fam: "'Bebas Neue'", stack: "'Bebas Neue', sans-serif" },
-      { fam: "'Pacifico'", stack: "'Pacifico', cursive" },
-      { fam: "'Space Mono'", stack: "'Space Mono', monospace" },
+      { fam: "'Playfair Display'", stack: "'Playfair Display', Georgia, serif" },
+      { fam: "'Cormorant Garamond'", stack: "'Cormorant Garamond', Georgia, serif" },
+      { fam: "'DM Serif Display'", stack: "'DM Serif Display', Georgia, serif" },
+      { fam: "'Libre Baskerville'", stack: "'Libre Baskerville', Georgia, serif" },
     ];
     const text = live.textContent ?? '';
     const ctx = document.createElement('canvas').getContext('2d');
