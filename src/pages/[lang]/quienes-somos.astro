@@ -88,13 +88,15 @@ const attributeIcons = [
       <div class="reveal reveal-left">
         <h2 class="font-display text-2xl font-extrabold text-primary md:text-3xl">{t('about.historyTitle')}</h2>
         <p class="mt-4 text-lg leading-relaxed text-ink/70">{t('about.historyText')}</p>
-        <img
-          src="/images/nosotros-historia.webp"
-          alt={t('about.historyAlt')}
-          loading="lazy"
-          decoding="async"
-          class="mt-6 aspect-[4/3] w-full rounded-3xl object-cover object-center shadow-sm ring-1 ring-primary/5"
-        />
+        <div class="img-loader relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-sm ring-1 ring-primary/5">
+          <img
+            src="/images/nosotros-historia.webp"
+            alt={t('about.historyAlt')}
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover object-center"
+          />
+        </div>
       </div>
 
       <!-- Misión y Visión -->

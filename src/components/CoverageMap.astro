@@ -77,9 +77,9 @@ const VIEWBOX = '476 -3 140 715';
   <!-- Tourist places panel: hidden until a region is selected -->
   <div id="places-panel" class="hidden scroll-mt-28 overflow-hidden rounded-3xl bg-white/5" aria-live="polite" aria-atomic="true">
     <div id="places-photos" class="hidden grid grid-cols-3 gap-px h-52 md:h-64">
-      <div class="photo-wrap"><img alt="" loading="lazy" decoding="async" /></div>
-      <div class="photo-wrap"><img alt="" loading="lazy" decoding="async" /></div>
-      <div class="photo-wrap"><img alt="" loading="lazy" decoding="async" /></div>
+      <div class="photo-wrap"><span class="spinner" aria-hidden="true"></span><img alt="" loading="lazy" decoding="async" /></div>
+      <div class="photo-wrap"><span class="spinner" aria-hidden="true"></span><img alt="" loading="lazy" decoding="async" /></div>
+      <div class="photo-wrap"><span class="spinner" aria-hidden="true"></span><img alt="" loading="lazy" decoding="async" /></div>
     </div>
     <div class="p-6">
       <p class="text-xs font-bold uppercase tracking-widest text-sun/70">{t('coverage.placesTitle')}</p>
@@ -184,6 +184,7 @@ const VIEWBOX = '476 -3 140 715';
     overflow: hidden;
     position: relative;
     cursor: zoom-in;
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .photo-wrap img {
@@ -191,10 +192,43 @@ const VIEWBOX = '476 -3 140 715';
     height: 100%;
     object-fit: cover;
     display: block;
+    opacity: 1;
+    transform: scale(1);
     transition:
-      transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      filter 0.45s ease;
-    will-change: transform;
+      transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      filter 0.45s ease,
+      opacity 0.45s ease;
+    will-change: transform, opacity;
+  }
+
+  .photo-wrap.is-loading img {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+
+  .photo-wrap .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 3px solid rgba(255, 255, 255, 0.18);
+    border-top-color: var(--color-sun);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.25s ease;
+    animation: spinner-rotate 0.8s linear infinite;
+  }
+
+  .photo-wrap.is-loading .spinner {
+    opacity: 1;
+  }
+
+  @keyframes spinner-rotate {
+    to { transform: rotate(360deg); }
   }
 
   /* shine overlay */
@@ -349,8 +383,33 @@ const VIEWBOX = '476 -3 140 715';
 
       if (photosContainer && photoImgs.length > 0) {
         photoImgs.forEach((img, j) => {
-          img.src = regionPhotosArr[j] ?? '';
+          const wrap = img.parentElement;
+          const newSrc = regionPhotosArr[j] ?? '';
           img.alt = places[j] ?? regionName;
+
+          wrap?.classList.add('is-loading');
+
+          if (!newSrc) {
+            img.removeAttribute('src');
+            wrap?.classList.remove('is-loading');
+            return;
+          }
+
+          const reveal = () => {
+            setTimeout(() => wrap?.classList.remove('is-loading'), 120 + j * 140);
+          };
+
+          const onDone = () => {
+            img.removeEventListener('load', onDone);
+            img.removeEventListener('error', onDone);
+            reveal();
+          };
+
+          img.addEventListener('load', onDone);
+          img.addEventListener('error', onDone);
+          img.src = newSrc;
+
+          if (img.complete && img.naturalWidth > 0) onDone();
         });
         photosContainer.classList.remove('hidden');
       }

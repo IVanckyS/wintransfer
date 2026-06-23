@@ -57,7 +57,7 @@ const images: (string | null)[] = [
       {
         panels.map((panel, i) => (
           <article class="exp-panel">
-            <div class="exp-image">
+            <div class:list={['exp-image', images[i] && 'img-loader']}>
               {images[i] ? (
                 <img src={images[i]} alt={panel.title} loading="lazy" decoding="async" class="h-full w-full object-cover" />
               ) : (

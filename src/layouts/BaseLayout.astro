@@ -166,6 +166,54 @@ const jsonLd = {
         { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // Fade-in al cargar para todas las <img>.
+      // Las que tienen [data-no-fade] se saltan (logos pequeños).
+      // El wrapper más cercano con `.img-loader` recibe `.is-ready` cuando termina,
+      // para ocultar su spinner aunque `:has()` no esté disponible.
+      const markReady = (img: HTMLImageElement) => {
+        img.classList.add('is-loaded');
+        const frame = img.closest('.img-loader');
+        if (frame && !frame.querySelector('img:not(.is-loaded)')) {
+          frame.classList.add('is-ready');
+        }
+      };
+
+      const armImage = (img: HTMLImageElement) => {
+        if (img.dataset.fadeArmed === '1') return;
+        img.dataset.fadeArmed = '1';
+        if (img.complete && img.naturalWidth > 0) {
+          // Cacheada o ya cargada: marcar sin animación visible.
+          img.classList.add('is-loaded');
+          const frame = img.closest('.img-loader');
+          frame?.classList.add('is-ready');
+          return;
+        }
+        img.classList.add('is-loading-fade');
+        const done = () => markReady(img);
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      };
+
+      document
+        .querySelectorAll<HTMLImageElement>('img:not([data-no-fade])')
+        .forEach(armImage);
+
+      // Atrapa imágenes inyectadas dinámicamente (p. ej. el mapa de cobertura).
+      const imgObserver = new MutationObserver((records) => {
+        for (const rec of records) {
+          rec.addedNodes.forEach((node) => {
+            if (node instanceof HTMLImageElement) {
+              if (!node.hasAttribute('data-no-fade')) armImage(node);
+            } else if (node instanceof HTMLElement) {
+              node
+                .querySelectorAll<HTMLImageElement>('img:not([data-no-fade])')
+                .forEach(armImage);
+            }
+          });
+        }
+      });
+      imgObserver.observe(document.body, { childList: true, subtree: true });
     </script>
   </body>
 </html>

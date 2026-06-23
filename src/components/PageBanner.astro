@@ -14,16 +14,18 @@ const { image, imagePosition = 'center' } = Astro.props;
 ---
 
 <section class="relative isolate overflow-hidden bg-ink">
-  <img
-    src={image}
-    alt=""
-    aria-hidden="true"
-    loading="eager"
-    decoding="async"
-    fetchpriority="high"
-    class="absolute inset-0 h-full w-full object-cover"
-    style={`object-position: ${imagePosition}`}
-  />
+  <div class="img-loader absolute inset-0" aria-hidden="true">
+    <img
+      src={image}
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+      class="h-full w-full object-cover"
+      style={`object-position: ${imagePosition}`}
+    />
+  </div>
   <!-- Mismo esquema de gradiente que el hero de portada, algo más ligero -->
   <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-primary/50 to-primary/15" aria-hidden="true"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-ink/20" aria-hidden="true"></div>
