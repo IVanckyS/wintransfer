@@ -117,3 +117,63 @@ label {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ---- Fade-in al cargar para todas las <img> (excepto data-no-fade) ---- */
+img.is-loading-fade {
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+img.is-loading-fade.is-loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.is-loading-fade,
+  img.is-loading-fade.is-loaded {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- Spinner para imágenes destacadas (wrapper <… class="img-loader">) ----
+   El consumidor garantiza position: relative|absolute. Aquí solo dibujamos el
+   spinner como ::after y lo ocultamos cuando la img interna ya cargó. */
+.img-loader::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 3px solid rgb(255 255 255 / 0.2);
+  border-top-color: var(--color-sun);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 1;
+  animation: img-loader-spin 0.8s linear infinite;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.img-loader.is-ready::after,
+.img-loader:has(img.is-loaded)::after {
+  opacity: 0;
+}
+
+@keyframes img-loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img-loader::after {
+    animation: none;
+  }
+}
