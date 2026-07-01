@@ -3,13 +3,9 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// URL canónica del sitio. En Vercel usamos automáticamente el dominio de
-// producción (mientras no se compre wintransfer.cl será wintransfer-black.vercel.app;
-// al asignar el dominio en Vercel pasará a wintransfer.cl sin tocar código).
-// En local cae al dominio final. Así og:image / canonical siempre resuelven.
-const site = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : 'https://wintransfer.cl';
+// URL canónica del sitio: SIEMPRE el dominio final, aunque el deploy corra en
+// *.vercel.app. Así canonical/hreflang/og:image no dependen del entorno.
+const site = 'https://wintransfer.cl';
 
 export default defineConfig({
   site,

@@ -30,7 +30,7 @@ const fullTitle = `${title} · ${SITE_NAME}`;
 
 // URLs absolutas a partir de `site` (ver astro.config.mjs).
 const path = Astro.url.pathname;
-const pathNoLang = path.replace(/^\/(es|en)/, '') || '/';
+const pathNoLang = path.replace(/^\/(es|en|pt)/, '') || '/';
 const canonical = new URL(path, Astro.site).href;
 const esUrl = new URL(`/es${pathNoLang}`, Astro.site).href;
 const enUrl = new URL(`/en${pathNoLang}`, Astro.site).href;
