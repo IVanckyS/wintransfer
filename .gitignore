@@ -18,3 +18,11 @@ media/
 
 # Claude Code (configuración local)
 .claude/
+
+# Secretos locales (las claves reales van en Vercel > Environment Variables)
+.env
+.env.*
+!.env.example
+
+# Vercel CLI
+.vercel/
