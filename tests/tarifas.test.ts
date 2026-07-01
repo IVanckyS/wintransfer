@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { TARIFAS, findTarifa, quoteTrip, isCarrielSur } from '../src/data/tarifas';
+import { LOCATIONS } from '../src/data/locations';
 
 const AIRPORT = 'Aeropuerto Carriel Sur (CCP)';
 
@@ -49,5 +50,15 @@ describe('isCarrielSur', () => {
     expect(isCarrielSur(AIRPORT)).toBe(true);
     expect(isCarrielSur('aeropuerto carriel sur')).toBe(true);
     expect(isCarrielSur('Aeropuerto Arturo Merino Benítez (SCL)')).toBe(false);
+  });
+});
+
+describe('consistencia con el autocompletado', () => {
+  it('cada tarifa es alcanzable desde al menos una ubicación del autocompletado', () => {
+    const names = LOCATIONS.map((l) => l.name);
+    for (const t of TARIFAS) {
+      const reachable = names.some((n) => findTarifa(n)?.id === t.id);
+      expect(reachable, `tarifa sin ubicación: ${t.id}`).toBe(true);
+    }
   });
 });
