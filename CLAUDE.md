@@ -23,7 +23,43 @@ Sitio web estático trilingüe (ES/EN/PT) para Win Transfer, empresa chilena de 
 - WhatsApp secundario: `+56 9 2008 5893` → `WHATSAPP_NUMBER_2`
 - Correo: `reservaswin@gmail.com`
 - Instagram: `@wintransfer.chile`
-- **NO publicar:** RUT, dirección física, tarifas, boleta de honorarios, fechas de pago
+- **NO publicar:** RUT, dirección física, boleta de honorarios, fechas de pago
+- **Tarifas: SÍ se publican** desde 2026-06-30 (el cliente entregó el tarifario oficial — ver sección Tarifas). Se pueden usar en anuncios ("precios desde $15.000"), calculadora del formulario, etc.
+
+## Tarifas (oficiales, entregadas por el cliente 2026-06-30)
+
+Fuente de verdad hasta que exista `src/data/tarifas.ts` (planificado); cuando exista, ese archivo manda.
+
+**Reglas del tarifario:**
+
+- Válidas para **1–2 pasajeros**. Con **3+ pasajeros NO hay tarifa pública** → derivar a WhatsApp ("tarifa a cotizar").
+- El **valor final (−30%) aplica SOLO pagando con tarjetas Banco de Chile**. Online/Webpay no se puede verificar el banco → cobrar el valor original y mostrar el descuento como nota informativa que deriva a WhatsApp (pendiente validar con el cliente).
+- Win Transfer ofrece **solo servicio exclusivo** (no existe compartido; no poner selector de tipo de servicio).
+- Origen de todas las rutas: **Aeropuerto Carriel Sur** (se asume mismo valor en ambos sentidos, por confirmar).
+
+| Destino | Valor original | −30% Banco de Chile |
+|---|---|---|
+| Concepción Centro | $15.000 | $10.500 |
+| Hoteles Holliday / Wyndham Pettra / Diego de Almagro | $10.000 | $7.000 |
+| Terminal de Buses Collao | $15.000 | $10.500 |
+| Talcahuano | $30.000 | $21.000 |
+| Hualpén | $25.000 | $17.500 |
+| San Pedro de la Paz | $25.000 | $17.500 |
+| Chiguayante | $35.000 | $24.500 |
+| Penco-Lirquén | $35.000 | $24.500 |
+| Coronel-Lota | $35.000 | $24.500 |
+| El Venado-Idahue | $30.000 | $21.000 |
+| Tomé | $45.000 | $31.500 |
+| Dichato-Pingueral | $50.000 | $35.000 |
+| Florida | $110.000 | $77.000 |
+| Quillón | $120.000 | $84.000 |
+| Chillán | $150.000 | $105.000 |
+| Los Ángeles | $150.000 | $105.000 |
+| Talca | $200.000 | $140.000 |
+| Termas de Chillán | $250.000 | $175.000 |
+| Temuco | $450.000 | $315.000 |
+| Valdivia | $550.000 | $385.000 |
+| Santiago | $580.000 | $406.000 |
 
 ## Estructura de páginas
 
@@ -59,7 +95,7 @@ Sitio web estático trilingüe (ES/EN/PT) para Win Transfer, empresa chilena de 
 - **`LanguageSwitcher.astro`** — Selector de idioma del header: título "Idioma" + desplegable con bandera y el nombre del idioma en su propio idioma (Español/English/Português). Orden y nombres en `languageMeta` (i18n). Usa `FlagIcon`.
 - **`FlagIcon.astro`** — Banderas SVG inline (es→Chile, en→EE. UU., pt→Brasil). SVG y no emoji 🇨🇱 porque en Windows de escritorio los emoji de bandera muestran el código de país ("CL") en vez de la bandera.
 - **`FloatingActions.astro`** — Botones flotantes apilados abajo a la derecha: Instagram (degradado de marca) + WhatsApp. Reemplazó al antiguo `WhatsAppFloat`.
-- **`HelpChat.astro`** — Chat de ayuda "¿Tienes dudas?" (FAQ por opciones, 100% estático, sin backend). Lanzador-píldora abajo a la izquierda + panel. Contenido en la clave `chat` de los JSON i18n; cada FAQ tiene un `id` mapeado a su destino (página o WhatsApp) en el frontmatter. La de "precios" deriva a WhatsApp (no se publican tarifas).
+- **`HelpChat.astro`** — Chat de ayuda "¿Tienes dudas?" (FAQ por opciones, 100% estático, sin backend). Lanzador-píldora abajo a la izquierda + panel. Contenido en la clave `chat` de los JSON i18n; cada FAQ tiene un `id` mapeado a su destino (página o WhatsApp) en el frontmatter. La de "precios" hoy deriva a WhatsApp; con el tarifario oficial (2026-06-30) puede pasar a mostrar precios o enlazar a la calculadora.
 - **`PromoPanel.astro`** — Panel flotante de promociones (Banco de Chile -30%, Viaje de Regreso -50%). Botón amarillo sobre HelpChat; cada card tiene CTA a WhatsApp. Contenido en clave `promos` de los JSON i18n.
 - **`PageBanner.astro`** — Banner de cabecera con gradiente transparente para todas las páginas interiores. Cada página tiene su propia foto de fondo.
 - **`ExperiencePanels.astro`** — Paneles de experiencia en la home: conductor solo, van en esplendor, grupo coordinado.
@@ -86,19 +122,23 @@ localePath(lang, 'contact')    // → '/es/contacto/'
 
 ## Reglas del proyecto
 
-- Sin backend, sin base de datos, sin pagos en línea
-- No inventar tarifas, datos ni textos no entregados por el cliente
+- Sitio SSG sin base de datos. El backend permitido son **funciones serverless de Vercel** (`/api/`) para correo (Resend) y pagos (Transbank Webpay) — en desarrollo, ver Pendientes.
+- **Pagos en línea: SÍ** (cambio 2026-06-30): Webpay Plus vía API. Secretos (`RESEND_API_KEY`, `TRANSBANK_*`) SOLO en variables de entorno de Vercel, nunca en el repo ni con prefijo `PUBLIC_`. El servidor recalcula siempre el monto desde la tabla de tarifas (nunca confiar en el monto que manda el navegador).
+- No inventar tarifas fuera del tarifario oficial, ni datos o textos no entregados por el cliente
 - No usar imágenes genéricas de stock para la flota (solo fotos reales cuando lleguen)
 - Mobile-first
-- El formulario envía por WhatsApp (`wa.me/...?text=...`), no por email (pendiente definir con el cliente)
+- El formulario envía por WhatsApp (`wa.me/...?text=...`); se sumará envío por correo a `reservaswin@gmail.com` vía Resend (el WhatsApp no se reemplaza)
 - El logo actual se mantiene tal como está
 
 ## Pendientes del cliente
 
+- **Credenciales Transbank para pagos online** — ⚠️ el cliente habla de una "máquina física" con un "ID" (suena a POS presencial). Para el sitio se necesita **Webpay Plus (venta online)**: Commerce Code + API Key REST de producción. Aclarar con el cliente. Mientras tanto, desarrollar contra el ambiente de integración de Transbank.
+- **Descuento −30% Banco de Chile en Webpay** — no se puede verificar el banco de la tarjeta online; confirmar con el cliente que online se cobra el valor original y el descuento queda informativo/por WhatsApp.
+- **Tarifa 3+ pasajeros** — no hay valor público; la calculadora deriva a WhatsApp.
 - **Textos institucionales** — historia, misión, descripciones finales de servicios. Vienen de presentación corporativa.
 - **Términos y condiciones** — en revisión por abogado. No publicar hasta aprobación.
 - **Logos de partners** — uso autorizado pero sin archivos aún. Los nombres ya están en `partners[]` en los JSON.
-- ~~**Dominio `wintransfer.cl`**~~ — ✅ **YA CONFIGURADO** en Vercel (2026-06-19). El sitio responde en `https://wintransfer.cl/`. (Ojo: el nombre de marca es **Win Transfer**, dos palabras, pero el dominio es **wintransfer** todo junto.)
+- **Dominio `wintransfer.cl`** — configurado en Vercel/Cloudflare desde 2026-06-19, pero el **pago en NIC Chile sigue pendiente**; el cliente dijo (2026-06-30) que cierra antes del viernes 2026-07-03. (Ojo: el nombre de marca es **Win Transfer**, dos palabras, pero el dominio es **wintransfer** todo junto.)
 
 ## Cómo hacer deploy
 
