@@ -38,7 +38,8 @@ const escapeHtml = (s: string) =>
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
 export const renderEmailHtml = (message: string) =>
   `<div style="font-family:system-ui,sans-serif;font-size:14px;color:#111">` +
