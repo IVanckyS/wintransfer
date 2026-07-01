@@ -42,9 +42,10 @@ describe('contactSubject', () => {
 
 describe('renderEmailHtml', () => {
   it('escapa HTML del mensaje', () => {
-    const html = renderEmailHtml('<script>alert(1)</script> & "x"');
+    const html = renderEmailHtml('<script>alert(1)</script> & "x" \'y\'');
     expect(html).not.toContain('<script>');
     expect(html).toContain('&lt;script&gt;');
+    expect(html).toContain('&#39;y&#39;');
   });
 });
 
