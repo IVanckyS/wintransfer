@@ -7,13 +7,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.1.0",
     "@vercel/analytics": "^2.0.1",
     "astro": "^5.8.0",
-    "tailwindcss": "^4.1.0"
+    "tailwindcss": "^4.1.0",
+    "transbank-sdk": "^6.1.1"
+  },
+  "devDependencies": {
+    "@vercel/node": "^5.8.22",
+    "vitest": "^4.1.9"
   }
 }
