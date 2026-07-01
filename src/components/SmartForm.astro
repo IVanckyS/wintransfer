@@ -451,7 +451,18 @@ const labelClass = 'mb-1.5 block text-sm font-semibold text-ink';
         lines.push(`• ${field.dataset.label}: ${fieldValue}`);
       });
 
-    const url = `https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+    const message = lines.join('\n');
+
+    // Además de WhatsApp, dejar registro por correo en reservaswin@gmail.com.
+    // fire-and-forget: si el correo falla, WhatsApp sigue siendo el canal principal.
+    fetch('/api/contacto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, message, lang: document.documentElement.lang }),
+      keepalive: true,
+    }).catch(() => {});
+
+    const url = `https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener');
   });
 
