@@ -69,14 +69,20 @@ export const renderEmailHtml = (message: string) => {
     }
   }
   flushRows();
+  // Encabezado blanco (el logo es azul/amarillo sobre fondo transparente) con
+  // franja amarilla corporativa. El dominio va como <a> con estilo propio para
+  // que Gmail no lo pinte con su azul de enlace.
+  const siteLink =
+    `<a href="https://wintransfer.cl" style="color:#0039ae;font-weight:600;text-decoration:none">wintransfer.cl</a>`;
   return (
-    `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#111;max-width:560px">` +
-    `<div style="background:#0039ae;border-radius:10px 10px 0 0;padding:14px 18px">` +
-    `<span style="color:#ffffff;font-weight:700;font-size:16px">Win Transfer</span>` +
-    `<span style="color:#f3bf19;font-weight:700"> · wintransfer.cl</span></div>` +
-    `<div style="border:1px solid #dbe4f5;border-top:0;border-radius:0 0 10px 10px;padding:6px 18px 14px">` +
+    `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1c2434;max-width:560px;border:1px solid #dbe4f5;border-radius:12px;overflow:hidden">` +
+    `<div style="background:#ffffff;padding:18px 20px 14px;border-bottom:4px solid #f3bf19;text-align:center">` +
+    `<img src="https://wintransfer.cl/logo.png" alt="Win Transfer" height="52" style="display:inline-block;height:52px;border:0" />` +
+    `</div>` +
+    `<div style="background:#ffffff;padding:8px 20px 16px">` +
     blocks.join('') +
-    `<p style="color:#667085;font-size:12px;margin:14px 0 0">Enviado automáticamente desde el formulario de wintransfer.cl</p>` +
+    `<p style="color:#667085;font-size:12px;margin:16px 0 0;border-top:1px solid #eef2fa;padding-top:12px">` +
+    `Enviado automáticamente desde el formulario de ${siteLink}</p>` +
     `</div></div>`
   );
 };
