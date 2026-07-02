@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { useTranslations, localePath, type Lang } from '../../i18n';
-import { waLink } from '../../config';
+import { waLink, WHATSAPP_NUMBER } from '../../config';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
@@ -19,7 +19,13 @@ const states = [
 ---
 
 <BaseLayout title={t('confirm.title')} noindex>
-  <section class="bg-mist py-16 md:py-24">
+  <section
+    class="bg-mist py-16 md:py-24"
+    data-confirm
+    data-wa-number={WHATSAPP_NUMBER}
+    data-wa-ok={t('confirm.waMessageOk')}
+    data-wa-help={t('confirm.waMessageHelp')}
+  >
     <div class="mx-auto max-w-2xl px-4 md:px-6">
       {
         states.map((s) => (
@@ -39,7 +45,7 @@ const states = [
               </dl>
             )}
             <div class="mt-8 flex flex-wrap justify-center gap-3">
-              <a href={waLink()} target="_blank" rel="noopener" class="rounded-full bg-wa px-6 py-3 font-display text-sm font-bold text-white">
+              <a href={waLink()} data-wa-cta target="_blank" rel="noopener" class="rounded-full bg-wa px-6 py-3 font-display text-sm font-bold text-white">
                 {t('confirm.wa')}
               </a>
               <a href={localePath(lang, 'home')} class="rounded-full border border-primary/20 px-6 py-3 font-display text-sm font-bold text-primary">
@@ -70,4 +76,15 @@ const states = [
   if (orderEl && order) orderEl.textContent = order;
   if (amountEl && amount)
     amountEl.textContent = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(amount);
+
+  // El botón de WhatsApp lleva la orden pre-escrita para que el cliente no
+  // tenga que copiarla (mensaje según haya pagado o necesite ayuda).
+  const section = document.querySelector<HTMLElement>('[data-confirm]');
+  if (section && order) {
+    const template = status === 'ok' ? section.dataset.waOk : section.dataset.waHelp;
+    if (template) {
+      const href = `https://wa.me/${section.dataset.waNumber}?text=${encodeURIComponent(template.replace('{order}', order))}`;
+      block.querySelectorAll<HTMLAnchorElement>('a[data-wa-cta]').forEach((a) => (a.href = href));
+    }
+  }
 </script>

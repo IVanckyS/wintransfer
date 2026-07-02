@@ -477,6 +477,8 @@
     "errorTitle": "We couldn't verify the payment",
     "errorText": "There was a problem confirming the transaction. If the charge appears on your card, message us on WhatsApp and we'll sort it out.",
     "back": "Back to home",
-    "wa": "Chat on WhatsApp"
+    "wa": "Chat on WhatsApp",
+    "waMessageOk": "Hi, I just paid for my booking on wintransfer.cl (order {order}) and I'd like to coordinate the transfer details.",
+    "waMessageHelp": "Hi, I need help with a payment on wintransfer.cl (order {order})."
   }
 }

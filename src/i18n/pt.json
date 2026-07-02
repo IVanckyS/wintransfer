@@ -477,6 +477,8 @@
     "errorTitle": "Não foi possível verificar o pagamento",
     "errorText": "Ocorreu um problema ao confirmar a transação. Se a cobrança aparecer no seu cartão, fale conosco pelo WhatsApp.",
     "back": "Voltar ao início",
-    "wa": "Falar no WhatsApp"
+    "wa": "Falar no WhatsApp",
+    "waMessageOk": "Olá, acabei de pagar minha reserva no wintransfer.cl (pedido {order}) e quero combinar os detalhes do traslado.",
+    "waMessageHelp": "Olá, preciso de ajuda com um pagamento no wintransfer.cl (pedido {order})."
   }
 }
