@@ -64,8 +64,9 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
           <circle cx="1350" cy="70" r="5" class="route-core" />
         </svg>
       )}
+      {/* La banda se oculta en móvil: el texto usa todo el ancho y quedaría encima */}
       {variant === 'diagonal' && (
-        <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block" aria-hidden="true">
           <div class="band-blue" />
         </div>
       )}
@@ -299,8 +300,8 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
     }
   }
 
-  /* Móvil: las decoraciones se atenúan/encogen para que el texto respire
-     (rings y waves ya se ocultan bajo sm con clases de Tailwind). */
+  /* Móvil: las decoraciones que cruzan la zona de texto se atenúan
+     (rings, waves y la banda diagonal se ocultan bajo sm con Tailwind). */
   @media (max-width: 639px) {
     .route-path {
       opacity: 0.3;
@@ -308,12 +309,6 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
     .route-dot,
     .route-core {
       opacity: 0.45;
-    }
-    .band-blue {
-      width: 32%;
-      min-width: 140px;
-      right: -16%;
-      border-left-width: 10px;
     }
     .dotgrid {
       opacity: 0.18;
