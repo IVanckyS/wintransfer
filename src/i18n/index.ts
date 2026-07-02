@@ -33,6 +33,7 @@ export const routes = {
   agreement: 'convenio',
   coverage: 'cobertura',
   contact: 'contacto',
+  confirmation: 'confirmacion',
   terms: 'terminos',
 } as const;
 
