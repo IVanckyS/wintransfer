@@ -4,7 +4,8 @@ Sitio web estático trilingüe (ES/EN/PT) para Win Transfer, empresa chilena de 
 
 ## Stack
 
-- **Framework:** Astro (SSG, sin backend ni base de datos)
+- **Framework:** Astro (SSG) + **funciones serverless de Vercel en `/api/`** (correo y pagos; sin base de datos)
+- **Tests:** vitest (`npm test`) — cubren `src/data/tarifas.ts` y `api/_lib/contact.ts`
 - **CSS:** Tailwind CSS v4 con design tokens en `src/styles/global.css` via `@theme`
 - **Idiomas:** ES (default) + EN + PT (brasileño) — strings en `src/i18n/es.json`, `en.json` y `pt.json`. Para sumar un idioma: crear el JSON, registrarlo en `src/i18n/index.ts` (`translations`, `languages`, `languageMeta`), añadir el locale en `astro.config.mjs`, sumar el `params` en los `getStaticPaths` de `[lang]/*` y en el swap de `404.astro`.
 - **Deploy:** Vercel (conectado al repo GitHub `IVanckyS/wintransfer`)
@@ -28,7 +29,7 @@ Sitio web estático trilingüe (ES/EN/PT) para Win Transfer, empresa chilena de 
 
 ## Tarifas (oficiales, entregadas por el cliente 2026-06-30)
 
-Fuente de verdad hasta que exista `src/data/tarifas.ts` (planificado); cuando exista, ese archivo manda.
+**La fuente de verdad en código es `src/data/tarifas.ts`** (21 rutas + `quoteTrip()`; testeado valor por valor en `tests/tarifas.test.ts`). La calculadora del formulario y el cobro Webpay leen de ahí — cambiar una tarifa = editar solo ese archivo. La tabla de abajo es la referencia del cliente.
 
 **Reglas del tarifario:**
 
@@ -72,6 +73,7 @@ Fuente de verdad hasta que exista `src/data/tarifas.ts` (planificado); cuando ex
 | `/es/cobertura/` | `pages/[lang]/cobertura.astro` | Mapa interactivo de Chile + destinos turísticos |
 | `/es/contacto/` | `pages/[lang]/contacto.astro` | SmartForm (reserva / convenio / trabaja con nosotros) |
 | `/es/terminos/` | `pages/[lang]/terminos.astro` | Términos (pendiente texto legal) |
+| `/es/confirmacion/` | `pages/[lang]/confirmacion.astro` | Resultado del pago Webpay (`?status=ok\|aborted\|rejected\|error`), noindex, WhatsApp con orden pre-escrita |
 
 > La página `/flota/` fue eliminada. Desde 2026-06-15 hay **fotos de sesión fotográfica profesional** integradas en hero (video + banners), servicios, conductores, aeropuerto, historia y quiénes somos.
 
@@ -87,8 +89,9 @@ Fuente de verdad hasta que exista `src/data/tarifas.ts` (planificado); cuando ex
 ## Componentes clave
 
 - **`MiniBookingForm.astro`** — Widget hero del inicio: 3 tabs de tipo de viaje + botón "Continuar reserva". Al hacer submit redirige a `/contacto/?trip=...` para que SmartForm preseleccione el tipo.
-- **`SmartForm.astro`** — Formulario completo en `/contacto/`. Tipos: Reserva / Convenio / Trabaja con nosotros. Al enviar abre WhatsApp con el mensaje armado. Lee URL params (`?trip=`, `?origin=`, etc.) para pre-rellenarse. Con «Hacia/Desde aeropuerto» el campo respectivo entra en *modo aeropuerto* (`data-filter="airport"`): el autocompletado muestra solo aeropuertos y se valida que el valor sea uno de la lista (ya no se bloquea a un único aeropuerto). Incluye validación de formato y límites (pasajeros 1–15, maletas 0–20, nombre solo letras, teléfono por país) con mensajes propios en `form.err*`.
+- **`SmartForm.astro`** — Formulario completo en `/contacto/`. Tipos: Reserva / Convenio / Trabaja con nosotros. Al enviar abre WhatsApp con el mensaje armado **y además lo manda por correo vía `POST /api/contacto`** (fire-and-forget; si el correo falla, WhatsApp sigue). Lee URL params (`?trip=`, `?origin=`, etc.) para pre-rellenarse. Con «Hacia/Desde aeropuerto» el campo respectivo entra en *modo aeropuerto* (`data-filter="airport"`): el autocompletado muestra solo aeropuertos y se valida que el valor sea uno de la lista (ya no se bloquea a un único aeropuerto). Incluye validación de formato y límites (pasajeros 1–15, maletas 0–20, nombre solo letras, teléfono por país) con mensajes propios en `form.err*`.
 - **`PhoneField.astro`** — Campo de teléfono con selector de país (bandera + prefijo, por defecto Chile +56). Prefijos en `src/data/countryCodes.ts`. Usado dos veces dentro de SmartForm (reserva y trabajo); su lógica de apertura/validación vive en el script de SmartForm.
+- **`PriceEstimate.astro`** — Caja "Tarifa estimada" dentro del panel de reserva de SmartForm. Cotiza con `quoteTrip()` (Carriel Sur en un extremo + destino con tarifa): 1–2 pax muestra precio CLP (+nota −30% BdC); 3+ deriva a WhatsApp; ida y vuelta ×2. El botón "Pagar con Webpay" solo se renderiza con `PUBLIC_WEBPAY=on`.
 - **`TripTypeTabs.astro`** — Tabs de tipo de viaje con iconos Lucide. Compartido entre MiniBookingForm y SmartForm.
 - **`CoverageMap.astro`** — Mapa SVG interactivo de Chile (16 regiones). Hover/click en región la ilumina en el mapa y muestra foto + destinos turísticos desde Wikimedia Commons. Datos en `src/data/regionPhotos.ts` y en `regionPlaces` del JSON de i18n.
 - **`Header.astro`** / **`Footer.astro`** — Con segundo número de WhatsApp e Instagram.
@@ -139,6 +142,23 @@ localePath(lang, 'contact')    // → '/es/contacto/'
 - **Términos y condiciones** — en revisión por abogado. No publicar hasta aprobación.
 - **Logos de partners** — uso autorizado pero sin archivos aún. Los nombres ya están en `partners[]` en los JSON.
 - **Dominio `wintransfer.cl`** — configurado en Vercel/Cloudflare desde 2026-06-19, pero el **pago en NIC Chile sigue pendiente**; el cliente dijo (2026-06-30) que cierra antes del viernes 2026-07-03. (Ojo: el nombre de marca es **Win Transfer**, dos palabras, pero el dominio es **wintransfer** todo junto.)
+
+## Backend serverless (`/api/`, funciones de Vercel — el build de Astro sigue siendo SSG)
+
+- **`api/contacto.ts`** — `POST {type, message, lang}` → correo a `reservaswin@gmail.com` (Resend). Validación + honeypot `website` + rate limit 5/IP/10min.
+- **`api/pago/crear.ts`** — `POST {tarifaId, roundTrip, passengers, lang, message}` → recalcula el monto en el servidor desde `tarifas.ts` (nunca confía en el navegador), manda correo "pago iniciado" (el lead no se pierde aunque abandonen) y crea la transacción Webpay → `{url, token}`.
+- **`api/pago/confirmar.ts`** — return de Webpay: commit + correo "✅ pago confirmado" + redirect 303 a `/{lang}/confirmacion/?status=...`.
+- **`api/_lib/`** — helpers compartidos (no son endpoints): `contact.ts` (validación + template HTML del correo con logo/tabla), `resend.ts`, `ratelimit.ts`, `webpay.ts`, `config.ts`.
+- ⚠️ Imports relativos en `/api` **con extensión `.js`** (el checker de Vercel usa resolución node16; sin extensión → error TS2835).
+- **Ambientes Transbank:** sin `TRANSBANK_*` en el entorno → **integración** (tarjeta de prueba VISA `4051 8856 0044 6623`, CVV 123, RUT `11.111.111-1`, clave `123`); con `TRANSBANK_COMMERCE_CODE` + `TRANSBANK_API_KEY` → producción. En Preview el `returnUrl` usa la URL del deploy (`VERCEL_ENV`/`VERCEL_URL`).
+- **Variables de entorno:** `RESEND_API_KEY` (Prod+Preview), `PUBLIC_WEBPAY=on` (solo Preview hasta tener credenciales), `TRANSBANK_*` (cuando lleguen), opcionales `RESEND_FROM`/`RESERVAS_EMAIL`. Ver `.env.example`. Secretos NUNCA en el repo ni con prefijo `PUBLIC_`.
+- **Activar cobros reales** (cuando el cliente entregue Webpay Plus): agregar `TRANSBANK_COMMERCE_CODE`, `TRANSBANK_API_KEY` y `PUBLIC_WEBPAY=on` en Production → redeploy. Sin tocar código.
+
+## Estado (2026-07-02)
+
+- **PR #1 abierto**: rama `feature/correo-tarifas-webpay` (correo + calculadora + Webpay integración). Review completo hecho; **falta solo el Merge** (decisión del dueño del repo).
+- **E2E verificado en Preview**: pago aprobado (orden real, correos con logo/tabla llegando) y pago rechazado (página correcta, sin correo de confirmación). Falta probar el caso "anular" (opcional).
+- **Próxima ronda (sin empezar, en brainstorming)**: 1) tarifas visibles en más partes del sitio ("precios desde…", usando `tarifas.ts` como fuente única); 2) banners nuevos para páginas interiores (hay fotos que se ven mal); 3) info útil al cliente en más secciones; 4) actualizar FAQ del HelpChat y dejar explícito que **las ofertas/promos solo se gestionan por WhatsApp**. Pregunta abierta al dueño: dónde exactamente mostrar tarifas (portada / página tarifas / cards de servicios / chat) y qué fotos cambiar.
 
 ## Cómo hacer deploy
 
