@@ -13,14 +13,14 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout title={t('coverage.title')}>
-  <PageBanner image="/images/banner-cobertura.webp">
+  <PageBanner variant="diagonal" chips={t<string[]>('banner.coverageChips')}>
     <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('coverage.title')}</h1>
-          <p class="mt-4 max-w-2xl text-lg text-white/85">{t('coverage.intro')}</p>
+          <h1 class="font-display text-4xl font-extrabold text-primary md:text-5xl">{t('coverage.title')}</h1>
+          <p class="mt-4 max-w-2xl text-lg text-ink/75">{t('coverage.intro')}</p>
         </div>
-        <p class="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 font-display text-sm font-bold text-white">
+        <p class="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-primary/10 px-5 py-2.5 font-display text-sm font-bold text-primary md:mr-24">
           <svg viewBox="0 0 24 24" class="h-4 w-4 stroke-current" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 8v4l2.5 2.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
           {t('about.coverageBadge')}
         </p>

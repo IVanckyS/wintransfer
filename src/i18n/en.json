@@ -464,6 +464,13 @@
     "SGS Chile",
     "Grupo Eulen"
   ],
+  "banner": {
+    "aboutChips": ["20 years of experience", "24/7 service", "Professional drivers"],
+    "servicesChips": ["Exclusive service only", "From {min}", "Carriel Sur Airport"],
+    "agreementChips": ["Monthly invoicing", "Preferred rates", "Priority support"],
+    "coverageChips": ["16 regions", "21 destinations with official fares", "Door to door"],
+    "contactChips": ["Fast response", "Direct WhatsApp", "Card payments"]
+  },
   "confirm": {
     "title": "Payment confirmation",
     "okTitle": "Payment confirmed!",

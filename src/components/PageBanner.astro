@@ -1,36 +1,317 @@
 ---
 /**
- * Banner de cabecera para páginas interiores.
- * Imagen de fondo a pantalla completa con el mismo estilo de gradiente
- * que el hero de la portada (más transparente que el antiguo bg-primary sólido).
- * Acepta slot para el contenido (título, eyebrow, texto, badges, etc.).
+ * Banner de cabecera para páginas interiores. Dos modos:
+ *  - Foto (prop `image`): el comportamiento original con gradiente de marca.
+ *  - Gráfico (prop `variant`): fondo 100% de paleta con motivo animado y
+ *    chips informativos. Variantes: rings (anillos halftone, eco del logo),
+ *    route (ruta punteada origen→destino), diagonal (bandas sobre fondo
+ *    CLARO — el slot debe usar texto azul/tinta), grid (cuadrícula de
+ *    puntos) y waves (ondas de señal).
+ * Los chips aceptan el placeholder {min} → tarifa mínima oficial (tarifas.ts).
+ * Toda animación se desactiva con prefers-reduced-motion.
  */
+import { TARIFAS } from '../data/tarifas';
+
+type Variant = 'rings' | 'route' | 'diagonal' | 'grid' | 'waves';
+
 interface Props {
-  image: string;
+  image?: string;
   /** CSS object-position value, ej: "center 40%" o "center top" */
   imagePosition?: string;
+  variant?: Variant;
+  chips?: string[];
 }
-const { image, imagePosition = 'center' } = Astro.props;
+
+const { image, imagePosition = 'center', variant, chips = [] } = Astro.props;
+const light = variant === 'diagonal';
+
+const minFare = new Intl.NumberFormat('es-CL', {
+  style: 'currency',
+  currency: 'CLP',
+  maximumFractionDigits: 0,
+}).format(Math.min(...TARIFAS.map((t) => t.original)));
+const chipTexts = chips.map((c) => c.replace('{min}', minFare));
 ---
 
-<section class="relative isolate overflow-hidden bg-ink">
-  <div class="img-loader absolute inset-0" aria-hidden="true">
-    <img
-      src={image}
-      alt=""
-      aria-hidden="true"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-      class="h-full w-full object-cover"
-      style={`object-position: ${imagePosition}`}
-    />
-  </div>
-  <!-- Mismo esquema de gradiente que el hero de portada, algo más ligero -->
-  <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-primary/50 to-primary/15" aria-hidden="true"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-ink/20" aria-hidden="true"></div>
+{
+  variant ? (
+    <section class:list={['relative isolate overflow-hidden', light ? 'banner-light' : 'banner-dark']}>
+      {variant === 'rings' && (
+        <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] sm:block" aria-hidden="true">
+          <svg viewBox="0 0 640 460" class="h-full w-full" preserveAspectRatio="xMidYMid slice">
+            <g class="ring ring-1">
+              <circle cx="440" cy="230" r="120" pathLength="100" />
+            </g>
+            <g class="ring ring-2">
+              <circle cx="440" cy="230" r="175" pathLength="100" />
+            </g>
+            <g class="ring ring-3">
+              <circle cx="440" cy="230" r="230" pathLength="100" />
+            </g>
+          </svg>
+        </div>
+      )}
+      {variant === 'route' && (
+        <svg
+          viewBox="0 0 1440 380"
+          class="pointer-events-none absolute inset-0 h-full w-full"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          <path class="route-path" d="M 80 330 C 520 310 860 150 1350 70" pathLength="1000" />
+          <circle cx="80" cy="330" r="7" class="route-dot" />
+          <circle cx="1350" cy="70" r="13" class="route-dot route-pulse" />
+          <circle cx="1350" cy="70" r="5" class="route-core" />
+        </svg>
+      )}
+      {variant === 'diagonal' && (
+        <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div class="band-blue" />
+        </div>
+      )}
+      {variant === 'grid' && <div class="dotgrid pointer-events-none absolute inset-y-0 right-0 w-[55%]" aria-hidden="true" />}
+      {variant === 'waves' && (
+        <div class="waves-wrap pointer-events-none absolute top-1/2 right-[10%] hidden -translate-y-1/2 sm:block" aria-hidden="true">
+          <span class="wave" />
+          <span class="wave" style="animation-delay: 1.3s" />
+          <span class="wave" style="animation-delay: 2.6s" />
+          <span class="wave-core" />
+        </div>
+      )}
 
-  <div class="relative">
-    <slot />
-  </div>
-</section>
+      <div class="banner-content relative">
+        <slot />
+        {chipTexts.length > 0 && (
+          <div class="mx-auto -mt-6 max-w-6xl px-4 pb-10 md:-mt-10 md:px-6">
+            <ul class="flex list-none flex-wrap gap-2.5 p-0" role="list">
+              {chipTexts.map((chip, i) => (
+                <li
+                  class:list={[
+                    'banner-chip rounded-full border px-4 py-1.5 font-display text-xs font-bold md:text-sm',
+                    light ? 'border-primary/50 bg-primary/5 text-primary' : 'border-sun/80 bg-white/5 text-white',
+                  ]}
+                  style={`animation-delay: ${0.25 + i * 0.12}s`}
+                >
+                  {chip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  ) : (
+    <section class="relative isolate overflow-hidden bg-ink">
+      <div class="img-loader absolute inset-0" aria-hidden="true">
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          class="h-full w-full object-cover"
+          style={`object-position: ${imagePosition}`}
+        />
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-primary/50 to-primary/15" aria-hidden="true" />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-ink/20" aria-hidden="true" />
+
+      <div class="relative">
+        <slot />
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .banner-dark {
+    background: linear-gradient(115deg, #001c5e 0%, var(--color-primary) 100%);
+  }
+  .banner-light {
+    background: #f2f6ff;
+  }
+
+  /* Entrada del contenido y cascada de chips */
+  .banner-content {
+    animation: banner-in 0.7s ease-out both;
+  }
+  .banner-chip {
+    animation: banner-in 0.6s ease-out both;
+  }
+  @keyframes banner-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* rings — anillos de puntos girando lento (eco del globo del logo) */
+  .ring circle {
+    fill: none;
+    stroke: var(--color-sun);
+    stroke-linecap: round;
+  }
+  .ring-1 circle {
+    stroke-width: 9;
+    stroke-dasharray: 0.01 4.157;
+    opacity: 0.95;
+  }
+  .ring-2 circle {
+    stroke-width: 7;
+    stroke-dasharray: 0.01 3.56;
+    opacity: 0.6;
+  }
+  .ring-3 circle {
+    stroke-width: 6;
+    stroke-dasharray: 0.01 3.115;
+    opacity: 0.35;
+  }
+  .ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ring-spin 80s linear infinite;
+  }
+  .ring-2 {
+    animation-duration: 110s;
+    animation-direction: reverse;
+  }
+  .ring-3 {
+    animation-duration: 140s;
+  }
+  @keyframes ring-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* route — puntos que avanzan por la ruta + pin de destino latiendo */
+  .route-path {
+    fill: none;
+    stroke: var(--color-sun);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0.01 14;
+    animation: route-march 30s linear infinite;
+  }
+  @keyframes route-march {
+    to {
+      stroke-dashoffset: -1000;
+    }
+  }
+  .route-dot {
+    fill: var(--color-sun);
+  }
+  .route-core {
+    fill: #001c5e;
+  }
+  .route-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pin-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pin-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+  }
+
+  /* diagonal — banda azul con filo amarillo que entra deslizándose */
+  .band-blue {
+    position: absolute;
+    top: -55%;
+    right: -9%;
+    height: 210%;
+    width: 40%;
+    min-width: 230px;
+    background: linear-gradient(180deg, #001c5e, var(--color-primary));
+    border-left: 18px solid var(--color-sun);
+    transform: rotate(-18deg);
+    animation: band-in 0.9s ease-out both;
+  }
+  @keyframes band-in {
+    from {
+      opacity: 0;
+      transform: rotate(-18deg) translateX(140px);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(-18deg) translateX(0);
+    }
+  }
+
+  /* grid — cuadrícula de puntos con deriva lenta */
+  .dotgrid {
+    background-image: radial-gradient(var(--color-sun) 2.2px, transparent 2.8px);
+    background-size: 34px 34px;
+    opacity: 0.35;
+    -webkit-mask-image: radial-gradient(closest-side at 68% 50%, #000 25%, transparent);
+    mask-image: radial-gradient(closest-side at 68% 50%, #000 25%, transparent);
+    animation: grid-drift 60s linear infinite;
+  }
+  @keyframes grid-drift {
+    to {
+      background-position: 340px 170px;
+    }
+  }
+
+  /* waves — ondas de señal (contacto) */
+  .waves-wrap {
+    width: 14px;
+    height: 14px;
+  }
+  .wave-core {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--color-sun);
+  }
+  .wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin: -35px 0 0 -35px;
+    border: 2px solid var(--color-sun);
+    border-radius: 9999px;
+    opacity: 0;
+    animation: ripple 4s ease-out infinite;
+  }
+  @keyframes ripple {
+    0% {
+      transform: scale(0.35);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(4.2);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .banner-content,
+    .banner-chip,
+    .ring,
+    .route-path,
+    .route-pulse,
+    .band-blue,
+    .dotgrid,
+    .wave {
+      animation: none;
+    }
+    .wave {
+      opacity: 0.2;
+      transform: scale(2.4);
+    }
+  }
+</style>

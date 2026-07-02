@@ -464,6 +464,13 @@
     "SGS Chile",
     "Grupo Eulen"
   ],
+  "banner": {
+    "aboutChips": ["20 anos de experiência", "Atendimento 24/7", "Motoristas profissionais"],
+    "servicesChips": ["Somente serviço exclusivo", "A partir de {min}", "Aeroporto Carriel Sur"],
+    "agreementChips": ["Faturamento mensal", "Tarifas preferenciais", "Atendimento prioritário"],
+    "coverageChips": ["16 regiões", "21 destinos com tarifa oficial", "Porta a porta"],
+    "contactChips": ["Resposta rápida", "WhatsApp direto", "Pagamento com cartão"]
+  },
   "confirm": {
     "title": "Confirmação de pagamento",
     "okTitle": "Pagamento confirmado!",

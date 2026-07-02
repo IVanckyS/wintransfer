@@ -36,7 +36,7 @@ const attributeIcons = [
 ---
 
 <BaseLayout title={t('about.title')}>
-  <PageBanner image="/images/hero-van.webp">
+  <PageBanner variant="rings" chips={t<string[]>('banner.aboutChips')}>
     <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
       <div class="md:max-w-lg">
         <p class="font-display text-xs font-bold tracking-[0.2em] text-sun uppercase">{t('about.eyebrow')}</p>
