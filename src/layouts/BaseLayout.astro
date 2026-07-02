@@ -19,11 +19,13 @@ interface Props {
   description?: string;
   /** OG image relativa al sitio. Por defecto la tarjeta de marca. */
   image?: string;
+  /** true en páginas que no deben indexarse (p. ej. confirmación de pago). */
+  noindex?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { title, description = t('site.description'), image = '/og-image.jpg' } =
+const { title, description = t('site.description'), image = '/og-image.jpg', noindex = false } =
   Astro.props;
 
 const fullTitle = `${title} · ${SITE_NAME}`;
@@ -96,6 +98,7 @@ const jsonLd = {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0039ae" />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     {/* hreflang */}
     <link rel="alternate" hreflang="es" href={esUrl} />

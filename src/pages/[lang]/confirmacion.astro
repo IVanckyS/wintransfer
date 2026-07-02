@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations, localePath, type Lang } from '../../i18n';
+import { waLink } from '../../config';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+const states = [
+  { id: 'ok', title: t('confirm.okTitle'), text: t('confirm.okText') },
+  { id: 'aborted', title: t('confirm.abortedTitle'), text: t('confirm.abortedText') },
+  { id: 'rejected', title: t('confirm.rejectedTitle'), text: t('confirm.rejectedText') },
+  { id: 'error', title: t('confirm.errorTitle'), text: t('confirm.errorText') },
+];
+---
+
+<BaseLayout title={t('confirm.title')} noindex>
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-2xl px-4 md:px-6">
+      {
+        states.map((s) => (
+          <div data-status={s.id} hidden class="rounded-3xl border border-primary/10 bg-white p-8 text-center shadow-sm">
+            <h1 class="font-display text-3xl font-extrabold text-primary">{s.title}</h1>
+            <p class="mt-4 text-ink/80">{s.text}</p>
+            {s.id === 'ok' && (
+              <dl class="mx-auto mt-6 max-w-xs rounded-2xl bg-mist p-4 text-sm">
+                <div class="flex justify-between">
+                  <dt class="font-bold text-ink">{t('confirm.orderLabel')}</dt>
+                  <dd data-order class="text-ink/80" />
+                </div>
+                <div class="mt-2 flex justify-between">
+                  <dt class="font-bold text-ink">{t('confirm.amountLabel')}</dt>
+                  <dd data-amount class="text-ink/80" />
+                </div>
+              </dl>
+            )}
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+              <a href={waLink()} target="_blank" rel="noopener" class="rounded-full bg-wa px-6 py-3 font-display text-sm font-bold text-white">
+                {t('confirm.wa')}
+              </a>
+              <a href={localePath(lang, 'home')} class="rounded-full border border-primary/20 px-6 py-3 font-display text-sm font-bold text-primary">
+                {t('confirm.back')}
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // La página es estática; el resultado viene en los query params del redirect
+  // de /api/pago/confirmar (?status=ok|aborted|rejected|error&order=&amount=).
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('status') ?? 'error';
+  const block =
+    document.querySelector<HTMLElement>(`[data-status="${status}"]`) ??
+    document.querySelector<HTMLElement>('[data-status="error"]')!;
+  block.hidden = false;
+
+  const order = params.get('order');
+  const amount = Number(params.get('amount'));
+  const orderEl = block.querySelector('[data-order]');
+  const amountEl = block.querySelector('[data-amount]');
+  if (orderEl && order) orderEl.textContent = order;
+  if (amountEl && amount)
+    amountEl.textContent = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(amount);
+</script>

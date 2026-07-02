@@ -463,5 +463,20 @@
     "Russell Mineral Equipment",
     "SGS Chile",
     "Grupo Eulen"
-  ]
+  ],
+  "confirm": {
+    "title": "Confirmación de pago",
+    "okTitle": "¡Pago confirmado!",
+    "okText": "Recibimos tu pago y tu reserva quedó registrada. Nuestro equipo te contactará para coordinar los detalles del traslado.",
+    "orderLabel": "Orden",
+    "amountLabel": "Monto pagado",
+    "abortedTitle": "Pago cancelado",
+    "abortedText": "Cancelaste el pago en Webpay. No se realizó ningún cobro; puedes intentarlo de nuevo o reservar por WhatsApp.",
+    "rejectedTitle": "Pago rechazado",
+    "rejectedText": "Tu medio de pago rechazó la transacción. Puedes intentar con otra tarjeta o coordinar tu reserva por WhatsApp.",
+    "errorTitle": "No pudimos verificar el pago",
+    "errorText": "Ocurrió un problema al confirmar la transacción. Si el cobro aparece en tu tarjeta, escríbenos por WhatsApp y lo resolvemos.",
+    "back": "Volver al inicio",
+    "wa": "Hablar por WhatsApp"
+  }
 }
