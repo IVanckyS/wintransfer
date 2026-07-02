@@ -69,7 +69,7 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
           <div class="band-blue" />
         </div>
       )}
-      {variant === 'grid' && <div class="dotgrid pointer-events-none absolute inset-y-0 right-0 w-[55%]" aria-hidden="true" />}
+      {variant === 'grid' && <div class="dotgrid pointer-events-none absolute inset-y-0 right-0 w-[70%] sm:w-[55%]" aria-hidden="true" />}
       {variant === 'waves' && (
         <div class="waves-wrap pointer-events-none absolute top-1/2 right-[10%] hidden -translate-y-1/2 sm:block" aria-hidden="true">
           <span class="wave" />
@@ -83,12 +83,12 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
       <div class="banner-content relative flex w-full flex-col justify-center md:min-h-[440px]">
         <slot />
         {chipTexts.length > 0 && (
-          <div class="mx-auto -mt-6 max-w-6xl px-4 pb-10 md:-mt-10 md:px-6">
-            <ul class="flex list-none flex-wrap gap-2.5 p-0" role="list">
+          <div class="mx-auto -mt-2 max-w-6xl px-4 pb-10 md:-mt-10 md:px-6">
+            <ul class="flex list-none flex-wrap gap-2 p-0 md:gap-2.5" role="list">
               {chipTexts.map((chip, i) => (
                 <li
                   class:list={[
-                    'banner-chip rounded-full border px-4 py-1.5 font-display text-xs font-bold md:text-sm',
+                    'banner-chip rounded-full border px-3.5 py-1.5 font-display text-[11px] font-bold md:px-4 md:text-sm',
                     light ? 'border-primary/50 bg-primary/5 text-primary' : 'border-sun/80 bg-white/5 text-white',
                   ]}
                   style={`animation-delay: ${0.25 + i * 0.12}s`}
@@ -296,6 +296,27 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
     100% {
       transform: scale(4.2);
       opacity: 0;
+    }
+  }
+
+  /* Móvil: las decoraciones se atenúan/encogen para que el texto respire
+     (rings y waves ya se ocultan bajo sm con clases de Tailwind). */
+  @media (max-width: 639px) {
+    .route-path {
+      opacity: 0.3;
+    }
+    .route-dot,
+    .route-core {
+      opacity: 0.45;
+    }
+    .band-blue {
+      width: 32%;
+      min-width: 140px;
+      right: -16%;
+      border-left-width: 10px;
+    }
+    .dotgrid {
+      opacity: 0.18;
     }
   }
 
