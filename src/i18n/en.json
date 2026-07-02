@@ -29,6 +29,7 @@
     "status": "Online · responds instantly",
     "greeting": "Hi! I'm your Win Transfer assistant. Choose a topic and I'll help you right away 👇",
     "human": "Talk to a person",
+    "waPromos": "Hi, I want to activate a Win Transfer promotion.",
     "close": "Close",
     "categories": [
       { "id": "reservas", "label": "Bookings" },
@@ -40,7 +41,8 @@
       { "id": "hours", "cat": "reservas", "q": "What are your operating hours?", "a": "We're available 7 days a week, 24 hours a day, including holidays.", "cta": "Book now" },
       { "id": "services", "cat": "reservas", "q": "What services do you offer?", "a": "Staff, executive, events, airport, institutional tours and special transfers.", "cta": "View services" },
       { "id": "jobs", "cat": "reservas", "q": "Work with us", "a": "Do you have driving experience and a commitment to punctuality and safety? We'd like to meet you.", "cta": "Apply now" },
-      { "id": "price", "cat": "tarifas", "q": "How much does it cost?", "a": "It depends on the trip (route, date and number of passengers). We'll quote you for free, no commitment, on WhatsApp.", "cta": "Get a quote on WhatsApp" },
+      { "id": "price", "cat": "tarifas", "q": "How much does it cost?", "a": "Official per-leg fares (1–2 passengers): Airport ⇄ Concepción Centro {concepcion-centro}, Talcahuano {talcahuano}, San Pedro de la Paz {san-pedro} and Santiago {santiago}. The booking form calculator lists all 21 destinations; for 3+ passengers we quote on WhatsApp.", "cta": "Calculate my fare" },
+      { "id": "promos", "cat": "tarifas", "q": "Any promotions?", "a": "Yes: −30% paying with Banco de Chile cards and −50% on your return trip. Promotions are activated and arranged exclusively via WhatsApp.", "cta": "Activate on WhatsApp" },
       { "id": "agreement", "cat": "tarifas", "q": "Corporate agreement", "a": "Standing transport with preferential rates, priority service and formal invoicing.", "cta": "View agreement" },
       { "id": "coverage", "cat": "cobertura", "q": "Where do you go?", "a": "We operate in all 16 regions of Chile, from Arica to Magallanes, 7 days a week, 24 hours a day.", "cta": "View coverage" }
     ]
@@ -464,6 +466,15 @@
     "SGS Chile",
     "Grupo Eulen"
   ],
+  "fares": {
+    "title": "Official airport fares",
+    "intro": "Exclusive transfer to or from Carriel Sur Airport, with published prices. Per-leg fare for 1–2 passengers.",
+    "prefix": "Carriel Sur Airport ⇄",
+    "perLeg": "per leg",
+    "note": "3 or more passengers? We quote instantly on WhatsApp. Banco de Chile cards get −30%: promotions are arranged via WhatsApp only.",
+    "cta": "Calculate your fare and book",
+    "badge": "From {min} · official fare"
+  },
   "banner": {
     "aboutChips": ["20 years of experience", "24/7 service", "Professional drivers"],
     "servicesChips": ["Exclusive service only", "From {min}", "Carriel Sur Airport"],

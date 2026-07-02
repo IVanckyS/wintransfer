@@ -29,6 +29,7 @@
     "status": "Online · responde na hora",
     "greeting": "Olá! Sou o seu assistente de Transfer Win. Escolha um tema e te conto na hora 👇",
     "human": "Falar com uma pessoa",
+    "waPromos": "Olá, quero ativar uma promoção da Win Transfer.",
     "close": "Fechar",
     "categories": [
       { "id": "reservas", "label": "Reservas" },
@@ -40,7 +41,8 @@
       { "id": "hours", "cat": "reservas", "q": "Qual é o horário de atendimento?", "a": "Estamos disponíveis os 7 dias da semana, 24 horas por dia, incluindo feriados.", "cta": "Reservar agora" },
       { "id": "services", "cat": "reservas", "q": "Quais serviços oferecem?", "a": "Transporte de funcionários, executivo, eventos, aeroporto, excursões institucionais e serviços especiais.", "cta": "Ver serviços" },
       { "id": "jobs", "cat": "reservas", "q": "Trabalhe conosco", "a": "Tem experiência ao volante e compromisso com pontualidade e segurança? Queremos conhecer você.", "cta": "Candidatar-se" },
-      { "id": "price", "cat": "tarifas", "q": "Quanto custa?", "a": "O valor depende do trajeto (rota, data e número de passageiros). Fazemos seu orçamento grátis e sem compromisso pelo WhatsApp.", "cta": "Orçar pelo WhatsApp" },
+      { "id": "price", "cat": "tarifas", "q": "Quanto custa?", "a": "Tarifa oficial por trecho (1–2 passageiros): Aeroporto ⇄ Concepción Centro {concepcion-centro}, Talcahuano {talcahuano}, San Pedro de la Paz {san-pedro} e Santiago {santiago}. A calculadora do formulário tem os 21 destinos; com 3 ou mais passageiros cotamos pelo WhatsApp.", "cta": "Calcular minha tarifa" },
+      { "id": "promos", "cat": "tarifas", "q": "Têm promoções?", "a": "Sim: −30% pagando com cartões Banco de Chile e −50% na viagem de volta. As promoções são ativadas e combinadas exclusivamente pelo WhatsApp.", "cta": "Ativar pelo WhatsApp" },
       { "id": "agreement", "cat": "tarifas", "q": "Convênio para empresas", "a": "Transporte permanente com tarifas preferenciais, prioridade no atendimento e faturamento formal.", "cta": "Ver convênio" },
       { "id": "coverage", "cat": "cobertura", "q": "Para onde vocês vão?", "a": "Operamos nas 16 regiões do Chile, de Arica a Magallanes, os 7 dias da semana, 24 horas por dia.", "cta": "Ver cobertura" }
     ]
@@ -464,6 +466,15 @@
     "SGS Chile",
     "Grupo Eulen"
   ],
+  "fares": {
+    "title": "Tarifas oficiais para o aeroporto",
+    "intro": "Traslado exclusivo de ou para o Aeroporto Carriel Sur, com preço publicado. Valor por trecho para 1–2 passageiros.",
+    "prefix": "Aeroporto Carriel Sur ⇄",
+    "perLeg": "por trecho",
+    "note": "3 ou mais passageiros? Cotamos na hora pelo WhatsApp. Com cartões Banco de Chile há −30%: as promoções são combinadas somente pelo WhatsApp.",
+    "cta": "Calcule sua tarifa e reserve",
+    "badge": "A partir de {min} · tarifa oficial"
+  },
   "banner": {
     "aboutChips": ["20 anos de experiência", "Atendimento 24/7", "Motoristas profissionais"],
     "servicesChips": ["Somente serviço exclusivo", "A partir de {min}", "Aeroporto Carriel Sur"],

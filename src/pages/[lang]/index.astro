@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MiniBookingForm from '../../components/MiniBookingForm.astro';
 import ExperiencePanels from '../../components/ExperiencePanels.astro';
+import FaresSection from '../../components/FaresSection.astro';
+import { TARIFAS } from '../../data/tarifas';
 import { serviceImages } from '../../data/serviceImages';
 import { partnerLogos } from '../../data/partnerLogos';
 import { useTranslations, localePath, type Lang } from '../../i18n';
@@ -26,6 +28,9 @@ interface TrustItem {
 }
 
 const services = t<ServiceItem[]>('services.items');
+// Rótulo "Desde $X" (tarifa mínima oficial) para la card de aeropuerto
+const clpFmt = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+const fromBadge = t('fares.badge').replace('{min}', clpFmt.format(Math.min(...TARIFAS.map((x) => x.original))));
 const trust = t<TrustItem[]>('home.trust');
 // Repetimos las tarjetas 4× para el carrusel infinito: así el "camino" llena
 // pantallas anchas sin huecos y el loop (mueve una tanda por vuelta) no corta.
@@ -183,6 +188,11 @@ const serviceIcons: Record<string, string> = {
                       <path d={serviceIcons[service.id]} />
                     </svg>
                   </span>
+                  {service.id === 'aeropuerto' && (
+                    <span class="mb-2 block w-fit rounded-full bg-sun px-3 py-1 font-display text-xs font-bold text-ink">
+                      {fromBadge}
+                    </span>
+                  )}
                   <h3 class="font-display text-xl font-bold text-white">{service.title}</h3>
                   {/* Descripción: en táctil/teclado se ve siempre; en escritorio se revela al hover */}
                   <div class="svc-desc">
@@ -202,6 +212,9 @@ const serviceIcons: Record<string, string> = {
       </div>
     </div>
   </section>
+
+  <!-- ====== TARIFAS OFICIALES (rutas destacadas desde tarifas.ts) ====== -->
+  <FaresSection />
 
   <!-- ====== EXPERIENCIA (paneles parallax / carrusel móvil) ====== -->
   <ExperiencePanels />

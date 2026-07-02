@@ -1,0 +1,59 @@
+---
+/**
+ * Sección "Tarifas oficiales" de la portada: rutas destacadas leídas de
+ * src/data/tarifas.ts (fuente única — cambiar una tarifa allí actualiza esto).
+ * Textos en la clave i18n `fares`. El precio es por tramo, 1–2 pasajeros;
+ * 3+ y promociones se derivan a WhatsApp (regla del negocio).
+ */
+import { getLangFromUrl, useTranslations, localePath } from '../i18n';
+import { TARIFAS } from '../data/tarifas';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const clp = new Intl.NumberFormat('es-CL', {
+  style: 'currency',
+  currency: 'CLP',
+  maximumFractionDigits: 0,
+});
+
+// Rutas más cotizadas según el cliente (ids de tarifas.ts)
+const FEATURED = ['concepcion-centro', 'hoteles-concepcion', 'talcahuano', 'san-pedro', 'tome', 'santiago'];
+const rows = FEATURED.map((id) => TARIFAS.find((row) => row.id === id)).filter(
+  (row): row is (typeof TARIFAS)[number] => Boolean(row),
+);
+---
+
+<section id="tarifas" class="bg-white py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <h2 class="reveal font-display text-3xl font-extrabold text-primary md:text-4xl">{t('fares.title')}</h2>
+    <p class="reveal mt-3 max-w-2xl text-ink/70">{t('fares.intro')}</p>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        rows.map((row) => (
+          <div class="reveal flex items-center justify-between gap-4 rounded-2xl border border-primary/10 bg-mist/60 p-5 transition-shadow hover:shadow-md">
+            <div class="min-w-0">
+              <p class="text-xs font-semibold text-ink/55">{t('fares.prefix')}</p>
+              <p class="mt-0.5 font-display text-lg leading-snug font-bold text-primary">{row.label}</p>
+            </div>
+            <div class="shrink-0 text-right">
+              <p class="font-display text-2xl font-extrabold text-primary">{clp.format(row.original)}</p>
+              <p class="text-xs text-ink/55">{t('fares.perLeg')}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="reveal mt-8 flex flex-col items-start gap-4 rounded-2xl bg-mist p-5 sm:flex-row sm:items-center sm:justify-between">
+      <p class="max-w-2xl text-sm text-ink/70">{t('fares.note')}</p>
+      <a
+        href={localePath(lang, 'contact')}
+        class="shrink-0 rounded-full bg-action-bright px-6 py-3 font-display text-sm font-bold text-white transition-transform hover:scale-105"
+      >
+        {t('fares.cta')}
+      </a>
+    </div>
+  </div>
+</section>

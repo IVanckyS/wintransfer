@@ -4,6 +4,7 @@ import PageBanner from '../../components/PageBanner.astro';
 import { serviceImages } from '../../data/serviceImages';
 import { useTranslations, localePath, type Lang } from '../../i18n';
 import { waLink } from '../../config';
+import { TARIFAS } from '../../data/tarifas';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
@@ -19,6 +20,10 @@ interface ServiceItem {
   mediaLabel: string;
 }
 const services = t<ServiceItem[]>('services.items');
+
+// Rótulo "Desde $X" (tarifa mínima oficial) para el bloque de aeropuerto
+const clpFmt = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+const fromBadge = t('fares.badge').replace('{min}', clpFmt.format(Math.min(...TARIFAS.map((x) => x.original))));
 ---
 
 <BaseLayout title={t('services.title')}>
@@ -57,6 +62,11 @@ const services = t<ServiceItem[]>('services.items');
               </div>              <div class:list={['reveal', textReveal]}>
                 <span class="font-display text-sm font-bold text-action">{String(i + 1).padStart(2, '0')}</span>
                 <h2 class="mt-2 font-display text-2xl font-extrabold text-primary md:text-3xl">{service.title}</h2>
+                {service.id === 'aeropuerto' && (
+                  <span class="mt-3 inline-block rounded-full bg-sun/25 px-3.5 py-1 font-display text-xs font-bold text-primary">
+                    {fromBadge}
+                  </span>
+                )}
                 <p class="mt-4 text-ink/70">{service.text}</p>
                 <a
                   href={localePath(lang, 'contact')}

@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, localePath } from '../i18n';
 import { waLink } from '../config';
+import { TARIFAS } from '../data/tarifas';
 
 interface Faq {
   id: string;
@@ -16,15 +17,28 @@ interface Category {
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const faqs = t<Faq[]>('chat.faqs');
+const rawFaqs = t<Faq[]>('chat.faqs');
 const categories = t<Category[]>('chat.categories');
+
+// Las respuestas pueden incrustar precios con {id-de-tarifa} (p. ej. {talcahuano})
+// → se resuelven desde tarifas.ts, así el chat siempre muestra el tarifario vigente.
+const clpFmt = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+const farePrice = (id: string) => {
+  const row = TARIFAS.find((row2) => row2.id === id);
+  return row ? clpFmt.format(row.original) : '';
+};
+const faqs = rawFaqs.map((f) => ({
+  ...f,
+  a: f.a.replace(/\{([a-z0-9-]+)\}/g, (match, id) => farePrice(id) || match),
+}));
 
 const dest: Record<string, { href: string; external: boolean }> = {
   book:      { href: localePath(lang, 'contact'), external: false },
   coverage:  { href: localePath(lang, 'coverage'), external: false },
   services:  { href: localePath(lang, 'services'), external: false },
   agreement: { href: localePath(lang, 'agreement'), external: false },
-  price:     { href: waLink(t('form.waIntroBooking')), external: true },
+  price:     { href: localePath(lang, 'contact'), external: false },
+  promos:    { href: waLink(t('chat.waPromos')), external: true },
   hours:     { href: localePath(lang, 'contact'), external: false },
   jobs:      { href: `${localePath(lang, 'contact')}?form=jobs`, external: false },
 };
