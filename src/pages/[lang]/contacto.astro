@@ -107,15 +107,27 @@ const t = useTranslations(lang);
           </dl>
         </div>
         <!-- Zona de operación (OpenStreetMap, sin API key). Marcador en Carriel Sur:
-           es el hub del servicio; no se publica dirección física por regla del cliente. -->
-      <div class="reveal overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-sm">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-73.25%2C-36.98%2C-72.82%2C-36.68&layer=mapnik&marker=-36.7726%2C-73.0631"
-          title={t('contact.mapLabel')}
-          class="h-72 w-full lg:h-full lg:min-h-56"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-        ></iframe>
+           es el hub del servicio; no se publica dirección física por regla del cliente.
+           Se recorta el pie del embed (links de donación/reporte) y la atribución ©
+           exigida por la licencia ODbL va en una línea propia bajo el mapa. -->
+      <div class="reveal">
+        <div class="h-72 overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-sm lg:h-80">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-73.25%2C-36.98%2C-72.82%2C-36.68&layer=mapnik&marker=-36.7726%2C-73.0631"
+            title={t('contact.mapLabel')}
+            class="w-full"
+            style="height: calc(100% + 48px)"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+        <p class="mt-1.5 text-right text-[11px] text-ink/50">
+          ©
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" class="hover:underline">
+            OpenStreetMap
+          </a>
+          contributors
+        </p>
       </div>
       </div>
 
