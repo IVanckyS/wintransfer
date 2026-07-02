@@ -79,7 +79,8 @@ const chipTexts = chips.map((c) => c.replace('{min}', minFare));
         </div>
       )}
 
-      <div class="banner-content relative">
+      {/* Altura mínima común: al navegar entre páginas el banner no "salta" */}
+      <div class="banner-content relative flex w-full flex-col justify-center md:min-h-[440px]">
         <slot />
         {chipTexts.length > 0 && (
           <div class="mx-auto -mt-6 max-w-6xl px-4 pb-10 md:-mt-10 md:px-6">

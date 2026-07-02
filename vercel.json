@@ -1,11 +1,26 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "(?i)^pt.*" }],
+      "destination": "/pt/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "(?i)^en.*" }],
+      "destination": "/en/",
+      "permanent": false
+    },
+    { "source": "/", "destination": "/es/", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://places.googleapis.com; form-action 'self' https://webpay3gint.transbank.cl https://webpay3g.transbank.cl"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.openstreetmap.org; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://places.googleapis.com; form-action 'self' https://webpay3gint.transbank.cl https://webpay3g.transbank.cl"
         },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },

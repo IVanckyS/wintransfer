@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageBanner from '../../components/PageBanner.astro';
-import PlaceholderMedia from '../../components/PlaceholderMedia.astro';
 import SmartForm from '../../components/SmartForm.astro';
 import { useTranslations, type Lang } from '../../i18n';
 import {
@@ -107,7 +106,17 @@ const t = useTranslations(lang);
             </div>
           </dl>
         </div>
-        <PlaceholderMedia label={t('contact.mapLabel')} class="reveal aspect-[4/3] rounded-3xl lg:aspect-auto lg:min-h-56" />
+        <!-- Zona de operación (OpenStreetMap, sin API key). Marcador en Carriel Sur:
+           es el hub del servicio; no se publica dirección física por regla del cliente. -->
+      <div class="reveal overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-sm">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-73.25%2C-36.98%2C-72.82%2C-36.68&layer=mapnik&marker=-36.7726%2C-73.0631"
+          title={t('contact.mapLabel')}
+          class="h-72 w-full lg:h-full lg:min-h-56"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
       </div>
 
       <!-- Formulario inteligente -->
