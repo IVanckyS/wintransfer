@@ -8,7 +8,8 @@
     "home": "Home",
     "about": "About us",
     "services": "Services",
-    "agreement": "Corporate agreements",
+    "fares": "Fares",
+    "agreement":"Corporate agreements",
     "coverage": "Coverage",
     "contact": "Contact",
     "terms": "Terms & conditions",
@@ -473,11 +474,24 @@
     "perLeg": "per leg",
     "note": "3 or more passengers? We quote instantly on WhatsApp. Banco de Chile cards get −30%: promotions are arranged via WhatsApp only.",
     "cta": "Calculate your fare and book",
+    "all": "See the full fare list",
     "badge": "From {min} · official fare"
+  },
+  "faresPage": {
+    "title": "Fares",
+    "intro": "Official fare list for exclusive transfers to and from Carriel Sur Airport. Per-leg prices for 1 or 2 passengers.",
+    "colDest": "Destination",
+    "colFare": "Fare",
+    "colBdc": "With Banco de Chile (−30%)*",
+    "bdcNote": "*The Banco de Chile discount and all other promotions are activated and arranged exclusively via WhatsApp.",
+    "paxNote": "3 or more passengers, or a different starting point? We quote instantly on WhatsApp.",
+    "ctaCalc": "Calculate and book online",
+    "ctaWa": "Get a quote on WhatsApp"
   },
   "banner": {
     "aboutChips": ["20 years of experience", "24/7 service", "Professional drivers"],
     "servicesChips": ["Exclusive service only", "From {min}", "Carriel Sur Airport"],
+    "faresChips": ["21 destinations", "Per-leg fares · 1–2 passengers", "Book online"],
     "agreementChips": ["Monthly invoicing", "Preferred rates", "Priority support"],
     "coverageChips": ["16 regions", "21 destinations with official fares", "Door to door"],
     "contactChips": ["Fast response", "Direct WhatsApp", "Card payments"]

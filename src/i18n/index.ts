@@ -30,6 +30,7 @@ export const routes = {
   home: '',
   about: 'quienes-somos',
   services: 'servicios',
+  fares: 'tarifas',
   agreement: 'convenio',
   coverage: 'cobertura',
   contact: 'contacto',

@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import { useTranslations, localePath, type Lang } from '../../i18n';
+import { waLink } from '../../config';
+import { TARIFAS } from '../../data/tarifas';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }, { params: { lang: 'pt' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+const clp = new Intl.NumberFormat('es-CL', {
+  style: 'currency',
+  currency: 'CLP',
+  maximumFractionDigits: 0,
+});
+
+// Datos estructurados: catálogo de ofertas con los precios oficiales (SEO).
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: `Win Transfer — ${t('faresPage.title')}`,
+  itemListElement: TARIFAS.map((row) => ({
+    '@type': 'Offer',
+    name: `${t('fares.prefix')} ${row.label}`,
+    price: row.original,
+    priceCurrency: 'CLP',
+  })),
+};
+---
+
+<BaseLayout title={t('faresPage.title')} description={t('faresPage.intro')}>
+  <PageBanner variant="route" chips={t<string[]>('banner.faresChips')}>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+      <h1 class="font-display text-4xl font-extrabold text-white md:text-5xl">{t('faresPage.title')}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">{t('faresPage.intro')}</p>
+    </div>
+  </PageBanner>
+
+  <section class="bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <div class="reveal overflow-x-auto rounded-3xl border border-primary/10 bg-white shadow-sm">
+        <table class="w-full min-w-[540px] text-sm">
+          <thead>
+            <tr class="bg-primary text-left text-white">
+              <th class="px-5 py-3.5 font-display font-bold">{t('faresPage.colDest')}</th>
+              <th class="px-5 py-3.5 text-right font-display font-bold">{t('faresPage.colFare')}</th>
+              <th class="px-5 py-3.5 text-right font-display font-bold">{t('faresPage.colBdc')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              TARIFAS.map((row, i) => (
+                <tr class:list={[i % 2 === 1 && 'bg-mist/60']}>
+                  <td class="px-5 py-3 font-semibold text-ink">{row.label}</td>
+                  <td class="px-5 py-3 text-right font-display font-bold text-primary">{clp.format(row.original)}</td>
+                  <td class="px-5 py-3 text-right text-ink/70">{clp.format(row.bancoChile)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="reveal mt-4 text-xs text-ink/60">{t('faresPage.bdcNote')}</p>
+
+      <div class="reveal mt-8 flex flex-col items-start gap-4 rounded-2xl border border-primary/10 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+        <p class="max-w-xl text-sm text-ink/70">{t('faresPage.paxNote')}</p>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={localePath(lang, 'contact')}
+            class="rounded-full bg-action-bright px-6 py-3 font-display text-sm font-bold text-white transition-transform hover:scale-105"
+          >
+            {t('faresPage.ctaCalc')}
+          </a>
+          <a
+            href={waLink(t('form.waIntroBooking'))}
+            target="_blank"
+            rel="noopener"
+            class="rounded-full bg-wa px-6 py-3 font-display text-sm font-bold text-white transition-transform hover:scale-105"
+          >
+            {t('faresPage.ctaWa')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

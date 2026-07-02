@@ -55,5 +55,11 @@ const rows = FEATURED.map((id) => TARIFAS.find((row) => row.id === id)).filter(
         {t('fares.cta')}
       </a>
     </div>
+
+    <div class="reveal mt-4 text-center">
+      <a href={localePath(lang, 'fares')} class="font-display text-sm font-bold text-action-bright hover:text-primary">
+        {t('fares.all')} →
+      </a>
+    </div>
   </div>
 </section>

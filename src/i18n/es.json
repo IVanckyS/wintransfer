@@ -8,6 +8,7 @@
     "home": "Inicio",
     "about": "Quiénes somos",
     "services": "Servicios",
+    "fares": "Tarifas",
     "agreement": "Únete a convenio",
     "coverage": "Cobertura",
     "contact": "Contacto",
@@ -27,7 +28,7 @@
     "launcher": "¿Tienes dudas?",
     "title": "Asistente Win",
     "status": "En línea · responde al instante",
-    "greeting": "¡Hola! Soy tu asistente de Transfer Win. Elige un tema y te cuento al tiro 👇",
+    "greeting": "¡Hola! Soy tu asistente de Win Transfer. Elige un tema y te cuento al tiro 👇",
     "human": "Hablar con una persona",
     "waPromos": "Hola, quiero activar una promoción de Win Transfer.",
     "close": "Cerrar",
@@ -473,11 +474,24 @@
     "perLeg": "por tramo",
     "note": "¿3 o más pasajeros? Te cotizamos al instante por WhatsApp. Con tarjetas Banco de Chile tienes −30%: las promociones se coordinan solo por WhatsApp.",
     "cta": "Calcula tu tarifa y reserva",
+    "all": "Ver el tarifario completo",
     "badge": "Desde {min} · tarifa oficial"
+  },
+  "faresPage": {
+    "title": "Tarifas",
+    "intro": "Tarifario oficial de traslados exclusivos desde y hacia el Aeropuerto Carriel Sur. Valores por tramo para 1 o 2 pasajeros.",
+    "colDest": "Destino",
+    "colFare": "Tarifa",
+    "colBdc": "Con Banco de Chile (−30%)*",
+    "bdcNote": "*El descuento Banco de Chile y las demás promociones se activan y coordinan exclusivamente por WhatsApp.",
+    "paxNote": "¿3 o más pasajeros u otro punto de partida? Cotizamos al instante por WhatsApp.",
+    "ctaCalc": "Calcular y reservar en línea",
+    "ctaWa": "Cotizar por WhatsApp"
   },
   "banner": {
     "aboutChips": ["20 años de experiencia", "Atención 24/7", "Conductores profesionales"],
     "servicesChips": ["Solo servicio exclusivo", "Desde {min}", "Aeropuerto Carriel Sur"],
+    "faresChips": ["21 destinos", "Valores por tramo · 1–2 pasajeros", "Reserva en línea"],
     "agreementChips": ["Facturación mensual", "Tarifas preferentes", "Atención prioritaria"],
     "coverageChips": ["16 regiones", "21 destinos con tarifa oficial", "Puerta a puerta"],
     "contactChips": ["Respuesta rápida", "WhatsApp directo", "Pago con tarjeta"]
