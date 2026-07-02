@@ -41,7 +41,42 @@ const escapeHtml = (s: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 
-export const renderEmailHtml = (message: string) =>
-  `<div style="font-family:system-ui,sans-serif;font-size:14px;color:#111">` +
-  `<pre style="white-space:pre-wrap;margin:0">${escapeHtml(message)}</pre>` +
-  `<p style="color:#666;font-size:12px;margin-top:16px">Enviado automáticamente desde el formulario de wintransfer.cl</p></div>`;
+/**
+ * Convierte el mensaje plano en un correo HTML de marca: las líneas con
+ * formato "Etiqueta: valor" (con o sin viñeta) se vuelven filas de tabla y
+ * el resto queda como párrafos. Todo el contenido del usuario va escapado.
+ */
+export const renderEmailHtml = (message: string) => {
+  const blocks: string[] = [];
+  let rows: string[] = [];
+  const flushRows = () => {
+    if (!rows.length) return;
+    blocks.push(`<table style="border-collapse:collapse;width:100%;margin:12px 0">${rows.join('')}</table>`);
+    rows = [];
+  };
+  for (const raw of message.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    const m = line.match(/^(?:• )?([^:]{1,40}):\s+(.+)$/);
+    if (m) {
+      rows.push(
+        `<tr><td style="padding:6px 12px;border:1px solid #dbe4f5;background:#f2f6ff;font-weight:600;color:#0039ae;white-space:nowrap">${escapeHtml(m[1])}</td>` +
+          `<td style="padding:6px 12px;border:1px solid #dbe4f5;color:#111">${escapeHtml(m[2])}</td></tr>`,
+      );
+    } else {
+      flushRows();
+      blocks.push(`<p style="margin:12px 0;color:#111">${escapeHtml(line.replace(/^• /, ''))}</p>`);
+    }
+  }
+  flushRows();
+  return (
+    `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#111;max-width:560px">` +
+    `<div style="background:#0039ae;border-radius:10px 10px 0 0;padding:14px 18px">` +
+    `<span style="color:#ffffff;font-weight:700;font-size:16px">Win Transfer</span>` +
+    `<span style="color:#f3bf19;font-weight:700"> · wintransfer.cl</span></div>` +
+    `<div style="border:1px solid #dbe4f5;border-top:0;border-radius:0 0 10px 10px;padding:6px 18px 14px">` +
+    blocks.join('') +
+    `<p style="color:#667085;font-size:12px;margin:14px 0 0">Enviado automáticamente desde el formulario de wintransfer.cl</p>` +
+    `</div></div>`
+  );
+};
