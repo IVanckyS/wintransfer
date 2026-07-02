@@ -1,4 +1,4 @@
-import { TO_EMAIL, FROM_EMAIL } from './config';
+import { TO_EMAIL, FROM_EMAIL } from './config.js';
 
 /** Envía por la API HTTP de Resend. Lanza Error si la API no responde 2xx. */
 export async function sendEmail(opts: { subject: string; text: string; html: string }): Promise<void> {

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { validateContact, contactSubject, renderEmailHtml } from './_lib/contact';
-import { sendEmail } from './_lib/resend';
-import { rateLimitOk } from './_lib/ratelimit';
+import { validateContact, contactSubject, renderEmailHtml } from './_lib/contact.js';
+import { sendEmail } from './_lib/resend.js';
+import { rateLimitOk } from './_lib/ratelimit.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'method' });

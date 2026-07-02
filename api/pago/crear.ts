@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { TARIFAS, TARIFA_PAX_MAX } from '../../src/data/tarifas';
-import { webpayTransaction } from '../_lib/webpay';
-import { sendEmail } from '../_lib/resend';
-import { renderEmailHtml } from '../_lib/contact';
-import { rateLimitOk } from '../_lib/ratelimit';
-import { SITE_URL } from '../_lib/config';
+import { TARIFAS, TARIFA_PAX_MAX } from '../../src/data/tarifas.js';
+import { webpayTransaction } from '../_lib/webpay.js';
+import { sendEmail } from '../_lib/resend.js';
+import { renderEmailHtml } from '../_lib/contact.js';
+import { rateLimitOk } from '../_lib/ratelimit.js';
+import { SITE_URL } from '../_lib/config.js';
 
 const LANGS = new Set(['es', 'en', 'pt']);
 

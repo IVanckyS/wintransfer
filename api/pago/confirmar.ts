@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { webpayTransaction } from '../_lib/webpay';
-import { sendEmail } from '../_lib/resend';
-import { renderEmailHtml } from '../_lib/contact';
+import { webpayTransaction } from '../_lib/webpay.js';
+import { sendEmail } from '../_lib/resend.js';
+import { renderEmailHtml } from '../_lib/contact.js';
 
 const LANGS = new Set(['es', 'en', 'pt']);
 
