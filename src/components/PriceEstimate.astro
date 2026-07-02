@@ -100,4 +100,55 @@ const webpayOn = import.meta.env.PUBLIC_WEBPAY === 'on';
   form.addEventListener('input', refresh);
   form.addEventListener('change', refresh);
   refresh();
+
+  // ---- Pago con Webpay (solo existe el botón si PUBLIC_WEBPAY=on) ----
+  const payBtn = document.getElementById('fare-pay') as HTMLButtonElement | null;
+  const payError = document.getElementById('fare-pay-error');
+
+  payBtn?.addEventListener('click', async () => {
+    // Exigir el formulario válido (nombre, teléfono, fechas…) antes de cobrar.
+    if (!form.reportValidity()) return;
+    if (!box.dataset.tarifaId) return;
+
+    // Mismo resumen que el mensaje de WhatsApp, para el correo del negocio.
+    const lines: string[] = [];
+    form
+      .querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('[data-panel="booking"] [data-label]')
+      .forEach((field) => {
+        if (!field.disabled && field.value.trim()) lines.push(`• ${field.dataset.label}: ${field.value.trim()}`);
+      });
+
+    payBtn.disabled = true;
+    payError?.setAttribute('hidden', '');
+    try {
+      const res = await fetch('/api/pago/crear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tarifaId: box.dataset.tarifaId,
+          roundTrip: box.dataset.roundTrip === 'true',
+          passengers: Number(val('f-passengers')) || 1,
+          lang: document.documentElement.lang,
+          message: lines.join('\n'),
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const { url, token } = await res.json();
+
+      // Redirección oficial a Webpay: POST con token_ws.
+      const redirect = document.createElement('form');
+      redirect.method = 'POST';
+      redirect.action = url;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'token_ws';
+      input.value = token;
+      redirect.appendChild(input);
+      document.body.appendChild(redirect);
+      redirect.submit();
+    } catch {
+      payError?.removeAttribute('hidden');
+      payBtn.disabled = false;
+    }
+  });
 </script>
