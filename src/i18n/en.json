@@ -402,7 +402,7 @@
     "submit": "Send via WhatsApp",
     "miniSubmit": "Continue booking",
     "miniHint": "You'll complete and send your booking on the contact page.",
-    "disclaimer": "When you submit, WhatsApp will open with your message ready for our team.",
+    "disclaimer": "When you submit, your request is registered by email and WhatsApp opens with your message ready for our team.",
     "waIntroBooking": "Hi, I'd like to book a transfer",
     "waIntroAgreement": "Hi, I'd like information about the corporate agreement",
     "waIntroJobs": "Hi, I'd like to work with you"
