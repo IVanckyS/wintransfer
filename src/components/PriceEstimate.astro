@@ -115,7 +115,13 @@ const webpayOn = import.meta.env.PUBLIC_WEBPAY === 'on';
     form
       .querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('[data-panel="booking"] [data-label]')
       .forEach((field) => {
-        if (!field.disabled && field.value.trim()) lines.push(`• ${field.dataset.label}: ${field.value.trim()}`);
+        if (field.disabled || !field.value.trim()) return;
+        // Fechas en formato chileno dd/mm/aaaa (igual que el mensaje de WhatsApp)
+        const value =
+          field instanceof HTMLInputElement && field.type === 'date'
+            ? field.value.split('-').reverse().join('/')
+            : field.value.trim();
+        lines.push(`• ${field.dataset.label}: ${value}`);
       });
 
     payBtn.disabled = true;

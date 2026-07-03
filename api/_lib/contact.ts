@@ -77,7 +77,9 @@ export const renderEmailHtml = (message: string) => {
   return (
     `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1c2434;max-width:560px;border:1px solid #dbe4f5;border-radius:12px;overflow:hidden">` +
     `<div style="background:#ffffff;padding:18px 20px 14px;border-bottom:4px solid #f3bf19;text-align:center">` +
-    `<img src="https://wintransfer.cl/logo.png" alt="Win Transfer" height="52" style="display:inline-block;height:52px;border:0" />` +
+    // URL del deploy de Vercel (no el dominio custom): sigue funcionando aunque
+    // wintransfer.cl esté caído/impago, y los correos viejos no pierden el logo.
+    `<img src="https://wintransfer-black.vercel.app/logo.png" alt="Win Transfer" height="52" style="display:inline-block;height:52px;border:0" />` +
     `</div>` +
     `<div style="background:#ffffff;padding:8px 20px 16px">` +
     blocks.join('') +
