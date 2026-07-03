@@ -26,3 +26,7 @@ media/
 
 # Vercel CLI
 .vercel/
+
+# Documentación interna del proyecto (no publicar en el repo)
+CLAUDE.md
+docs/superpowers/
