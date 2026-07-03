@@ -18,17 +18,22 @@ const clp = new Intl.NumberFormat('es-CL', {
   maximumFractionDigits: 0,
 });
 
-// Datos estructurados: catálogo de ofertas con los precios oficiales (SEO).
+// Datos estructurados (SEO): servicio con precio "desde" — AggregateOffer con
+// SOLO el precio mínimo, para que el snippet de Google muestre "desde $10.000"
+// y nunca destaque la tarifa más cara.
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'OfferCatalog',
+  '@type': 'Service',
   name: `Win Transfer — ${t('faresPage.title')}`,
-  itemListElement: TARIFAS.map((row) => ({
-    '@type': 'Offer',
-    name: `${t('fares.prefix')} ${row.label}`,
-    price: row.original,
+  description: t('faresPage.intro'),
+  areaServed: { '@type': 'AdministrativeArea', name: 'Región del Biobío, Chile' },
+  provider: { '@id': 'https://wintransfer.cl/#organization' },
+  offers: {
+    '@type': 'AggregateOffer',
     priceCurrency: 'CLP',
-  })),
+    lowPrice: Math.min(...TARIFAS.map((row) => row.original)),
+    offerCount: TARIFAS.length,
+  },
 };
 ---
 
